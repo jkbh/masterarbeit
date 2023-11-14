@@ -1,3 +1,3 @@
 $latex='lualatex';
-$aux_dir='./aux';
+$aux_dir='./tmp';
 $emulate_aux=1;
