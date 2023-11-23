@@ -1,3 +1,5 @@
+<https://arxiv.org/pdf/1810.04805.pdf)
+
 - [ ] Self-Attention in the context of Bert?
 
 # BERT
