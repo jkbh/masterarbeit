@@ -1,3 +1,5 @@
-/tmp
+tmp
 main.pdf
 main.synctex.gz
+experiments/data
+experiments/.venv
