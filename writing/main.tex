@@ -23,7 +23,7 @@ There are many hello world programs.
 \subsection{Transformer}
 Transformer Netzwerke sind supertoll. Encoder-Decoder architecture gained traction as they allowed for the computation of better intermedate representation of the data.
 
-Until 2017, the dominating strategy to train models for language tasks revolved around recurrent structures. Every sentence token was represented as a hidden state that resultet from all the previous tokens. While this approach has a reasonable motivation, the sequential nature contraints computation speed. There is no way to compute the recurrent architectures in parallel. 
+Until 2017, the dominating strategy to train models for language tasks revolved around recurrent structures. Every sentence token was represented as a hidden state that resultet from all the previous tokens. While this approach has a reasonable motivation, the sequential nature contraints computation speed. There is no way to compute the recurrent architectures in parallel.
 
 The transformer model propsed by (source) solely relys on these attention mechanisms. In particular, they employ self-attention and multi-headed self-attention layers
 
@@ -31,7 +31,7 @@ Attention mechanism allow learning dependencies between tokens in sentences with
 
 Self-Attention is an attention mechanism that computes relations between different positions of the same sequence with goal of finding a representation of the sequence.
 
-Like a typical sequence modeling architecture, a transformer consists of an enconder and a decoder. The encoder has two parts that are stacked on each other multiple times. The first part is a mulit-head self-attention block, the second part is a classic fully connected feed foward block. 
+Like a typical sequence modeling architecture, a transformer consists of an enconder and a decoder. The encoder has two parts that are stacked on each other multiple times. The first part is a mulit-head self-attention block, the second part is a classic fully connected feed foward block.
 
 
 \subsection{BERT}
@@ -48,12 +48,40 @@ Rather, they input sequence is simply continued with the most likily next tokens
 \subsection{Information Retrieval Agents}
 Information is cool and so is retrieving it. But that is hard, because most information is useless. As an example, watch any markus lanz episode.
 \section{Structure of this Thesis}
-
+I do this then that and then that.
 
 In Chapter~\vref{chapter-main}, we say hello.
-\chapter{Main Chapter}
+\chapter{Handcrafted Prompts as a Research Chatbot}
 \label{chapter-main}
-I don't know what I am going to do, but i know it's going to be fun siuuuuu.
+\begin{itemize}
+	\item First, only crafting prompt for default GPT-3.5
+	\item What could be questions about hadith corpus?
+	      \begin{itemize}
+		      \item Ask for classifaction outputs
+
+		            These would be the same as the BERT classifactions, just as question sentences. Questions about contained persons, locations, dates, \dots.
+		      \item Further questions
+
+		            Information probably not contained in corpus. LLM might be able to give some reasoning learned in pre-training.
+	      \end{itemize}
+	\item How to design prompts?
+
+	      Few-shot with examples or Zero Shot? Include example labelings from corpus.
+	\item How to include corpus?
+
+	      The corpus can be large. Large than the context length of LLMs. So first try handling a single document
+	\item How to craft testing examples?
+
+	      For the labeling questions create examples for amended data.
+\end{itemize}
+\chapter{Custom Fine-Tuned Language Model as a Research Chatbot}
+\begin{itemize}
+	\item Here, explore fine-tuning a LLM
+	\item Identify problems of non fine-tuned Chatbot
+	\item How to create fine-tuned dataset
+
+	      Again, for labeling questions from amended data, but with focus on weaknesses.
+\end{itemize}
 \chapter{Conclusion}
 Saying hello world is quite easy.
 \begin{bibtex-entries}
