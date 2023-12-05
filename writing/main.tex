@@ -20,8 +20,20 @@ This thesis says ``Hello World!'', see also \cite{Kernighan1974}.
 \section{Related Work}
 There are many hello world programs.
 
+\subsection{Perplexity AI (LLM Chatbots that give sources?)}
+
+In a variety of application contexts, the answers of an assistent have to be correct. This is espciacally true in reasearch contexts. A model that hallucinates isn't feasable in this case. But while hallucination can be reducing with fine-tuning, it can not be competely eliminated. Perplexity AI is an online service that leverages a language model to provide a search that generates an answer from different sources in the internet. The content of the answer is then linked to the found sources, so the user can see and verify the result.
+
+As this is a propierty closed source product accessible through a web interface, this is not a useful to create our own research assistant.
+
+\section{Structure of this Thesis}
+I do this then that and then that.
+
+In Chapter~\vref{chapter-main}, we say hello.
+
+\chapter{Background}
+
 \subsection{Transformer}
-Transformer Netzwerke sind supertoll. Encoder-Decoder architecture gained traction as they allowed for the computation of better intermedate representation of the data.
 
 Until 2017, the dominating strategy to train models for language tasks revolved around recurrent structures. Every sentence token was represented as a hidden state that resultet from all the previous tokens. While this approach has a reasonable motivation, the sequential nature contraints computation speed. There is no way to compute the recurrent architectures in parallel.
 
@@ -33,25 +45,17 @@ Self-Attention is an attention mechanism that computes relations between differe
 
 Like a typical sequence modeling architecture, a transformer consists of an enconder and a decoder. The encoder has two parts that are stacked on each other multiple times. The first part is a mulit-head self-attention block, the second part is a classic fully connected feed foward block.
 
-
-\subsection{BERT}
-Bert is the best friend of Ernie.
-
-\subsection{Generative Pre-Trained Transformer}
-I like GPT because ChatGPT is cool lets goooo.
-
 \subsection{InstructGPT}
-With InstructGPT OpenAI(lol) added some magic to the whole thingy. They gave people in nigeria below minimum wage and asked them to rate GPT outputs and trained a reward model that can fine-tune GPT according to human needs. They call this Reinforcement Learning with Human Feedback (RLHF).
 
-Aligning language models is a central research area in creating intelligent systems that humans want to use. As baseline LLMs are training on huge datasets containing all kinds of text documents, the outputs are not necessarily tailored for the questioners needs.
-Rather, they input sequence is simply continued with the most likily next tokens. InstructGPT are a family of LLMs created by OpenAI that are fine-tuned with human feedback. With this procedure the models are better at capturing the intent of the user. Furthermore there are improvements in hallucinations and false information.
-\subsection{Information Retrieval Agents}
-Information is cool and so is retrieving it. But that is hard, because most information is useless. As an example, watch any markus lanz episode.
-\section{Structure of this Thesis}
-I do this then that and then that.
+Capturing the intent of the user is a key challenge for language models. This process is called \textit{alignment}. Even though LLMs are trained on huge datasets, they are not tailored towards human users by default. A popular approach to the alignment problem is reinforcement learning with human feedback (RLHF). Handcrafted prompts are used to fine-tune GPT-3. The outputs of the model are collected into a set and ranked by humans. This set is then used to train a reward model. With this reward model, the language model is further fine-tuned. The resulting model is called \textit{InstructGPT} and performs better than the baseline GPT-3 model.
 
-In Chapter~\vref{chapter-main}, we say hello.
+Large language models are trained to predict the next token of a sequence, not to follow the instruction of the user. This leads to some unwanted results, such as toxic, harmful answers or fabricated information that is not true.
+
+\subsection{AutoGPT}
+
+
 \chapter{Handcrafted Prompts as a Research Chatbot}
+
 \label{chapter-main}
 \begin{itemize}
 	\item First, only crafting prompt for default GPT-3.5

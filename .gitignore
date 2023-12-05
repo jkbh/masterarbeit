@@ -3,3 +3,4 @@ main.pdf
 main.synctex.gz
 data
 .venv
+.env
