@@ -13,31 +13,40 @@ Abstract = {It is about saying ``hello'' to the world.},
 Zusammenfassung = {Es geht darum, der Welt »Hallo« zu sagen.},
 Numerische Bibliographie
 }
+\addbibresource{bib/masterarbeit.bib}
 \begin{document}
 \chapter{Introduction}
+
+This an introduction like not other. Information retrieval hard an stuff. Would be nice to have a chatbot that answer natural language questions and gives sources from research database and even web.
+
 \section{Contributions of this Thesis}
-This thesis says ``Hello World!'', see also \cite{Kernighan1974}.
+
+Hopefully the above.
+
 \section{Related Work}
-There are many hello world programs.
+
+There are different attempts at creating LLM outputs with sources. Perplexity AI hosts a question answering service, that gives source from websites.
 
 \subsection{Perplexity AI (LLM Chatbots that give sources?)}
 
 In a variety of application contexts, the answers of an assistent have to be correct. This is espciacally true in reasearch contexts. A model that hallucinates isn't feasable in this case. But while hallucination can be reducing with fine-tuning, it can not be competely eliminated. Perplexity AI is an online service that leverages a language model to provide a search that generates an answer from different sources in the internet. The content of the answer is then linked to the found sources, so the user can see and verify the result.
 
-As this is a propierty closed source product accessible through a web interface, this is not a useful to create our own research assistant.
+As this is a propierty closed source product accessible through a web interface, this is not a useful to create our own research assistant. The provided API simply hosts different LLMs and allows for prompting them. There is no possibilty of of fine-tuning.
 
 \section{Structure of this Thesis}
 I do this then that and then that.
 
-In Chapter~\vref{chapter-main}, we say hello.
+\chapter{Backgrounds}
 
-\chapter{Background}
+I can see the future, so I know I will build upon a couple of things. These topics and how their relevance are explained in more detail in this section.
 
+\section{Large Language Models}
+
+Natural language processing is a long studied research area of computer science. In recent years delevopments have significantly sped up, with the introduction of deep learning into NLP. The transformer archticture has been the basis for all advancements in recent years.
 \subsection{Transformer}
-
 Until 2017, the dominating strategy to train models for language tasks revolved around recurrent structures. Every sentence token was represented as a hidden state that resultet from all the previous tokens. While this approach has a reasonable motivation, the sequential nature contraints computation speed. There is no way to compute the recurrent architectures in parallel.
 
-The transformer model propsed by (source) solely relys on these attention mechanisms. In particular, they employ self-attention and multi-headed self-attention layers
+The transformer model propsed by \cite{Vaswani2017} solely relys on these attention mechanisms. In particular, they employ self-attention and multi-headed self-attention layers
 
 Attention mechanism allow learning dependencies between tokens in sentences without regard to their distance. Their non-sequential nature allow for massive parallelization.
 
@@ -53,6 +62,21 @@ Large language models are trained to predict the next token of a sequence, not t
 
 \subsection{AutoGPT}
 
+AutoGPT is an open source project that tries to leverage LLMs to function as an agent controller. GPT models are extended with different modules to creat an agent that receives a goal and then acts towards reaching it. To reach the goal AutoGPT plans, has a memory, and reflects on past actions.
+
+AutoGPT is an example implementation of an agent. The project tries to become a framework to build agents with different architectures.
+
+Currently, AutoGPT is only compatible with OpenAI models. Switching to a different model is not that hard, because only the API format would have to be changed. The challenge is to switch between different prompting styles, as every model needs to be prompted differently. For example OpenAI models benefit from profile sentences like "You are an expert in computer science", while Anthropics Claude does not\dots
+
+\section{Information Retrival Agents}
+
+\subsection{Agents}
+
+Agents are actors in an environment that pursue a goal by acting out a plan that consists of different steps.
+
+\subsection{Information Retrieval}
+
+A big challenge especially for researchers is to find precise and relevant information in a very large set of data.
 
 \chapter{Handcrafted Prompts as a Research Chatbot}
 
