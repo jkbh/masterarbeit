@@ -65,9 +65,15 @@ Large language models are trained to predict the next token of a sequence, not t
 AutoGPT is an open source project that tries to leverage LLMs to function as an agent controller. GPT models are extended with different modules to creat an agent that receives a goal and then acts towards reaching it. To reach the goal AutoGPT plans, has a memory, and reflects on past actions.
 
 AutoGPT is an example implementation of an agent. The project tries to become a framework to build agents with different architectures.
+AutoGPT employs the key components of an agent outlined in \cite{Wang2023}. The profile module allows the agent to assume different roles, such as expert, teacher or coder. Profile are LLM specific as each model responds best for different prompting styles. Memory is implemented through a database.
 
 Currently, AutoGPT is only compatible with OpenAI models. Switching to a different model is not that hard, because only the API format would have to be changed. The challenge is to switch between different prompting styles, as every model needs to be prompted differently. For example OpenAI models benefit from profile sentences like "You are an expert in computer science", while Anthropics Claude does not\dots
 
+Other open source llm agent systems
+\begin{itemize}
+	\item miniagi \href{}{miniagi}
+	\item babyagi \href{https://github.com/yoheinakajima/babyagi}{miniagi}
+\end{itemize}
 \section{Information Retrival Agents}
 
 \subsection{Agents}
@@ -80,7 +86,6 @@ A big challenge especially for researchers is to find precise and relevant infor
 
 \chapter{Handcrafted Prompts as a Research Chatbot}
 
-\label{chapter-main}
 \begin{itemize}
 	\item First, only crafting prompt for default GPT-3.5
 	\item What could be questions about hadith corpus?
