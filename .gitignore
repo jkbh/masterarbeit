@@ -1,7 +1,8 @@
 main.synctex.gz
 writing/bib/*.pdf
-data
-.venv
-.env
 writing/out/*
 !writing/out/main.pdf
+
+data
+.venv
+models
