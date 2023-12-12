@@ -1,3 +1,3 @@
-# Intelligent Retrieval Agents using AutoGPT
+# Information Retrieval Agents using AutoGPT
 
 ChatHA is a humanities aligned chatbot
