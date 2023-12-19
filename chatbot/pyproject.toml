@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "chatbot"
+version = "0.1.0"
+description = ""
+authors = ["Jakob Horbank <jakob_h@outlook.de>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+llama-cpp-python = "^0.2.23"
+transformers = "^4.36.1"
+torch = "^2.1.2"
+autoawq = "^0.1.7"
+chromadb = "^0.4.20"
+sentence-transformers = "^2.2.2"
+pymupdf = "^1.23.7"
+llama-index = "^0.9.15.post2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
