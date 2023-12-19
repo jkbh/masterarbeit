@@ -27,7 +27,12 @@ Hopefully the above.
 
 There are different attempts at creating LLM outputs with sources. Perplexity AI hosts a question answering service, that gives source from websites.
 
-\subsection{Perplexity AI (LLM Chatbots that give sources?)}
+\subsection{Open Source LLM Agents}
+\begin{itemize}
+	\item AutoGPT
+	\item babyagi
+\end{itemize}
+\subsection{Information Retrieval Applications}
 
 In a variety of application contexts, the answers of an assistent have to be correct. This is espciacally true in reasearch contexts. A model that hallucinates isn't feasable in this case. But while hallucination can be reducing with fine-tuning, it can not be competely eliminated. Perplexity AI is an online service that leverages a language model to provide a search that generates an answer from different sources in the internet. The content of the answer is then linked to the found sources, so the user can see and verify the result.
 
@@ -38,15 +43,22 @@ I do this then that and then that.
 
 \chapter{Backgrounds}
 
-I can see the future, so I know I will build upon a couple of things. These topics and how their relevance are explained in more detail in this section.
+Different branches of research were used to build upon in this work. These topics and how their are connected to my work are explained in more detail in this section.
+\section{Information Retrieval}
 
+Handling large databases filled with information of different is a common problem. There has been extensive reasearch on database architectures and indexing algorithms.
+
+\section{Agents}
+
+Although the notion of agent is not new, it recently gained attention in combination with the rise of generative language models.
 \section{Large Language Models}
 
 Natural language processing is a long studied research area of computer science. In recent years delevopments have significantly sped up, with the introduction of deep learning into NLP. The transformer archticture has been the basis for all advancements in recent years.
+
 \subsection{Transformer}
 Until 2017, the dominating strategy to train models for language tasks revolved around recurrent structures. Every sentence token was represented as a hidden state that resultet from all the previous tokens. While this approach has a reasonable motivation, the sequential nature contraints computation speed. There is no way to compute the recurrent architectures in parallel.
 
-The transformer model propsed by \cite{Vaswani2017} solely relys on these attention mechanisms. In particular, they employ self-attention and multi-headed self-attention layers
+The transformer model \cite{NIPS2017_3f5ee243} solely relys on these attention mechanisms. In particular, they employ self-attention and multi-headed self-attention layers
 
 Attention mechanism allow learning dependencies between tokens in sentences without regard to their distance. Their non-sequential nature allow for massive parallelization.
 
@@ -54,13 +66,21 @@ Self-Attention is an attention mechanism that computes relations between differe
 
 Like a typical sequence modeling architecture, a transformer consists of an enconder and a decoder. The encoder has two parts that are stacked on each other multiple times. The first part is a mulit-head self-attention block, the second part is a classic fully connected feed foward block.
 
+\subsection{BERT}
+
+The BERT model family consists of encoder only transfomers. They are trained to generating rich embeddengs of tokens for use in a range of different downstream tasks.
+
+\subsection{GPT}
+
+GPT models are decoder only transformer models. They excel at text generation tasks. they are trained to predict the next token of a sequence.
 \subsection{InstructGPT}
 
+Instruct models are fine-tuned version of language models.
 Capturing the intent of the user is a key challenge for language models. This process is called \textit{alignment}. Even though LLMs are trained on huge datasets, they are not tailored towards human users by default. A popular approach to the alignment problem is reinforcement learning with human feedback (RLHF). Handcrafted prompts are used to fine-tune GPT-3. The outputs of the model are collected into a set and ranked by humans. This set is then used to train a reward model. With this reward model, the language model is further fine-tuned. The resulting model is called \textit{InstructGPT} and performs better than the baseline GPT-3 model.
 
 Large language models are trained to predict the next token of a sequence, not to follow the instruction of the user. This leads to some unwanted results, such as toxic, harmful answers or fabricated information that is not true.
 
-\subsection{AutoGPT}
+\subsection{LLM Agents}
 
 AutoGPT is an open source project that tries to leverage LLMs to function as an agent controller. GPT models are extended with different modules to creat an agent that receives a goal and then acts towards reaching it. To reach the goal AutoGPT plans, has a memory, and reflects on past actions.
 
@@ -74,15 +94,6 @@ Other open source llm agent systems
 	\item miniagi \href{}{miniagi}
 	\item babyagi \href{https://github.com/yoheinakajima/babyagi}{miniagi}
 \end{itemize}
-\section{Information Retrival Agents}
-
-\subsection{Agents}
-
-Agents are actors in an environment that pursue a goal by acting out a plan that consists of different steps.
-
-\subsection{Information Retrieval}
-
-A big challenge especially for researchers is to find precise and relevant information in a very large set of data.
 
 \chapter{Handcrafted Prompts as a Research Chatbot}
 
