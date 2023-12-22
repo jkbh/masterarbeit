@@ -1,0 +1,41 @@
+# coding: utf-8
+%save
+# Heading
+import fitz
+document = fitz.open("./data/journal.pdf")
+document.pages()
+document.load_page(23)
+document.load_page(23).title
+document.load_page(23).get_text()
+print(document.load_page(23).get_text())
+print(document.load_page(24).get_text())
+print(document.load_page(24).get_text("blocks"))
+from nltk.tokenize import sent_tokenize
+sent_tokenize(document.load_page(23).get_text())
+nltk.download('punkt')
+import nltk
+nltk.download('punkt')
+sent_tokenize(document.load_page(23).get_text())
+sent_tokenize(document.load_page(23).get_text("blocks"))
+sent_tokenize([block[4] for block in document.load_page(23).get_text("blocks")])
+[sent_tokenize(block[4]) for block in document.load_page(23).get_text("blocks")]
+[sent_tokenize(block[4]) for block in document.load_page(50).get_text("blocks")]
+[sent_tokenize(block[4].replace("\n", "")) for block in document.load_page(50).get_text("blocks")]
+from llama_index.node_parser import SentenceSplitter
+splitter = SentenceSplitter()
+[splitter.split_text(block[4].replace("\n", "")) for block in document.load_page(50).get_text("blocks")]
+splitter = SentenceSplitter(chunk_size=128, overlap=20)
+splitter = SentenceSplitter(chunk_size=128)
+splitter = SentenceSplitter(chunk_size=128, chunk_overlap=32)
+[splitter.split_text(block[4].replace("\n", "")) for block in document.load_page(50).get_text("blocks")]
+[splitter.split_text(block[4].replace("\n", "")) for block in document.load_page(50).get_text("blocks") if block[4] != ""]
+[splitter.split_text(block[4].replace("\n", "")) for block in document.load_page(50).get_text("blocks") if block[4] != " "]
+[splitter.split_text(block[4].replace("\n", "")) for block in document.load_page(50).get_text("blocks") if block[4] != "  "]
+[splitter.split_text(block[4].replace("\n", "")) for block in document.load_page(50).get_text("blocks") if block[4] != "\n"]
+[splitter.split_text(block[4].replace("\n", "")) for block in document.load_page(50).get_text("blocks") if block[4].strip() != ""]
+[splitter.split_text(block[4].replace("\n", "")) for block in document.load_page(50).get_text("blocks") if block[4].strip()]
+[splitter.split_text(block[4].replace("\n", "")).replace("-", "") for block in document.load_page(50).get_text("blocks") if block[4].strip()]
+[splitter.split_text(block[4].replace("\n", "").replace("-", "")) for block in document.load_page(50).get_text("blocks") if block[4].strip()]
+[splitter.split_text(block[4].replace("-\n", "").replace("\n", "")) for block in document.load_page(50).get_text("blocks") if block[4].strip()]
+print([splitter.split_text(block[4].replace("-\n", "").replace("\n", "")) for block in document.load_page(50).get_text("blocks") if block[4].strip()])
+[splitter.split_text(block[4].replace("-\n", "").replace("\n", "")) for block in document.load_page(50).get_text("blocks") if block[4].strip()]

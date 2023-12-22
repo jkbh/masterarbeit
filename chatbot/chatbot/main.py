@@ -1,26 +1,24 @@
-from llama_cpp import Llama
 from transformers import AutoModelForCausalLM, AutoTokenizer, TextStreamer
-import chromadb
-from chromadb.utils import embedding_functions
-from sentence_transformers import SentenceTransformer
 import fitz
 from operator import itemgetter
 from llama_index.text_splitter import SentenceSplitter
 from llama_index import Document
 import logging
+from vectorstore import Vectorstore
+from nltk import sent_tokenize
 
-model_path = "TheBloke/Mistral-7B-Instruct-v0.2-AWQ"
-
-logging.getLogger().setLevel(logging.INFO)
+logger = logging.getLogger()
+logger.setLevel(logging.DEBUG)
 
 
 def preprocess_pdf(path):
-    logging.info("processing pdf into documents")
+    logger.info("processing pdf into documents")
     with fitz.open(path) as document:
         fulltext = chr(12).join([page.get_text() for page in document])
 
     splitter = SentenceSplitter(separator=".", chunk_size=128, chunk_overlap=20)
 
+    sent_tokenize(fulltext)
     nodes = splitter.get_nodes_from_documents([Document(text=fulltext)])
     documents = [node.text for node in nodes]
     ids = [node.node_id for node in nodes]
@@ -29,30 +27,19 @@ def preprocess_pdf(path):
 
 
 def main():
-    path = "./data/journal.pdf"
+    pdf_path = "./data/journal.pdf"
+    model_path = "TheBloke/Mistral-7B-Instruct-v0.2-AWQ"
 
-    ids, documents = preprocess_pdf(path)
+    ids, documents = preprocess_pdf(pdf_path)
 
-    logging.info("creating embeddings")
+    store = Vectorstore("~/dev/masterarbeit/chatbot/vectorstore.db")
+    store.ingest(ids, documents)
 
-    embedding_function = embedding_functions.SentenceTransformerEmbeddingFunction(
-        device="cuda"
-    )
-
-    logging.info("populating chromadb")
-    client = chromadb.Client()
-    collection = client.create_collection(
-        "humanities_journals", embedding_function=embedding_function
-    )
-    collection.add(ids=ids, documents=documents)
-
-    logging.info("retrieve context")
     question = "What was special about prompt book use in the late nineteeth century in Hamburg?"
-    results = collection.query(query_texts=[question], n_results=5)["documents"]
+    results = store.query(query_texts=[question])["documents"]
 
     results = ["".join(result) for result in results]
 
-    logging.info("start llm query")
     tokenizer = AutoTokenizer.from_pretrained(model_path)
     model = AutoModelForCausalLM.from_pretrained(
         model_path, low_cpu_mem_usage=True, device_map="cuda:0"
