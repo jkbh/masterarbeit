@@ -20,6 +20,7 @@
                 "-synctex=1",
                 "-interaction=nonstopmode",
                 "-file-line-error",
+                "--shell-escape",
                 "-lualatex",
                 "-outdir=%OUTDIR%",
                 "%DOC%"
