@@ -1,10 +1,29 @@
 # Master Document for Notes
 
 ## Loose Ideas
+- Environment
+  - Data Sources
+    - Ingested documents
+      - Summary index: index over documents
+      - Index for each doucument with its chunks
+    - Web search
+      - 
+- Actions
+  - Websearch
+  - Database search
+  - Question answering
+  - Summarization of documents
+  - Ask for more specific query?
+  - Answer question
+
+- Add websearch findings to database
+
+- **How can a research data repository be combined with open-world web-search for information retrieval?**
+- **How to employ strict knowledge boundaries for LLM Agents doing IR?** 
 
 - Problem of proprietary solutions
   - Guiding/moderation might be unknown
-  - Most of the time allround agents, not information retrieval focused
+  - Most of the time general agents, not information retrieval focused
 
 - Prompt rewriting
   - User input -> LLM input

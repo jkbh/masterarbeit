@@ -1,14 +1,15 @@
 from chromadb import PersistentClient
 from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
+import torch
 from logging import getLogger
 
 logger = getLogger(__name__)
-
+device = "cuda" if torch.cuda.is_available() else "cpu"
 
 class Vectorstore:
     def __init__(self, path):
         self._client = PersistentClient(path)
-        self._embedding_function = SentenceTransformerEmbeddingFunction(device="cuda")
+        self._embedding_function = SentenceTransformerEmbeddingFunction(device=device)
         logger.debug(f"initialised vectorstore at {path}")
 
     def ingest(self, ids, documents, collection_name="default"):

@@ -1,13 +1,14 @@
 import logging
 import fitz
+from torch import cuda
 from llama_index.text_splitter import SentenceSplitter
 from llama_index import Document
 from chatbot.vectorstore import Vectorstore
-from chatbot.providers import MistralClient
+from chatbot.providers import MistralClient, OpenAIClient
 
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
-
+device = "cuda" if cuda.is_available() else "cpu"
 
 def preprocess_pdf(path):
     logger.info("processing pdf into documents")
@@ -27,13 +28,13 @@ def main():
     store = Vectorstore("chatbot/vectorstore.db")
 
     # TODO: add logic to only preprocess pdf if it hasn't been done before
-    # pdf_path = "chatbot/data/journal.pdf"
+    # pdf_path = "chatbot/data/mc19-full.pdf"
     # ids, documents = preprocess_pdf(pdf_path)
     # store.ingest(ids, documents)
 
-    # question = "What was special about prompt book use in the late nineteeth century in Hamburg?"
+    question = "What was special about prompt book use in the late nineteeth century in Hamburg?"
     # question = "What is the difference between a prompt book and a prompt copy?"
-    question = "Who was the first person to use a prompt book?"
+    # question = "Who was the first person to use a prompt book?"
     results = store.query(query_texts=[question])["documents"][0]
 
     results = [
@@ -60,7 +61,7 @@ def main():
         },
     ]
 
-    client = MistralClient()
+    client = MistralClient() if cuda.is_available() else OpenAIClient()
     completition = client.get_chat_completition(chat)
     print(completition)
 
