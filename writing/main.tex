@@ -96,11 +96,13 @@ Other open source llm agent systems
 	\item babyagi \href{https://github.com/yoheinakajima/babyagi}{miniagi}
 \end{itemize}
 
-\chapter{An Analysis of AutoGPT for Information Retrieval}
+\chapter{Analysis of AutoGPT for Information Retrieval Tasks}
+
 
 AutoGPT is an open source project that tries to 'make GPT fully autonomous'. GPT langauge models are used to control an agent that works towards reaching a stated goal. The project contains a core general purpose agent with a predefined set of abilities. Addidtionaly a baseline sdk is beeing developed to build custom agents.
+\section{Agent Theory Backgrounds}
 
-\section{AutoGPT Architecture}
+\section{Architecture Overview}
 
 The AutoGPT agent is modeled after the classic agent architecture. After a goal given to the agent, it creates a task that has to be completed. Then it completes steps that make up that task. In each step an action is run.
 
@@ -113,6 +115,8 @@ AutoGPT is divided into four modules. The \textit{brain} is the main module that
 \end{listing}
 
 Currently, AutoGPT is only compatible with OpenAI models. Switching to a different model is not that hard, because only the API format would have to be changed. The challenge is to switch between different prompting styles, as every model needs to be prompted differently. For example OpenAI models benefit from profile sentences like "You are an expert in computer science", while Anthropics Claude does not\dots
+
+\section{Default Abilities}
 
 \section{Information Retrieval Capabilities}
 
@@ -129,7 +133,6 @@ The default agent has a tendency towards searching the web for information. We w
 \chapter{Retrieval Augmentated Generation Agent}
 
 Large language models are excellent at generating text in a variety of styles. Different approaches try to embed information sources into the generated text. One appreach is to fine-tune the language model on a dataset that contains the information. This can work, but often there is not enough data to shift the model weights enough. A more promising approach is retrieval augmented generation. Before generating an answer to a prompt, a vectorestore is searched for relevant information. The retrieved information is then included in the prompt.
-
 \section{Retrieval Augmented Generation}
 
 \begin{itemize}
@@ -139,42 +142,70 @@ Large language models are excellent at generating text in a variety of styles. D
 \end{itemize}
 
 
-
-\section{Extend AutoGPT with RAG Actions}
-
-\chapter{Handcrafted Prompts as a Research Chatbot}
+\section{Extending AutoGPT with retrieval capailities}
 
 \begin{itemize}
-	\item First, only crafting prompt for default GPT-3.5
-	\item What could be questions about hadith corpus?
-	      \begin{itemize}
-		      \item Ask for classifaction outputs
-
-		            These would be the same as the BERT classifactions, just as question sentences. Questions about contained persons, locations, dates, \dots.
-		      \item Further questions
-
-		            Information probably not contained in corpus. LLM might be able to give some reasoning learned in pre-training.
-	      \end{itemize}
-	\item How to design prompts?
-
-	      Few-shot with examples or Zero Shot? Include example labelings from corpus.
-	\item How to include corpus?
-
-	      The corpus can be large. Large than the context length of LLMs. So first try handling a single document
-	\item How to craft testing examples?
-
-	      For the labeling questions create examples for amended data.
+	\item Custom agent Loop
+	\item Custom abilities
+	\item Further guidances for the agent
 \end{itemize}
 
+\chapter{Creating IR Agent Benchmarking Challenges}
 
-\chapter{Custom Fine-Tuned Language Model as a Research Chatbot}
+\section{How the benchmarking system works}
+
 \begin{itemize}
-	\item Here, explore fine-tuning a LLM
-	\item Identify problems of non fine-tuned Chatbot
-	\item How to create fine-tuned dataset
-
-	      Again, for labeling questions from amended data, but with focus on weaknesses.
+	\item Level based system
+	\item Dependencies
 \end{itemize}
+\section{Existing Benchmarks}
+
+\begin{itemize}
+	\item What exists
+	\item what is missing for local IR 
+\end{itemize}
+
+\section{Custom Benchmarks for local IR over journals}
+
+\begin{itemize}
+	\item How i benchmark the steps in IR
+\end{itemize}
+\chapter{Results}
+
+% \chapter{Handcrafted Prompts as a Research Chatbot}
+
+% \begin{itemize}
+% 	\item First, only crafting prompt for default GPT-3.5
+% 	\item What could be questions about hadith corpus?
+% 	      \begin{itemize}
+% 		      \item Ask for classifaction outputs
+
+% 		            These would be the same as the BERT classifactions, just as question sentences. Questions about contained persons, locations, dates, \dots.
+% 		      \item Further questions
+
+% 		            Information probably not contained in corpus. LLM might be able to give some reasoning learned in pre-training.
+% 	      \end{itemize}
+% 	\item How to design prompts?
+
+% 	      Few-shot with examples or Zero Shot? Include example labelings from corpus.
+% 	\item How to include corpus?
+
+% 	      The corpus can be large. Large than the context length of LLMs. So first try handling a single document
+% 	\item How to craft testing examples?
+
+% 	      For the labeling questions create examples for amended data.
+% \end{itemize}
+
+
+% \chapter{Custom Fine-Tuned Language Model as a Research Chatbot}
+% \begin{itemize}
+% 	\item Here, explore fine-tuning a LLM
+% 	\item Identify problems of non fine-tuned Chatbot
+% 	\item How to create fine-tuned dataset
+
+% 	      Again, for labeling questions from amended data, but with focus on weaknesses.
+% \end{itemize}
+
 \chapter{Conclusion}
 Saying hello world is quite easy.
 \begin{bibtex-entries}
