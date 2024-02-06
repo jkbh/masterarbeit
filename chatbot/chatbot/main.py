@@ -10,6 +10,7 @@ logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 device = "cuda" if cuda.is_available() else "cpu"
 
+
 def preprocess_pdf(path):
     logger.info("processing pdf into documents")
     with fitz.open(path) as document:
@@ -28,9 +29,9 @@ def main():
     store = Vectorstore("chatbot/vectorstore.db")
 
     # TODO: add logic to only preprocess pdf if it hasn't been done before
-    # pdf_path = "chatbot/data/mc19-full.pdf"
-    # ids, documents = preprocess_pdf(pdf_path)
-    # store.ingest(ids, documents)
+    pdf_path = "data/journal.pdf"
+    ids, documents = preprocess_pdf(pdf_path)
+    store.ingest(ids, documents)
 
     question = "What was special about prompt book use in the late nineteeth century in Hamburg?"
     # question = "What is the difference between a prompt book and a prompt copy?"

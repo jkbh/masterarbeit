@@ -1,13 +1,16 @@
 # Master Document for Notes
 
 ## Loose Ideas
+
 - Environment
   - Data Sources
     - Ingested documents
       - Summary index: index over documents
       - Index for each doucument with its chunks
-    - Web search
-      - 
+
+- Web search
+      -
+
 - Actions
   - Websearch
   - Database search
@@ -19,7 +22,7 @@
 - Add websearch findings to database
 
 - **How can a research data repository be combined with open-world web-search for information retrieval?**
-- **How to employ strict knowledge boundaries for LLM Agents doing IR?** 
+- **How to employ strict knowledge boundaries for LLM Agents doing IR?**
 
 - Problem of proprietary solutions
   - Guiding/moderation might be unknown
@@ -144,3 +147,68 @@ Prompting strategies
 ## RAG
 
 ### [Self-RAG: Learning to Retrieve, Generate, and Critique through Self-Reflection](https://arxiv.org/pdf/2310.11511.pdf)
+
+## AutoGPT Arch
+
+### AutoGPT
+
+- agent_factory: Module to create agents
+  - `configurators.py`: Create agent from config and with handmade profile
+  - `generators.py`: Create agent with generated profile
+  - `profile_generator.py`: Create the acutal agent profile for a given task
+- agent_manager: Defines `AgentManager` for managing different agents.
+- agents
+  - features
+    - `context.py`: Defines a mixin that adds a context section to a prompt
+    - `file_workspace.py`: Defines mixin that adds workspace support to a class
+    - `watchdog.py`: Mixin that switches LLM when the agent start looping
+  - prompt_strategies
+    - `one_shot.py`: Methods to build prompts. Defines the prompt template
+  - utils
+    - `agent_file_manager.py`: Class that represents a workspace for an agent
+    - `exceptions.py`: Defines exceptions in the agent execution
+    - `prompt_scratchpad.py`: Some extra info for prompts
+  - `agent.py`: Defines default AutoGPT `Agent` with one-shot prompting. Extends `BaseAgent`
+  - `base.py`:  Defines the base `BaseAgent`
+
+### Forge
+
+bechmark_config
+
+- forge
+  - actions: This folder contains all possible actions the agent can perform
+    - file_system
+      - `files.py`: Operations in the workspace, **list** files in dir, **read/write** file
+    - web
+      - `web_search.py`: Actions to **search** duckduckgo
+      - `web_selenium.py`: **Read webpage** and extract information for a question
+    - `finish.py`: Defines the **finish action** to end an autogpt run
+    - `registry.py`: Defines the **ActionRegister** and the **action** decorator that are used to keep track of possible actions
+  - memory: Contains different Memory defintions **Not used by default**
+    - `chroma_memstore.py`: ChromaDB Memorystore with capabilites to add, query, get, update, delete documents. For some reason **does not subclass** `MemStore`.
+    - `memstore.py`: Abstract defintion `MemStore` of a memory store
+  - prompts: Contains jinja templates to generate llm prompts
+    - gpt-3.5-turbo: Contains the gpt specific prompt templates
+      - `role-selection.j2`: Template to generate an expert profile to help with a task. Not used by default. Uses the the `expert.j2` technique
+      - `system-format.j2`: Defines the json format the model should answer in
+      - `task-step.j2`: Template for the prompt that is sent to the LLM. Uses the `expert.j2` template as a Planner. Main content is the given taks but can contain constraints, resources, abilities, best_practices if present
+    - techniques: Containts prompt templates for different techniques
+      - `chain-of-thought.j2`: Chain of though template
+      - `expert.j2`: Template for expert answering
+      - `few-shot.j2`: Few-Shot template
+  - sdk: The core of the forge agent
+    - routes
+      - `agent_protocol.py`: Defines the API routes for the agent service
+    - `agent.py`: The base `Agent`. Has a database and a workspace.
+    - `db.py`: Defines `AgentDB`. Defines tables for tasks, steps, artifacts. Methods to create/get/list tasks/steps/artifaces and to update a step.
+    - `prompting.py`: Defines `PromptEnginge`. Has a load_prompt method to populate a prompt template
+    - `workspace.py`: Defines abstract `Workspace` and implementions `LocalWorkspace` and `GCSWorkspace` for google cloud. `LocalWorkspace` provides methods to operate on files in a certain folder.
+  - `__main__.py`:  Here the app is started
+  - `agent.py`: The `ForgeAgent` is defined here. It subclasses `Agent`
+  - `app.py`: Agent, Workspace, Database are initialised
+  - `db.py`: `ForgeDatabase` that subclasses `AgentDB`. Additional methods to add chat messages and create actions and list chat/action history
+  - `llm.py`: Definition of methods to call LLMs
+
+agent.db
+
+run

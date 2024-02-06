@@ -100,7 +100,10 @@ Other open source llm agent systems
 
 
 AutoGPT is an open source project that tries to 'make GPT fully autonomous'. GPT langauge models are used to control an agent that works towards reaching a stated goal. The project contains a core general purpose agent with a predefined set of abilities. Addidtionaly a baseline sdk is beeing developed to build custom agents.
-\section{Agent Theory Backgrounds}
+
+\section{LLM Agent Backgrounds}
+
+The impressive capabilities of large language models have lead to researchers implementing them in agent systems.
 
 \section{Architecture Overview}
 
@@ -115,8 +118,6 @@ AutoGPT is divided into four modules. The \textit{brain} is the main module that
 \end{listing}
 
 Currently, AutoGPT is only compatible with OpenAI models. Switching to a different model is not that hard, because only the API format would have to be changed. The challenge is to switch between different prompting styles, as every model needs to be prompted differently. For example OpenAI models benefit from profile sentences like "You are an expert in computer science", while Anthropics Claude does not\dots
-
-\section{Default Abilities}
 
 \section{Information Retrieval Capabilities}
 
@@ -133,6 +134,15 @@ The default agent has a tendency towards searching the web for information. We w
 \chapter{Retrieval Augmentated Generation Agent}
 
 Large language models are excellent at generating text in a variety of styles. Different approaches try to embed information sources into the generated text. One appreach is to fine-tune the language model on a dataset that contains the information. This can work, but often there is not enough data to shift the model weights enough. A more promising approach is retrieval augmented generation. Before generating an answer to a prompt, a vectorestore is searched for relevant information. The retrieved information is then included in the prompt.
+
+\section{Methods To Improve LLM Generation}
+
+\begin{itemize}
+	\item Fine-tuning
+	\item Chain-of-thougt
+	\item Retrieval augmented generation
+\end{itemize}
+
 \section{Retrieval Augmented Generation}
 
 \begin{itemize}
@@ -152,26 +162,41 @@ Large language models are excellent at generating text in a variety of styles. D
 
 \chapter{Creating IR Agent Benchmarking Challenges}
 
-\section{How the benchmarking system works}
+The evaluation of large language model agents is a difficult task, as evaluating LLMs themselves presents a challenge. There are different approaches to evaluate systems built around language models. Subjective evaluation is based on human feedback. As LLM systems are generally made to serve humans this is an important part of evaluation. On the other hand, quantiative metrics that can be computed are used for objective evaluation. Different metrics are used for different tasks. Another importat method are benchmarks. Benchmarks are a set of tasks or an environment that the agent is to move in.
+
+\section{Existing IR Agent Benchmarks}
+
+As the space of possible agent domains is large, lots of different benchmarks were proposed. Simulation enviroments like
+
+Although lots of benchmark for LLM applications have been proposed, there are few benchmarks that are designed to test the information retrieval capabilities of an agent. There are some benchmarks that are used to evaluate information retrieval in general and in a diverse domains like "cite".
+
+\section{The AutoGPT Benchmarking System}
+
+To evaluate AutoGPT and other agent systems that implment the agent protocol, the AutoGPT project has implemented its own benchmarking system. The system constists of a set of tasks that the agent has to complete. The tasks are designed to test different aspects of the agent, and are divided into different topics. Some tasks depend on the previous succesful completion of other tasks. A task consists of an input prompt and a expected output. The ouput is defined by certain words that should be contained.
 
 \begin{itemize}
 	\item Level based system
 	\item Dependencies
 \end{itemize}
-\section{Existing Benchmarks}
-
-\begin{itemize}
-	\item What exists
-	\item what is missing for local IR 
-\end{itemize}
 
 \section{Custom Benchmarks for local IR over journals}
 
 \begin{itemize}
-	\item How i benchmark the steps in IR
+	\item Retrieval benchmarks
 \end{itemize}
+
 \chapter{Results}
 
+\section{Points of Failiure}
+
+\section{Benchmarking Results}
+
+\section{Subjective Evalution}
+
+\begin{itemize}
+	\item Why is subjective evaluation needed
+	\item What aspects of the agent can be evaluated subjectively
+\end{itemize}
 % \chapter{Handcrafted Prompts as a Research Chatbot}
 
 % \begin{itemize}
@@ -207,7 +232,15 @@ Large language models are excellent at generating text in a variety of styles. D
 % \end{itemize}
 
 \chapter{Conclusion}
-Saying hello world is quite easy.
+
+\begin{itemize}
+	\item What was the premise
+	\item What was tried out
+	\item What worked what did not and why
+\end{itemize}
+
+\section{Future Work}
+
 \begin{bibtex-entries}
 @TechReport{Kernighan1974,
 	author = {Brian Kernighan},
