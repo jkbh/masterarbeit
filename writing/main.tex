@@ -1,5 +1,8 @@
 \documentclass[english, version-2022-01]{uzl-thesis}
-\usepackage[outputdir=out]{minted}
+% \usepackage[outputdir=out]{minted}
+
+\usepackage{subfiles}
+
 \UzLStyle{computer modern oldschool design}
 \UzLThesisSetup{
 Masterarbeit,
@@ -43,79 +46,84 @@ As this is a propierty closed source product accessible through a web interface,
 \section{Structure of this Thesis}
 I do this then that and then that.
 
-\chapter{Backgrounds}
+% \chapter{Backgrounds}
 
-Different branches of research were used to build upon in this work. These topics and how their are connected to my work are explained in more detail in this section.
-\section{Information Retrieval}
+% Different branches of research were used to build upon in this work. These topics and how their are connected to my work are explained in more detail in this section.
+% \section{Information Retrieval}
 
-Handling large databases filled with information of different is a common problem. There has been extensive reasearch on database architectures and indexing algorithms.
+% Handling large databases filled with information of different is a common problem. There has been extensive reasearch on database architectures and indexing algorithms.
 
-\section{Agents}
+% \section{Agents}
 
-Although the notion of agent is not new, it recently gained attention in combination with the rise of generative language models.
-\section{Large Language Models}
+% Although the notion of agent is not new, it recently gained attention in combination with the rise of generative language models.
+% \section{Large Language Models}
 
-Natural language processing is a long studied research area of computer science. In recent years delevopments have significantly sped up, with the introduction of deep learning into NLP. The transformer archticture has been the basis for all advancements in recent years.
+% Natural language processing is a long studied research area of computer science. In recent years delevopments have significantly sped up, with the introduction of deep learning into NLP. The transformer archticture has been the basis for all advancements in recent years.
 
-\subsection{Transformer}
-Until 2017, the dominating strategy to train models for language tasks revolved around recurrent structures. Every sentence token was represented as a hidden state that resultet from all the previous tokens. While this approach has a reasonable motivation, the sequential nature contraints computation speed. There is no way to compute the recurrent architectures in parallel.
+% \subsection{Transformer}
+% Until 2017, the dominating strategy to train models for language tasks revolved around recurrent structures. Every sentence token was represented as a hidden state that resultet from all the previous tokens. While this approach has a reasonable motivation, the sequential nature contraints computation speed. There is no way to compute the recurrent architectures in parallel.
 
-The transformer model \cite{NIPS2017_3f5ee243} solely relys on these attention mechanisms. In particular, they employ self-attention and multi-headed self-attention layers
+% The transformer model \cite{NIPS2017_3f5ee243} solely relys on these attention mechanisms. In particular, they employ self-attention and multi-headed self-attention layers
 
-Attention mechanism allow learning dependencies between tokens in sentences without regard to their distance. Their non-sequential nature allow for massive parallelization.
+% Attention mechanism allow learning dependencies between tokens in sentences without regard to their distance. Their non-sequential nature allow for massive parallelization.
 
-Self-Attention is an attention mechanism that computes relations between different positions of the same sequence with goal of finding a representation of the sequence.
+% Self-Attention is an attention mechanism that computes relations between different positions of the same sequence with goal of finding a representation of the sequence.
 
-Like a typical sequence modeling architecture, a transformer consists of an enconder and a decoder. The encoder has two parts that are stacked on each other multiple times. The first part is a mulit-head self-attention block, the second part is a classic fully connected feed foward block.
+% Like a typical sequence modeling architecture, a transformer consists of an enconder and a decoder. The encoder has two parts that are stacked on each other multiple times. The first part is a mulit-head self-attention block, the second part is a classic fully connected feed foward block.
 
-\subsection{BERT}
+% \subsection{BERT}
 
-The BERT model family consists of encoder only transfomers. They are trained to generating rich embeddengs of tokens for use in a range of different downstream tasks.
+% The BERT model family consists of encoder only transfomers. They are trained to generating rich embeddengs of tokens for use in a range of different downstream tasks.
 
-\subsection{GPT}
+% \subsection{GPT}
 
-GPT models are decoder only transformer models. They excel at text generation tasks. they are trained to predict the next token of a sequence.
-\subsection{Instruction tuned Language Models}
+% GPT models are decoder only transformer models. They excel at text generation tasks. they are trained to predict the next token of a sequence.
+% \subsection{Instruction tuned Language Models}
 
-Language models trained to predict the next token of a sequence. While alot of knowledge is captured in the weights of the model, most information in the internet is not formatted in conversatonal style. Because of this, langauge models need to be prompted in a specific way to be effective. The prompt has to be written in a way that the continuation of it yields the desired output. This is not optimal for human users, as they would rather write in a conversational style. Instruction tuned models solve that problem.
+% Language models trained to predict the next token of a sequence. While alot of knowledge is captured in the weights of the model, most information in the internet is not formatted in conversatonal style. Because of this, langauge models need to be prompted in a specific way to be effective. The prompt has to be written in a way that the continuation of it yields the desired output. This is not optimal for human users, as they would rather write in a conversational style. Instruction tuned models solve that problem.
 
-Instruct models are fine-tuned version of language models. Capturing the intent of the user is a key challenge for language models. This process is called \textit{alignment}. popular approach to the alignment problem is reinforcement learning with human feedback (RLHF). Handcrafted prompts are used to fine-tune GPT-3. The outputs of the model are collected into a set and ranked by humans. This set is then used to train a reward model. With this reward model, the language model is further fine-tuned. The resulting model is called \textit{InstructGPT} and performs better than the baseline GPT-3 model.
+% Instruct models are fine-tuned version of language models. Capturing the intent of the user is a key challenge for language models. This process is called \textit{alignment}. popular approach to the alignment problem is reinforcement learning with human feedback (RLHF). Handcrafted prompts are used to fine-tune GPT-3. The outputs of the model are collected into a set and ranked by humans. This set is then used to train a reward model. With this reward model, the language model is further fine-tuned. The resulting model is called \textit{InstructGPT} and performs better than the baseline GPT-3 model.
 
-Large language models are trained to predict the next token of a sequence, not to follow the instruction of the user. This leads to some unwanted results, such as toxic, harmful answers or fabricated information that is not true.
+% Large language models are trained to predict the next token of a sequence, not to follow the instruction of the user. This leads to some unwanted results, such as toxic, harmful answers or fabricated information that is not true.
 
-\subsection{LLM Agents}
+% \subsection{LLM Agents}
 
-AutoGPT is an open source project that tries to leverage LLMs to function as an agent controller. GPT models are extended with different modules to creat an agent that receives a goal and then acts towards reaching it. To reach the goal AutoGPT plans, has a memory, and reflects on past actions.
+% AutoGPT is an open source project that tries to leverage LLMs to function as an agent controller. GPT models are extended with different modules to creat an agent that receives a goal and then acts towards reaching it. To reach the goal AutoGPT plans, has a memory, and reflects on past actions.
 
-AutoGPT is an example implementation of an agent. The project tries to become a framework to build agents with different architectures.
-AutoGPT employs the key components of an agent outlined in \cite{Wang2023}. The profile module allows the agent to assume different roles, such as expert, teacher or coder. Profile are LLM specific as each model responds best for different prompting styles. Memory is implemented through a database.
+% AutoGPT is an example implementation of an agent. The project tries to become a framework to build agents with different architectures.
+% AutoGPT employs the key components of an agent outlined in \cite{Wang2023}. The profile module allows the agent to assume different roles, such as expert, teacher or coder. Profile are LLM specific as each model responds best for different prompting styles. Memory is implemented through a database.
 
-Other open source llm agent systems
-\begin{itemize}
-	\item miniagi \href{}{miniagi}
-	\item babyagi \href{https://github.com/yoheinakajima/babyagi}{miniagi}
-\end{itemize}
+% Other open source llm agent systems
+% \begin{itemize}
+% 	\item miniagi \href{}{miniagi}
+% 	\item babyagi \href{https://github.com/yoheinakajima/babyagi}{miniagi}
+% \end{itemize}
 
 \chapter{Analysis of AutoGPT for Information Retrieval Tasks}
 
+\subfile{chapters/autogpt_analysis/introduction}
 
-AutoGPT is an open source project that tries to 'make GPT fully autonomous'. GPT langauge models are used to control an agent that works towards reaching a stated goal. The project contains a core general purpose agent with a predefined set of abilities. Addidtionaly a baseline sdk is beeing developed to build custom agents.
+\section{Agent Backgrounds}
 
-\section{LLM Agent Backgrounds}
+The concept of agents in computer science is not new. An agent is a system that acts towards reaching a goal in an environment. Agents can be implemented as software or as physical robots or even humans. In the same way different envirmonments are possible such as the real physical world, a web browser or a simulation. The agent needs ways to sense its environment, which can be done by sensors in a physical environment or programatically in a software enivrnment. A task has to be specified for to agent so it knows what his goal is. It can then employ different strategies to reach that goal. These strategies consist of planning steps to execute. While acting out these steps, the environment will probably change as time passes, so an agent needs to reevaluate its plan and the contained steps.
 
-The impressive capabilities of large language models have lead to researchers implementing them in agent systems.
+
+
 
 \section{Architecture Overview}
 
-The AutoGPT agent is modeled after the classic agent architecture. After a goal given to the agent, it creates a task that has to be completed. Then it completes steps that make up that task. In each step an action is run.
+The AutoGPT agent is modeled after the classic agent architecture. After the start the user is asked to enter a task the AutoGPT agent should perform. Then the agent enters a loop of prompting the LLM, executing the proposed action, handling the result of the action and updating the agent state.
 
-AutoGPT is divided into four modules. The \textit{brain} is the main module that controls the agent. In AutoGPT this is realized by prompting the language model in a structured way. Using the chat system prompt, the language model is prompted to answer a structred format. The format is shown in listing \ref{listing:autogpt_system_prompt}. Different techniques are implemented in this structure. The language model is forced not only to plan the next step, but also to explain the choice for the chosen step and to add self-criticism. An extra output for the human user is also returned. The second part of the answer is the actual next action with the needed arguments. The action make up the second module of the agent. In this module the abilities of the agent are defined. These can be file operations, database queries or web search functionalities. The third module is the \textit{memory}. Memories are modeled after humans which have short and long-term memory. Short term memory can be implemented as an in-memory list messages to the language model. Long-term memory needs a persistent store such as a database. A popular option for language models are vector databases that work with embeddings.
+The LLM is prompted in a structured way. A base prompt template is defined and populated with current information before each prompting step. The information includes the task at hand, a list of possible actions, a history of previous actions and their results and some extra statements that are there to guide the language model. As the answer needs to be parsed, the system prompt defines a fixed format the LLM should answer in. The answer consists of the thoughts and the proposed next action.
 
-\begin{listing}
-	\inputminted{jinja}{include/code/system-format.j2}
-	\caption{AutoGPT System Prompt}
-	\label{listing:autogpt_system_prompt}
-\end{listing}
+
+AutoGPT is divided into four modules. The \textit{brain} is the main module that controls the agent. In AutoGPT this is realized by prompting the language model in a structured way. Using the chat system prompt, the language model is prompted to answer a structred format. Different techniques are implemented in this structure. The language model is forced not only to plan the next step, but also to explain the choice for the chosen step and to add self-criticism. An extra output for the human user is also returned. The second part of the answer is the actual next action with the needed arguments. The action make up the second module of the agent. In this module the abilities of the agent are defined. These can be file operations, database queries or web search functionalities. The third module is the \textit{memory}. Memories are modeled after humans which have short and long-term memory. Short term memory can be implemented as an in-memory list messages to the language model. Long-term memory needs a persistent store such as a database. A popular option for language models are vector databases that work with embeddings.
+
+% \begin{listing}
+% 	\inputminted{jinja}{include/code/system-format.j2}
+% 	\caption{AutoGPT System Prompt}
+% 	\label{listing:autogpt_system_prompt}
+% \end{listing}
 
 Currently, AutoGPT is only compatible with OpenAI models. Switching to a different model is not that hard, because only the API format would have to be changed. The challenge is to switch between different prompting styles, as every model needs to be prompted differently. For example OpenAI models benefit from profile sentences like "You are an expert in computer science", while Anthropics Claude does not\dots
 
@@ -197,39 +205,6 @@ To evaluate AutoGPT and other agent systems that implment the agent protocol, th
 	\item Why is subjective evaluation needed
 	\item What aspects of the agent can be evaluated subjectively
 \end{itemize}
-% \chapter{Handcrafted Prompts as a Research Chatbot}
-
-% \begin{itemize}
-% 	\item First, only crafting prompt for default GPT-3.5
-% 	\item What could be questions about hadith corpus?
-% 	      \begin{itemize}
-% 		      \item Ask for classifaction outputs
-
-% 		            These would be the same as the BERT classifactions, just as question sentences. Questions about contained persons, locations, dates, \dots.
-% 		      \item Further questions
-
-% 		            Information probably not contained in corpus. LLM might be able to give some reasoning learned in pre-training.
-% 	      \end{itemize}
-% 	\item How to design prompts?
-
-% 	      Few-shot with examples or Zero Shot? Include example labelings from corpus.
-% 	\item How to include corpus?
-
-% 	      The corpus can be large. Large than the context length of LLMs. So first try handling a single document
-% 	\item How to craft testing examples?
-
-% 	      For the labeling questions create examples for amended data.
-% \end{itemize}
-
-
-% \chapter{Custom Fine-Tuned Language Model as a Research Chatbot}
-% \begin{itemize}
-% 	\item Here, explore fine-tuning a LLM
-% 	\item Identify problems of non fine-tuned Chatbot
-% 	\item How to create fine-tuned dataset
-
-% 	      Again, for labeling questions from amended data, but with focus on weaknesses.
-% \end{itemize}
 
 \chapter{Conclusion}
 
