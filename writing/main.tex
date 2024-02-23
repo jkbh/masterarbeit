@@ -22,7 +22,7 @@ Numerische Bibliographie
 \begin{document}
 \chapter{Introduction}
 
-This an introduction like not other. Information retrieval hard and stuff. Would be nice to have a chatbot that answer natural language questions and gives sources from research database and even web.
+This is an introduction like not other. Information retrieval hard and stuff. Would be nice to have a chatbot that answer natural language questions and gives sources from research database and even web.
 
 \section{Contributions of this Thesis}
 
@@ -100,7 +100,6 @@ I do this then that and then that.
 % \end{itemize}
 
 \chapter{Analysis of AutoGPT for Information Retrieval Tasks}
-
 \subfile{chapters/autogpt_analysis/introduction}
 
 \section{Agent Backgrounds}
@@ -129,36 +128,60 @@ Currently, AutoGPT is only compatible with OpenAI models. Switching to a differe
 
 \section{Information Retrieval Capabilities}
 
-The AutoGPT Agent has different abilities that can be uitilzed for information retrieval. Notably, it is able to search the web and operate on the file system.
 
-The web search is implemented by a two step process. First a search API like duckduckgo is called to get a list of relevant pages. Then the page contents are scraped with a headless browser. It is possible to read and write to text files. Other document types are processed by basic text extraction tools to get the plain text.
+The AutoGPT Agent has different abilities that can be utilized for information retrieval.
+Notably, it is able to search the web and operate on the file system.
 
-For longer files such as scientific journals the extracted fulltext is too long for the language model. The AutoGPT agent has no ability to chunk the text into smaller chunk or store it in a database. This is a limitation that needs to be addressed for information retrieval tasks over a research database repository.
+The web search is implemented by a two-step process. First a search API like DuckDuckGo is called to get a list of relevant pages.
+Then the page contents are scraped with a headless browser.
+It is possible to read and write to text files.
+Other document types are processed by basic text extraction tools to get the plain text.
 
-Having a vectorestore would enable techniques such as retrieval augmented generation. The agent would get a prompt which a question over the RDR and choose an action to start a semantic search over the vectorstore. The result of the search are the chunks that are semantically closest to the question. These chunks can then be inclued as context for the LLM prompt to generate an answer.
+For longer files such as scientific journals the extracted text is too long for the language model.
+The AutoGPT agent has no ability to chunk the text into smaller chunk or store it in a database.
+This is a limitation that needs to be addressed for information retrieval tasks over a research database repository.
+
+Having a vector database would enable techniques such as retrieval augmented generation.
+The agent would get a prompt which a question over the RDR and choose an action to start a semantic search over the vector database.
+The result of the search are the chunks that are semantically closest to the question.
+These chunks can then be included as context for the LLM prompt to generate an answer.
 
 The default agent has a tendency towards searching the web for information. We want an agent that prioritizes information that is present in the research repository. This needs to be addressed in the prompting techniques of the agent.
 
-\chapter{Retrieval Augmentated Generation Agent}
+\chapter{Retrieval Augmented Generation Agent}
 
-Large language models are excellent at generating text in a variety of styles. Different approaches try to embed information sources into the generated text. One appreach is to fine-tune the language model on a dataset that contains the information. This can work, but often there is not enough data to shift the model weights enough. A more promising approach is retrieval augmented generation. Before generating an answer to a prompt, a vectorestore is searched for relevant information. The retrieved information is then included in the prompt.
+\subfile{chapters/agent/retrieval_augmented_generation.tex}
 
 \section{Methods To Improve LLM Generation}
 
+Different approaches try to embed information sources into the generated text.
+One approach is to fine-tune the language model on a dataset that contains the information.
+The creation of fine-tuning data is an expensive task, as data needs to be gathered, checked an clean up to produce good results in training.
+There is some emerging work on generating synthetic datasets by using large language models as data augmentation tools.
+But even if the the fine-tuning data quality is sufficient, it is still a challenge to make a LLM an expert for a specific domain.
+Rather than learning new knowledge, fine-tuning is best suited to guide the model towards a certain answering style.
+Furthermore, fine-tuning billion parameter models is only possible on expensive hardware and therefore not feasable for on-demand tasks.
+
+Following up on the callenges of fine-tuning researches have searched for ways to optimize prompts to get the best model performance.
+These methods make use of a phenomon called in-context learning.
+In-context learning describes the observation that giving a large language model more context surrounding the actual prompt can drastically improve the response quality.
+\cite{Wei2022} found that adding a sentence that suggests step-by-step thinking to solve a problem makes the model better at solving logical questions.
+For GPT models, [xzy] showed an improvement after giving the language model a hint that it is an expert in a certain topic.
+The findings in the area of prompting techniques and in-context learning suggest that prompt optimizatons have a high potential of getting the most out of LLMs.
+
+
+A more promising approach is retrieval augmented generation \cite{Lewis2020}.
+Before generating an answer to a prompt, a vector database is searched for relevant information.
+The prompt then includes the information of the returned documents as context.
+
 \begin{itemize}
 	\item Fine-tuning
-	\item Chain-of-thougt
+	\item Prompting techniques (Chain-of-thought, in-context learning)
 	\item Retrieval augmented generation
 \end{itemize}
 
 \section{Retrieval Augmented Generation}
-
-\begin{itemize}
-	\item what is a vectorestore compared to other databases
-	\item how are documents stored and queried
-	\item how is the information included in the prompt
-\end{itemize}
-
+\subfile{chapters/agent/retrieval_augmented_generation.tex}
 
 \section{Extending AutoGPT with retrieval capailities}
 
@@ -176,7 +199,7 @@ The evaluation of large language model agents is a difficult task, as evaluating
 
 As the space of possible agent domains is large, lots of different benchmarks were proposed. Simulation enviroments like
 
-Although lots of benchmark for LLM applications have been proposed, there are few benchmarks that are designed to test the information retrieval capabilities of an agent. There are some benchmarks that are used to evaluate information retrieval in general and in a diverse domains like "cite".
+Although lots of benchmarks for LLM applications have been proposed, there are few benchmarks that are designed to test the information retrieval capabilities of an agent. There are some benchmarks that are used to evaluate information retrieval in general and in a diverse domains like "cite".
 
 \section{The AutoGPT Benchmarking System}
 
