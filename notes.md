@@ -1,4 +1,56 @@
-# Master Document for Notes
+# Master Notes
+
+## Di Feb 20
+
+### Meeting
+
+This was the worst meeting yet. Can only do better from now on :)
+
+## Do Feb 22
+
+Where: Hamburg
+Wakeup: 7:30
+Start: 8:30
+End:
+Focus Points: 5/10
+
+**Made continous user inputs possible**
+
+Before the user could only input the task in the first chat, then it was fixed.
+
+Now the user can change the current step input. If the user continous without any input the first input (task) is used for the step prompt.
+
+**Chose to output vector DB retrieved data in an own file**
+
+As the output can get large it is better to save it into a file and return the filename as the ability output.
+
+**Added best practices to task-step prompt**
+
+Contents:
+- Respect errors
+- No ability twice (might cause problems)
+- Prefer querying vector DB before answering
+- Say what the LLM is doing instead of saying an early answer to the task
+
+Need to evaluate what helps and what not.
+
+**Added vector DB to task-step prompt as a resource**
+
+This could help the language model to access the vector DB
+
+**Switched from GPT-3-Turbo to GPT-4-Turbo**
+
+GPT 4 seems to be alot better at planning than version 3. Need to test the differences more. Remember that in the end i likely need to use an open source language model. Nonetheless this is an important observation to write down.
+
+## Fr Feb 23
+
+Where: HH
+Start: 9:30
+focus points: 3/10
+
+- Wrote paragraphs about methods to improve LLM knowledge on-demand
+- Refactored agent class
+- Organized references
 
 ## Loose Ideas
 
