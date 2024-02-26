@@ -6,7 +6,7 @@
 
 This was the worst meeting yet. Can only do better from now on :)
 
-## Do Feb 22
+### Do Feb 22
 
 Where: Hamburg
 Wakeup: 7:30
@@ -51,6 +51,19 @@ focus points: 3/10
 - Wrote paragraphs about methods to improve LLM knowledge on-demand
 - Refactored agent class
 - Organized references
+
+## Mo Feb 26 
+
+**Reasons I split up the RAG steps into single steps**
+
+A fixed rag pipeline works for single question and answer conversation flows
+But what if the query are more complex and require a retrieving two different topics and then connecting the results in an answer.
+So we might need retrieval and generation once, or retrieval twice and generation once or any other combination. 
+Also iterating generation steps could be on option.
+
+**Implemeting backlinging sentences to retrieved source** 
+
+Either use similarity again or ask the model to inlucde source tokens into the answer.
 
 ## Loose Ideas
 
