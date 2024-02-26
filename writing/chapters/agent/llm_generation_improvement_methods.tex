@@ -1,0 +1,27 @@
+\documentclass[../../main.tex]{subfiles}
+\begin{document}
+Different approaches try to embed information sources into the generated text.
+One approach is to fine-tune the language model on a dataset that contains the information.
+The creation of fine-tuning data is an expensive task, as data needs to be gathered, checked a cleanup to produce good results in training.
+There is some emerging work on generating synthetic datasets by using large language models as data augmentation tools.
+But even if the fine-tuning data quality is sufficient, it is still a challenge to make a LLM an expert for a specific domain.
+Rather than learning new knowledge, fine-tuning is best suited to guide the model towards a certain answering style.
+Furthermore, fine-tuning billion parameter models is only possible on expensive hardware and therefore not feasible for on-demand tasks.
+
+Following up on the challenges of fine-tuning researches have searched for ways to optimize prompts to get the best model performance.
+These methods make use of a phenomenon called in-context learning.
+In-context learning describes the observation that giving a large language model more context surrounding the prompt can drastically improve the response quality.
+\cite{Wei2022} found that adding a sentence that suggests step-by-step thinking to solve a problem makes the model better at solving logical questions.
+For GPT models, [xzy] showed an improvement after giving the language model a hint that it is an expert in a certain topic.
+The findings in the area of prompting techniques and in-context learning suggests that prompt optimizations have a high potential of getting the most out of LLMs.
+
+A more promising approach is retrieval augmented generation \cite{Lewis2020}.
+Before generating an answer to a prompt, a vector database is searched for relevant information.
+The prompt then includes the information of the returned documents as context.
+
+\begin{itemize}
+	\item Fine-tuning
+	\item Prompting techniques (Chain-of-thought, in-context learning)
+	\item Retrieval augmented generation
+\end{itemize}
+\end{document}
