@@ -40,9 +40,9 @@ There are different attempts at creating LLM outputs with sources. Perplexity AI
 \end{itemize}
 \subsection{Information Retrieval Applications}
 
-In a variety of application contexts, the answers of an assistant have to be correctThis. 
+In a variety of application contexts, the answers of an assistant have to be correctThis.
 This is especially true in research contexts. A model that hallucinates isn't feasable in this case.
-But while hallucination can be reducing with fine-tuning, it can not be competely eliminated. 
+But while hallucination can be reducing with fine-tuning, it can not be competely eliminated.
 Perplexity AI is an online service that leverages a language model to provide a search that generates an answer from different sources in the internet.
 The content of the answer is then linked to the found sources, so the user can see and verify the result.
 
@@ -55,64 +55,33 @@ I do this then that and then that.
 
 \chapter{Backgrounds}
 
-% Different branches of research were used to build upon in this work. These topics and how their are connected to my work are explained in more detail in this section.
+Different branches of research were used to build upon in this work. These topics and how their are connected to my work are explained in more detail in this section.
 
-% \section{Information Retrieval}
+\section{Information Retrieval}
 
-% Handling large databases filled with information of different is a common problem. There has been extensive reasearch on database architectures and indexing algorithms.
+Handling large databases filled with information of different is a common problem. There has been extensive reasearch on database architectures and indexing algorithms.
 
-% \section{Agents}
+\section{Agents}
 
-% Although the notion of agent is not new, it recently gained attention in combination with the rise of generative language models.
+Although the notion of agent is not new, it recently gained attention in combination with the rise of generative language models.
 
- \section{Large Language Models}
+\section{Large Language Models}
 
 Natural language processing is a long studied research area of computer science.
 In recent years delevopments have significantly sped up, with the introduction of deep learning into NLP.
 The transformer archticture has been the basis for all advancements in recent years.
 
-\subsection{The Transformer Architectire}
-Until 2017, the dominating strategy to train models for language tasks revolved around recurrent structures.
-Every sentence token was represented as a hidden state that resultet from all the previous tokens. 
-While this approach has a reasonable motivation, the sequential nature contraints computation speed.
-There is no way to compute the recurrent architectures in parallel.
+\section{The Transformer Architectire}
+\subfile{chapters/backgrounds/transformer.tex}
 
-The transformer architecture \cite{Vaswani2017} solely relys on these attention mechanisms.
-In particular, they employ self-attention and multi-headed self-attention layers.
-Attention mechanism allow learning dependencies between tokens in sentences without regard to their distance.
-Their non-sequential charactericstics allow for better parallelization.
-Self-Attention is an attention mechanism that computes relations between different positions of the same sequence with goal of finding a representation of the sequence.
+\section{Generative Pre-Trained Transformers}
+\subfile{chapters/backgrounds/gpt.tex}
 
-Like a typical sequence modeling architecture, a transformer consists of an enconder and a decoder. The encoder has two parts that are stacked on each other multiple times.
-The first part is a mulit-head self-attention block, the second part is a classic fully connected feed foward block.
+\section{Embedding Models}
+\subfile{chapters/backgrounds/embedding.tex}
 
-\subsection{Embedding Models}
-
-Embeddings models are used to map input sentences to a n-dimensional vector.
-Genenerally, the encoder sections of transformers are used to train an embedding model. 
-A popular embedding model is the BERT model family. 
-Embeddings models can be fine-tuning on different downstream tasks to create embeddings that are optimized for the specific task domain.
-
-\subsection{Generative Pre-Trained Transformers}
-
-The decoder part of a transformer is used for Generative Pre-Trained Transformer models.
-They are trained to predict the next token for a input sequence of tokens.
-
-
- \subsection{Instruction-Tuned Language Models}
-
-Language models trained to predict the next token of a sequence.
-While alot of knowledge is captured in the weights of the model, most information in the internet is not formatted in conversatonal style.
-Because of this, langauge models need to be prompted in a specific way to be effective. The prompt has to be written in a way that the continuation of it yields the desired output.
-This is not optimal for human users, as they would rather write in a conversational style. Instruction tuned models solve that problem.
-
-Instruct models are fine-tuned version of language models. Capturing the intent of the user is a key challenge for language models. This process is called \textit{alignment}.
-popular approach to the alignment problem is reinforcement learning with human feedback (RLHF). Handcrafted prompts are used to fine-tune GPT-3.
-The outputs of the model are collected into a set and ranked by humans. This set is then used to train a reward model. With this reward model, the language model is further fine-tuned.
-The resulting model is called \textit{InstructGPT} and performs better than the baseline GPT-3 model.
-
-Large language models are trained to predict the next token of a sequence, not to follow the instruction of the user.
-This leads to some unwanted results, such as toxic, harmful answers or fabricated information that is not true.
+\section{Instruction-Tuned Models}
+\subfile{chapters/backgrounds/instruct.tex}
 
 % \subsection{LLM Agents}
 
@@ -174,9 +143,9 @@ A popular option for language models are vector databases that work with embeddi
 % 	\label{listing:autogpt_system_prompt}
 % \end{listing}
 
-Currently, the AutoGPT agent is implemented for OpenAI GPT models. 
+Currently, the AutoGPT agent is implemented for OpenAI GPT models.
 The prompts are tailored in ways that benefit the charactericstics of GPT-3 and GPT-4.
-Switching to a different model is not diffult from a software perspective, but semantically posed a challenge. 
+Switching to a different model is not diffult from a software perspective, but semantically posed a challenge.
 If one knows the message format for a specific model the input can be adjusted.
 But same prompting techniques does not necessarily work for all langauge models.
 The challenge is to switch between different prompting styles, as every model needs to be prompted differently.
@@ -278,12 +247,8 @@ The ouput is defined by certain words that should be contained.
 
 \section{Future Work}
 
-\begin{bibtex-entries}
-@TechReport{Kernighan1974,
-	author = {Brian Kernighan},
-	title = {Programming in C – A Tutorial},
-	institution = {Bell Laboratories},
-	year = {1974}
-}
-\end{bibtex-entries}
+The reserach area about large language models currently moves at a rapid pace.
+While writing this thesis, communities have focus more on 'agentic' applications of LLMs.
+OpenAI has released OpenAI Assistants, which\dots.
+The AutoGPT team is still working on making the use of local models feasable.
 \end{document}

@@ -1,0 +1,16 @@
+\documentclass[../../main.tex]{subfiles}
+\begin{document}
+Until 2017, the dominating strategy to train models for language tasks revolved around recurrent structures.
+Every sentence token was represented as a hidden state that resultet from all the previous tokens.
+While this approach has a reasonable motivation, the sequential nature contraints computation speed.
+There is no way to compute the recurrent architectures in parallel.
+
+The transformer architecture \cite{Vaswani2017} solely relys on these attention mechanisms.
+In particular, they employ self-attention and multi-headed self-attention layers.
+Attention mechanism allow learning dependencies between tokens in sentences without regard to their distance.
+Their non-sequential charactericstics allow for better parallelization.
+Self-Attention is an attention mechanism that computes relations between different positions of the same sequence with goal of finding a representation of the sequence.
+
+Like a typical sequence modeling architecture, a transformer consists of an enconder and a decoder. The encoder has two parts that are stacked on each other multiple times.
+The first part is a mulit-head self-attention block, the second part is a classic fully connected feed foward block.
+\end{document}

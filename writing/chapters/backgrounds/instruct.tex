@@ -1,0 +1,15 @@
+\documentclass[../../main.tex]{subfiles}
+\begin{document}
+Language models trained to predict the next token of a sequence.
+While alot of knowledge is captured in the weights of the model, most information in the internet is not formatted in conversatonal style.
+Because of this, langauge models need to be prompted in a specific way to be effective. The prompt has to be written in a way that the continuation of it yields the desired output.
+This is not optimal for human users, as they would rather write in a conversational style. Instruction tuned models solve that problem.
+
+Instruct models are fine-tuned version of language models. Capturing the intent of the user is a key challenge for language models. This process is called \textit{alignment}.
+popular approach to the alignment problem is reinforcement learning with human feedback (RLHF). Handcrafted prompts are used to fine-tune GPT-3.
+The outputs of the model are collected into a set and ranked by humans. This set is then used to train a reward model. With this reward model, the language model is further fine-tuned.
+The resulting model is called \textit{InstructGPT} and performs better than the baseline GPT-3 model.
+
+Large language models are trained to predict the next token of a sequence, not to follow the instruction of the user.
+This leads to some unwanted results, such as toxic, harmful answers or fabricated information that is not true.
+\end{document}
