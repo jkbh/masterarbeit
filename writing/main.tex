@@ -22,7 +22,8 @@ Numerische Bibliographie
 \begin{document}
 \chapter{Introduction}
 
-This is an introduction like not other. Information retrieval hard and stuff. Would be nice to have a chatbot that answer natural language questions and gives sources from research database and even web.
+This is an introduction like not other. Information retrieval hard and stuff.
+Would be nice to have a chatbot that answer natural language questions and gives sources from research database and even web.
 
 \section{Contributions of this Thesis}
 
@@ -45,7 +46,8 @@ But while hallucination can be reducing with fine-tuning, it can not be competel
 Perplexity AI is an online service that leverages a language model to provide a search that generates an answer from different sources in the internet.
 The content of the answer is then linked to the found sources, so the user can see and verify the result.
 
-As this is a proprierty closed source product accessible through a web interface, this is not a useful to create our own research assistant. The provided API simply hosts different LLMs and allows for prompting them.
+As this is a proprierty closed source product accessible through a web interface, this is not a useful to create our own research assistant.
+The provided API simply hosts different LLMs and allows for prompting them.
 There is no possibilty of of fine-tuning.
 
 \section{Structure of this Thesis}
@@ -65,7 +67,9 @@ I do this then that and then that.
 
  \section{Large Language Models}
 
- Natural language processing is a long studied research area of computer science. In recent years delevopments have significantly sped up, with the introduction of deep learning into NLP. The transformer archticture has been the basis for all advancements in recent years.
+Natural language processing is a long studied research area of computer science.
+In recent years delevopments have significantly sped up, with the introduction of deep learning into NLP.
+The transformer archticture has been the basis for all advancements in recent years.
 
 \subsection{The Transformer Architectire}
 Until 2017, the dominating strategy to train models for language tasks revolved around recurrent structures.
@@ -79,7 +83,8 @@ Attention mechanism allow learning dependencies between tokens in sentences with
 Their non-sequential charactericstics allow for better parallelization.
 Self-Attention is an attention mechanism that computes relations between different positions of the same sequence with goal of finding a representation of the sequence.
 
-Like a typical sequence modeling architecture, a transformer consists of an enconder and a decoder. The encoder has two parts that are stacked on each other multiple times. The first part is a mulit-head self-attention block, the second part is a classic fully connected feed foward block.
+Like a typical sequence modeling architecture, a transformer consists of an enconder and a decoder. The encoder has two parts that are stacked on each other multiple times.
+The first part is a mulit-head self-attention block, the second part is a classic fully connected feed foward block.
 
 \subsection{Embedding Models}
 
@@ -96,11 +101,18 @@ They are trained to predict the next token for a input sequence of tokens.
 
  \subsection{Instruction-Tuned Language Models}
 
-Language models trained to predict the next token of a sequence. While alot of knowledge is captured in the weights of the model, most information in the internet is not formatted in conversatonal style. Because of this, langauge models need to be prompted in a specific way to be effective. The prompt has to be written in a way that the continuation of it yields the desired output. This is not optimal for human users, as they would rather write in a conversational style. Instruction tuned models solve that problem.
+Language models trained to predict the next token of a sequence.
+While alot of knowledge is captured in the weights of the model, most information in the internet is not formatted in conversatonal style.
+Because of this, langauge models need to be prompted in a specific way to be effective. The prompt has to be written in a way that the continuation of it yields the desired output.
+This is not optimal for human users, as they would rather write in a conversational style. Instruction tuned models solve that problem.
 
-Instruct models are fine-tuned version of language models. Capturing the intent of the user is a key challenge for language models. This process is called \textit{alignment}. popular approach to the alignment problem is reinforcement learning with human feedback (RLHF). Handcrafted prompts are used to fine-tune GPT-3. The outputs of the model are collected into a set and ranked by humans. This set is then used to train a reward model. With this reward model, the language model is further fine-tuned. The resulting model is called \textit{InstructGPT} and performs better than the baseline GPT-3 model.
+Instruct models are fine-tuned version of language models. Capturing the intent of the user is a key challenge for language models. This process is called \textit{alignment}.
+popular approach to the alignment problem is reinforcement learning with human feedback (RLHF). Handcrafted prompts are used to fine-tune GPT-3.
+The outputs of the model are collected into a set and ranked by humans. This set is then used to train a reward model. With this reward model, the language model is further fine-tuned.
+The resulting model is called \textit{InstructGPT} and performs better than the baseline GPT-3 model.
 
-Large language models are trained to predict the next token of a sequence, not to follow the instruction of the user. This leads to some unwanted results, such as toxic, harmful answers or fabricated information that is not true.
+Large language models are trained to predict the next token of a sequence, not to follow the instruction of the user.
+This leads to some unwanted results, such as toxic, harmful answers or fabricated information that is not true.
 
 % \subsection{LLM Agents}
 
@@ -124,7 +136,8 @@ The concept of agents in computer science is not new.
 An agent is a system that acts towards reaching a goal in an environment.
 Agents can be implemented as software or as physical robots or even humans.
 In the same way different envirmonments are possible such as the real physical world, a web browser or a simulation.
-The agent needs ways to sense its environment, which can be done by sensors in a physical environment or programatically in a software enivrnment. A task has to be specified for to agent so it knows what his goal is.
+The agent needs ways to sense its environment, which can be done by sensors in a physical environment or programatically in a software enivrnment.
+A task has to be specified for to agent so it knows what his goal is.
 It can then employ different strategies to reach that goal. These strategies consist of planning steps to execute.
 While acting out these steps, the environment will probably change as time passes, so an agent needs to reevaluate its plan and the contained steps.
 
@@ -145,7 +158,8 @@ AutoGPT is divided into four modules. The \textit{brain} is the main module that
 In AutoGPT this is realized by prompting the language model in a structured way.
 Using the chat system prompt, the language model is prompted to answer a structred format.
 Different techniques are implemented in this structure.
-The language model is forced not only to plan the next step, but also to explain the choice for the chosen step and to add self-criticism. An extra output for the human user is also returned.
+The language model is forced not only to plan the next step, but also to explain the choice for the chosen step and to add self-criticism.
+An extra output for the human user is also returned.
 The second part of the answer is the actual next action with the needed arguments.
 The action make up the second module of the agent. In this module the abilities of the agent are defined.
 These can be file operations, database queries or web search functionalities. The third module is the \textit{memory}.
@@ -188,7 +202,8 @@ The agent would get a prompt which a question over the RDR and choose an action 
 The result of the search are the chunks that are semantically closest to the question.
 These chunks can then be included as context for the LLM prompt to generate an answer.
 
-The default agent has a tendency towards searching the web for information. We want an agent that prioritizes information that is present in the research repository. This needs to be addressed in the prompting techniques of the agent.
+The default agent has a tendency towards searching the web for information. We want an agent that prioritizes information that is present in the research repository.
+This needs to be addressed in the prompting techniques of the agent.
 
 \chapter{Retrieval Augmented Generation Agent}
 \subfile{chapters/agent/introduction.tex}
@@ -209,17 +224,25 @@ The default agent has a tendency towards searching the web for information. We w
 
 \chapter{Creating IR Agent Benchmarking Challenges}
 
-The evaluation of large language model agents is a difficult task, as evaluating LLMs themselves presents a challenge. There are different approaches to evaluate systems built around language models. Subjective evaluation is based on human feedback. As LLM systems are generally made to serve humans this is an important part of evaluation. On the other hand, quantiative metrics that can be computed are used for objective evaluation. Different metrics are used for different tasks. Another importat method are benchmarks. Benchmarks are a set of tasks or an environment that the agent is to move in.
+The evaluation of large language model agents is a difficult task, as evaluating LLMs themselves presents a challenge.
+There are different approaches to evaluate systems built around language models. Subjective evaluation is based on human feedback.
+As LLM systems are generally made to serve humans this is an important part of evaluation.
+On the other hand, quantiative metrics that can be computed are used for objective evaluation. Different metrics are used for different tasks. Another importat method are benchmarks.
+Benchmarks are a set of tasks or an environment that the agent is to move in.
 
 \section{Existing IR Agent Benchmarks}
 
 As the space of possible agent domains is large, lots of different benchmarks were proposed. Simulation environments like
 
-Although lots of benchmarks for LLM applications have been proposed, there are few benchmarks that are designed to test the information retrieval capabilities of an agent. There are some benchmarks that are used to evaluate information retrieval in general and in a diverse domains like "cite".
+Although lots of benchmarks for LLM applications have been proposed, there are few benchmarks that are designed to test the information retrieval capabilities of an agent.
+There are some benchmarks that are used to evaluate information retrieval in general and in a diverse domains like "cite".
 
 \section{The AutoGPT Benchmarking System}
 
-To evaluate AutoGPT and other agent systems that implement the agent protocol, the AutoGPT project has implemented its own benchmarking system. The system consists of a set of tasks that the agent has to complete. The tasks are designed to test different aspects of the agent, and are divided into different topics. Some tasks depend on the previous succesful completion of other tasks. A task consists of an input prompt and a expected output. The ouput is defined by certain words that should be contained.
+To evaluate AutoGPT and other agent systems that implement the agent protocol, the AutoGPT project has implemented its own benchmarking system.
+The system consists of a set of tasks that the agent has to complete. The tasks are designed to test different aspects of the agent, and are divided into different topics.
+Some tasks depend on the previous succesful completion of other tasks. A task consists of an input prompt and a expected output.
+The ouput is defined by certain words that should be contained.
 
 \begin{itemize}
 	\item Level based system
