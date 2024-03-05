@@ -1,9 +1,8 @@
 \documentclass[english, version-2022-01]{uzl-thesis}
-% \usepackage[outputdir=out]{minted}
 
 \usepackage{subfiles}
 
-\UzLStyle{computer modern oldschool design}
+\UzLStyle{pagella basic design}
 \UzLThesisSetup{
 Masterarbeit,
 Verfasst = {am}{Institut für Informationssysteme},
@@ -17,7 +16,8 @@ Abstract = {It is about saying ``hello'' to the world.},
 Zusammenfassung = {Es geht darum, der Welt »Hallo« zu sagen.},
 Numerische Bibliographie
 }
-\addbibresource{bib/masterarbeit.bib}
+
+\addbibresource{bib/zotero}
 
 \begin{document}
 \chapter{Introduction}
@@ -35,145 +35,84 @@ There are different attempts at creating LLM outputs with sources. Perplexity AI
 
 \subsection{Open Source LLM Agents}
 \begin{itemize}
-	\item AutoGPT
-	\item babyagi
+    \item AutoGPT
+    \item babyagi
 \end{itemize}
 \subsection{Information Retrieval Applications}
 
-In a variety of application contexts, the answers of an assistant have to be correctThis.
-This is especially true in research contexts. A model that hallucinates isn't feasable in this case.
-But while hallucination can be reducing with fine-tuning, it can not be competely eliminated.
-Perplexity AI is an online service that leverages a language model to provide a search that generates an answer from different sources in the internet.
-The content of the answer is then linked to the found sources, so the user can see and verify the result.
+In a variety of application contexts,
+the answers of an assistant have to be correct.
+This is especially true in research contexts.
+A model that hallucinates isn't feasable in this case.
+But while hallucination can be reducing with fine-tuning,
+it can not be competely eliminated.
+Perplexity AI is a online service that leverages a language model
+to provide a search that generates an answer from different sources in the internet.
+The content of the answer is then linked to the found sources,
+so the user can see and verify the result.
 
-As this is a proprierty closed source product accessible through a web interface, this is not a useful to create our own research assistant.
-The provided API simply hosts different LLMs and allows for prompting them.
+As this is a proprierty closed source product accessible through a web interface,
+this is not a useful to create our own research assistant.
+The provided API simply hosts different LLMs and allows prompting them.
 There is no possibilty of of fine-tuning.
 
 \section{Structure of this Thesis}
 I do this then that and then that.
 
+% Backgrounds
 \chapter{Backgrounds}
 
-Different branches of research were used to build upon in this work. These topics and how their are connected to my work are explained in more detail in this section.
+Different branches of research were used to build upon in this work.
+These topics and how their are connected to my work
+is explained in more detail in this section.
 
 \section{Information Retrieval}
 
-Handling large databases filled with information of different is a common problem. There has been extensive reasearch on database architectures and indexing algorithms.
+Retrieving the best documents for a query from a large databse,
+filled with information of different kind is a classic problem in computer science.
+There has been extensive reasearch on database architectures and indexing algorithms.
 
 \section{Agents}
 
-Although the notion of agent is not new, it recently gained attention in combination with the rise of generative language models.
+Although the notion of agent is not new,
+it recently gained attention in combination with the rise of generative language models.
 
-\section{Large Language Models}
+\section{Language Modeling}
 
 Natural language processing is a long studied research area of computer science.
-In recent years delevopments have significantly sped up, with the introduction of deep learning into NLP.
+In recent years delevopments have significantly sped up,
+with the introduction of deep learning into NLP.
 The transformer archticture has been the basis for all advancements in recent years.
 
-\section{The Transformer Architectire}
+\subsection{Transformer Networks}
+\label{subsec:transformer}
 \subfile{chapters/backgrounds/transformer.tex}
 
-\section{Generative Pre-Trained Transformers}
+\subsection{Generative Pre-Trained Transformers}
+\label{subsec:gpt}
 \subfile{chapters/backgrounds/gpt.tex}
 
-\section{Embedding Models}
+\subsection{Embedding Models}
+\label{subsec:embedding}
 \subfile{chapters/backgrounds/embedding.tex}
 
-\section{Instruction-Tuned Models}
+\subsection{Instruction-Tuned Models}
 \subfile{chapters/backgrounds/instruct.tex}
 
-% \subsection{LLM Agents}
-
-% AutoGPT is an open source project that tries to leverage LLMs to function as an agent controller. GPT models are extended with different modules to creat an agent that receives a goal and then acts towards reaching it. To reach the goal AutoGPT plans, has a memory, and reflects on past actions.
-
-% AutoGPT is an example implementation of an agent. The project tries to become a framework to build agents with different architectures.
-% AutoGPT employs the key components of an agent outlined in \cite{Wang2023}. The profile module allows the agent to assume different roles, such as expert, teacher or coder. Profile are LLM specific as each model responds best for different prompting styles. Memory is implemented through a database.
-
-% Other open source llm agent systems
-% \begin{itemize}
-% 	\item miniagi \href{}{miniagi}
-% 	\item babyagi \href{https://github.com/yoheinakajima/babyagi}{miniagi}
-% \end{itemize}
-
+% AutoGPT
 \chapter{Analysis of AutoGPT for Information Retrieval Tasks}
 \subfile{chapters/autogpt_analysis/introduction}
 
 \section{Agent Backgrounds}
-
-The concept of agents in computer science is not new.
-An agent is a system that acts towards reaching a goal in an environment.
-Agents can be implemented as software or as physical robots or even humans.
-In the same way different envirmonments are possible such as the real physical world, a web browser or a simulation.
-The agent needs ways to sense its environment, which can be done by sensors in a physical environment or programatically in a software enivrnment.
-A task has to be specified for to agent so it knows what his goal is.
-It can then employ different strategies to reach that goal. These strategies consist of planning steps to execute.
-While acting out these steps, the environment will probably change as time passes, so an agent needs to reevaluate its plan and the contained steps.
+\subfile{chapters/autogpt_analysis/agents}
 
 \section{Architecture Overview}
-
-The AutoGPT agent is modeled after the classic agent architecture.
-After the start, the user is asked to enter a task the AutoGPT agent should perform.
-Then the agent enters a loop of prompting the LLM, executing the proposed action, handling the result of the action and updating the agent state.
-
-The LLM is prompted in a structured way.
-A base prompt template is defined and populated with current information before each prompting step.
-The information includes the task at hand, a list of possible actions, a history of previous actions and their results and some extra statements that are there to guide the language model.
-As the answer needs to be parsed, the system prompt defines a fixed format the LLM should answer in.
-The answer consists of the thoughts and the proposed next action.
-
-
-AutoGPT is divided into four modules. The \textit{brain} is the main module that controls the agent.
-In AutoGPT this is realized by prompting the language model in a structured way.
-Using the chat system prompt, the language model is prompted to answer a structred format.
-Different techniques are implemented in this structure.
-The language model is forced not only to plan the next step, but also to explain the choice for the chosen step and to add self-criticism.
-An extra output for the human user is also returned.
-The second part of the answer is the actual next action with the needed arguments.
-The action make up the second module of the agent. In this module the abilities of the agent are defined.
-These can be file operations, database queries or web search functionalities. The third module is the \textit{memory}.
-Memories are modeled after humans which have short and long-term memory.
-Short term memory can be implemented as an in-memory list messages to the language model.
-Long-term memory needs a persistent store such as a database.
-A popular option for language models are vector databases that work with embeddings.
-
-% \begin{listing}
-% 	\inputminted{jinja}{include/code/system-format.j2}
-% 	\caption{AutoGPT System Prompt}
-% 	\label{listing:autogpt_system_prompt}
-% \end{listing}
-
-Currently, the AutoGPT agent is implemented for OpenAI GPT models.
-The prompts are tailored in ways that benefit the charactericstics of GPT-3 and GPT-4.
-Switching to a different model is not diffult from a software perspective, but semantically posed a challenge.
-If one knows the message format for a specific model the input can be adjusted.
-But same prompting techniques does not necessarily work for all langauge models.
-The challenge is to switch between different prompting styles, as every model needs to be prompted differently.
-For example OpenAI models benefit from profile sentences like "You are an expert in computer science", while Anthropics Claude does not\dots
+\subfile{chapters/autogpt_analysis/architecture.tex}
 
 \section{Information Retrieval Capabilities}
+\subfile{chapters/autogpt_analysis/IR_capabilities}
 
-The AutoGPT Agent has different abilities that can be utilized for information retrieval.
-Notably, it is able to search the web and operate on the file system.
-
-The web search is implemented by a two-step process.
-First a search API like DuckDuckGo is called to get a list of relevant pages.
-Then the page contents are scraped with a headless browser.
-It is possible to read and write to text files.
-Other document types are processed by basic text extraction tools to get the plain text.
-
-For longer files such as scientific journals the extracted text is too long for the language model.
-The AutoGPT agent has no ability to chunk the text into smaller chunk or store it in a database.
-This is a limitation that needs to be addressed for information retrieval tasks over a research database repository.
-
-Having a vector database would enable techniques such as retrieval augmented generation.
-The agent would get a prompt which a question over the RDR and choose an action to start a semantic search over the vector database.
-The result of the search are the chunks that are semantically closest to the question.
-These chunks can then be included as context for the LLM prompt to generate an answer.
-
-The default agent has a tendency towards searching the web for information. We want an agent that prioritizes information that is present in the research repository.
-This needs to be addressed in the prompting techniques of the agent.
-
+% Agent
 \chapter{Retrieval Augmented Generation Agent}
 \subfile{chapters/agent/introduction.tex}
 
@@ -183,15 +122,69 @@ This needs to be addressed in the prompting techniques of the agent.
 \section{Retrieval Augmented Generation}
 \subfile{chapters/agent/retrieval_augmented_generation.tex}
 
-\section{Extending AutoGPT with Retrieval Capabilities}
+\section{Agent}
+
+To create the information retrieval agent,
+I used the Forge SDK\footnote{https://docs.agpt.co/forge/get-started/} that is included in AutoGPT.
+
+\subsection{Forge SDK}
+
+To make collaboration on agents easier,
+the open source LLM-agent community created the agent protocol.
+The Agent Protocol defines an API schema
+that handles the communication with an agent.
+On a high level the protocol defines endpoints to create a task
+and to trigger the next step for the task.
+
+The Forge SDK handles the boilerplate code
+that implements the agent protocol.
+On running,
+the server with the corresponding endpoints gets started and
+the agent can be used over the API endpoints.
+AutoGPT also comes with a chatbot webapp
+that builds the appropriate HTTP requests to the agent endpoints.
+
+The user of the Forge SDK has to create the actual agent logic,
+create custom prompt templates for the used model and
+add abilities to interact with external resources.
+Because the Forge SDK is still under development
+and by no means a polished product,
+some internals also have to be tweaked to achieve the desired agent behaviour.
+
+By default the Forge agent comes with abilities to read and write textfiles and
+to search a search engine as well as scraping a webpage.
+The default behaviour is to write a test string into a file
+in the workspace no matter what the user prompts.
+
+\subsection{Agent Memory}
+
+Similar to the view of human memory,
+different implementations of memories for agents have been proposed.
+For short-term memory,
+message history format used by instruct language models can used.
+The last n messages of a conversation between the user and the agent
+are recored and change the generation behaviour of the LLM
+that controls the agent.
+Long-term memroy is generally represented as some external store
+where information can be written and stored.
 
 \begin{itemize}
-	\item Custom agent Loop
-	\item Custom abilities
-	\item Further guidances for the agent
+    \item Vector Database
+    \item
+\end{itemize}
+\subsection{Agent Abilities}
+
+
+
+
+\begin{itemize}
+
+    \item Custom agent Loop
+    \item Custom abilities
+    \item Further guidances for the agent
 \end{itemize}
 
-\chapter{Creating IR Agent Benchmarking Challenges}
+\chapter{Benchmarking for an IR Agent}
 
 The evaluation of large language model agents is a difficult task, as evaluating LLMs themselves presents a challenge.
 There are different approaches to evaluate systems built around language models. Subjective evaluation is based on human feedback.
@@ -214,14 +207,14 @@ Some tasks depend on the previous succesful completion of other tasks. A task co
 The ouput is defined by certain words that should be contained.
 
 \begin{itemize}
-	\item Level based system
-	\item Dependencies
+    \item Level based system
+    \item Dependencies
 \end{itemize}
 
 \section{Custom Benchmarks for Local IR over Journals}
 
 \begin{itemize}
-	\item Retrieval benchmarks
+    \item Retrieval benchmarks
 \end{itemize}
 
 \chapter{Results}
@@ -233,16 +226,16 @@ The ouput is defined by certain words that should be contained.
 \section{Subjective Evaluation}
 
 \begin{itemize}
-	\item Why is subjective evaluation needed
-	\item What aspects of the agent can be evaluated subjectively
+    \item Why is subjective evaluation needed
+    \item What aspects of the agent can be evaluated subjectively
 \end{itemize}
 
 \chapter{Conclusion}
 
 \begin{itemize}
-	\item What was the premise
-	\item What was tried out
-	\item What worked what did not and why
+    \item What was the premise
+    \item What was tried out
+    \item What worked what did not and why
 \end{itemize}
 
 \section{Future Work}

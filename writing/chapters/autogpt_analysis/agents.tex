@@ -1,9 +1,33 @@
 \documentclass[../../main.tex]{subfiles}
 \begin{document}
+The concept of agents in computer science is not new.
+An agent is a system that acts towards reaching a goal in an environment.
+Agents can be implemented as software or as physical robots or even humans.
+In the same way different envirmonments are possible
+such as the real physical world,
+a web browser or a simulation.
+The agent needs ways to sense its environment,
+which can be done by sensors in a physical environment
+or programatically in a software enivrnment.
+A task has to be specified for to agent so it knows what his goal is.
+It can then employ different strategies to reach that goal.
+These strategies consist of planning steps to execute.
+While acting out these steps,
+the environment will probably change as time passes,
+so an agent needs to reevaluate its plan and the contained steps.
 
-The concept of agents in computer science is not new. An agent is a system that 
-acts towards reaching a goal in an environment. Agents can be implemented as software or as physical robots or even humans. In the same way different envirmonments are possible such as the real physical world, a web browser or a simulation. The agent needs ways to sense its environment, which can be done by sensors in a physical environment or programatically in a software enivrnment. A task has to be specified for to agent so it knows what the goal is. It can then employ different strategies to reach that goal. These strategies consist of planning steps to execute. While acting out these steps, the environment can change as time passes, so an agent needs to reevaluate its plan and the contained steps.
-
-The impressive capabilities of large language models have lead to research to implementing them into agents system. Different concept are beeing researched. In Zhou2023 a distinction between static and dynamic agents is proposed. A static agent is characterized as a fixed pipeline that mimics the users' behaviour. While this approach works it cannot deal with complex and sometimes random human actions. The other type of agent can dynamically exectute actions that are presented it. 
-The most prominent way of using LLMs for agents is to use in model as a planner that decides the nest step or action.
+The impressive capabilities of large language models
+have lead to research implementing them into agents system.
+In Zhou2023 a distinction between static and dynamic agents is proposed.
+A static agent is characterized as a fixed pipeline that mimics the users' behaviour.
+While this approach works,
+it cannot deal with complex and sometimes random human actions.
+The other type of agent can dynamically exectute actions that are presented it.
+The most prominent way of using LLMs for agents
+is to give build a prompt that contains all the information about the task,
+and the ask it to propose the next action.
+The prompt can contain descriptions of possible abilities,
+the task,
+guidelines,
+information about the environment and more.
 \end{document}

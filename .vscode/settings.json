@@ -2,7 +2,9 @@
     "latex-workshop.intellisense.citation.backend": "biblatex",
     "latex-workshop.bibtex-format.case": "UPPERCASE",
     "latex-workshop.latex.autoClean.run": "onBuilt",
-    "latex-workshop.latex.autoBuild.run": "never",
+    "latex-workshop.latex.autoBuild.run": "onSave",
+    "latex-workshop.latex.build.rootfileInStatus": true,
+    "latex-workshop.latex.rootFile.useSubFile": false,
     "latex-workshop.latex.outDir": "%DIR%/out",
     "latex-workshop.latex.recipes": [
         {

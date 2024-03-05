@@ -1,14 +1,17 @@
 \documentclass[../../main.tex]{subfiles}
 \begin{document}
+
 The left-to-right nature of the transformer encoder suits text generation tasks that only depend on previous tokens.
-But there are dependencies between words in both directions, which means a decoder only model can not capture all relations.
+But there are dependencies between tokens in both directions, which means a decoder only model can not capture all relations.
 
 The big amount of knowledge learned in the pre-training phase is encoded in embeddings.
 Embeddings are high dimensional vectors that represent a sequence of words or tokens.
 Documents that are semantically similar are represented with embedding vectors that have low distance, while semantically different documents have a high distance.
 
-Embedding models like BERT \cite{Devlin2019} use the embeddings from the encoder section of a transformer network.
+BERT \cite{Devlin2019} uses the encoder part of a transformer network, to create rich embeddings of input sequences.
+In pre-training, the bidrectional encoder is trainend with two unsupervised tasks.
+For the first task random token in the sequence are masked out and the objective is to predict the masked tokens from the remaining tokens in the sequence.
+In the second task, sentence level relationships are learned by predicting the next sentence.
+After pre-training the BERT model can be finetuned on different downstream tasks leveraging the richer bidirectional embeddings learned in pre-training.
 
-As the embeddings
-Embeddings models can be fine-tuning on different downstream tasks to create embeddings that are optimized for the specific task domain.
 \end{document}
