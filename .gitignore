@@ -9,3 +9,6 @@ data
 *.db
 __pycache__
 models
+*.dpth
+*.run.xml
+*.log

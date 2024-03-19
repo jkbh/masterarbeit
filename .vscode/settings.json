@@ -1,11 +1,10 @@
 {
-    "latex-workshop.intellisense.citation.backend": "biblatex",
     "latex-workshop.bibtex-format.case": "UPPERCASE",
-    "latex-workshop.latex.autoClean.run": "onBuilt",
-    "latex-workshop.latex.autoBuild.run": "onSave",
-    "latex-workshop.latex.build.rootfileInStatus": true,
-    "latex-workshop.latex.rootFile.useSubFile": false,
+    "latex-workshop.intellisense.citation.backend": "biblatex",
+    "latex-workshop.intellisense.citation.label": "title",
     "latex-workshop.latex.outDir": "%DIR%/out",
+    "latex-workshop.latex.autoBuild.run": "never",
+    "latex-workshop.latex.build.rootfileInStatus": true,
     "latex-workshop.latex.recipes": [
         {
             "name": "latexmk (lualatex)",
@@ -30,4 +29,37 @@
             "env": {}
         },
     ],
+    "latex-workshop.message.latexlog.exclude": [
+        "Package fontspec: Font.*",
+        "Package fontspec: OpenType.*"
+    ],
+    "ltex.latex.environments": {
+        "lstlisting": "ignore",
+        "verbatim": "ignore",
+        "Code": "ignore",
+    },
+    "ltex.latex.commands": {
+        "\\label{}": "ignore",
+        "\\documentclass[]{}": "ignore",
+        "\\cite{}": "dummy",
+        "\\cite[]{}": "dummy",
+        "\\UzLStyle{}": "ignore",
+        "\\UzLThesisSetup{}": "ignore",
+        "\\subfile{}": "dummy",
+        "\\incfig{}": "dummy",
+        "\\lstinputlisting[]{}": "ignore",
+    },
+    "ltex.additionalRules.languageModel": "~/models/ngrams/",
+    "grammarly.selectors": [
+        {
+            "language": "latex",
+            "scheme": "file"
+        }
+    ],
+    "grammarly.config.documentDomain": "academic",
+    "grammarly.config.documentDialect": "american",
+    "grammarly.config.suggestionCategories.variety": "on",
+    "grammarly.config.suggestionCategories.vocabulary": "on",
+    "grammarly.config.suggestionCategories.readabilityFillerWords": "on",
+    "grammarly.config.suggestionCategories.readabilityTransforms": "on"
 }

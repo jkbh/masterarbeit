@@ -107,7 +107,7 @@
 \else
   \ClassError{uzl-thesis}{%
     lualatex not used!
-    \MessageBreak 
+    \MessageBreak
     You must use lualatex and not pdflatex
   }
   {%
@@ -148,43 +148,43 @@
 %%%%%%%%%%%%%%%
 
 \UzLStyle{
-  %
-  % Basic handler:
-  %
-  % new style/.uzl style = inherit from
-  %
-  % will create a new style that will install
-  %
-  % "new style font, new style layout, new style color"
-  %
-  % each of which will be installed as a style calling
-  %
-  % "inherit from font", "inherit from layout", and "inherit from
-  % color", respectively  
-  %
-  /handlers/.uzl style inherits from/.code={
-    \edef\uzl@temp{  
-      \pgfkeyscurrentpath/.style={
-        \pgfkeyscurrentpath\space font,
-        \pgfkeyscurrentpath\space layout,
-        \pgfkeyscurrentpath\space color
-      },
-      \pgfkeyscurrentpath\space font/.style={#1 font},
-      \pgfkeyscurrentpath\space layout/.style={#1 layout},
-      \pgfkeyscurrentpath\space color/.style={#1 color},
-    }
-    \expandafter\pgfkeys\expandafter{\uzl@temp}
+%
+% Basic handler:
+%
+% new style/.uzl style = inherit from
+%
+% will create a new style that will install
+%
+% "new style font, new style layout, new style color"
+%
+% each of which will be installed as a style calling
+%
+% "inherit from font", "inherit from layout", and "inherit from
+% color", respectively
+%
+/handlers/.uzl style inherits from/.code={
+\edef\uzl@temp{
+\pgfkeyscurrentpath/.style={
+    \pgfkeyscurrentpath\space font,
+    \pgfkeyscurrentpath\space layout,
+    \pgfkeyscurrentpath\space color
   },
-  %
-  % The plain style does nothing.
-  %
-  plain font/.code={},
-  plain layout/.code={},
-  plain color/.code={},
-  %
-  % The structure style is used for titles and headlines
-  %
-  structure/.uzl style inherits from = plain,
+\pgfkeyscurrentpath\space font/.style={#1 font},
+\pgfkeyscurrentpath\space layout/.style={#1 layout},
+\pgfkeyscurrentpath\space color/.style={#1 color},
+}
+\expandafter\pgfkeys\expandafter{\uzl@temp}
+},
+%
+% The plain style does nothing.
+%
+plain font/.code={},
+plain layout/.code={},
+plain color/.code={},
+%
+% The structure style is used for titles and headlines
+%
+structure/.uzl style inherits from = plain,
 }
 
 
@@ -235,7 +235,7 @@
 \uzl@Huge          25pt
 \uzl@huge          20pt
 \uzl@LARGE         17pt
-\uzl@Large         14pt 
+\uzl@Large         14pt
 \uzl@large         12pt
 \uzl@normalsize    11pt
 \uzl@small         10pt
@@ -243,7 +243,7 @@
 \uzl@scriptsize     8pt
 \uzl@tiny           6pt
 
-\uzl@normalsizeskip 14.5pt 
+\uzl@normalsizeskip 14.5pt
 
 \newcommand\Huge{\@setfontsize\Huge\uzl@Huge{30}}
 \newcommand\huge{\@setfontsize\huge\uzl@huge{25}}
@@ -251,34 +251,34 @@
 \newcommand\Large{\@setfontsize\Large\uzl@Large{18}}
 \newcommand\large{\@setfontsize\large\uzl@large{15}}
 \renewcommand\normalsize{%
-   \@setfontsize\normalsize\uzl@normalsize\uzl@normalsizeskip%
-   \abovedisplayskip 12\p@ \@plus3\p@ \@minus6\p@
-   \abovedisplayshortskip \z@ \@plus3\p@
-   \belowdisplayshortskip 6.5\p@ \@plus3.5\p@ \@minus3\p@
-   \belowdisplayskip \abovedisplayskip
-   \let\@listi\@listI}
+  \@setfontsize\normalsize\uzl@normalsize\uzl@normalsizeskip%
+  \abovedisplayskip 12\p@ \@plus3\p@ \@minus6\p@
+  \abovedisplayshortskip \z@ \@plus3\p@
+  \belowdisplayshortskip 6.5\p@ \@plus3.5\p@ \@minus3\p@
+  \belowdisplayskip \abovedisplayskip
+  \let\@listi\@listI}
 \normalsize
 \newcommand\small{%
-   \@setfontsize\small\uzl@small{13}%
-   \abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
-   \abovedisplayshortskip \z@ \@plus3\p@
-   \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
-   \def\@listi{\leftmargin\leftmargini
-               \topsep 7\p@ \@plus2\p@ \@minus2\p@
-               \parsep 3\p@ \@plus2\p@ \@minus\p@
-               \itemsep \parsep}%
-   \belowdisplayskip \abovedisplayskip
+  \@setfontsize\small\uzl@small{13}%
+  \abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
+  \abovedisplayshortskip \z@ \@plus3\p@
+  \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
+  \def\@listi{\leftmargin\leftmargini
+    \topsep 7\p@ \@plus2\p@ \@minus2\p@
+    \parsep 3\p@ \@plus2\p@ \@minus\p@
+    \itemsep \parsep}%
+  \belowdisplayskip \abovedisplayskip
 }
 \newcommand\footnotesize{%
-   \@setfontsize\footnotesize\uzl@footnotesize{12}%
-   \abovedisplayskip 9\p@ \@plus2\p@ \@minus4\p@
-   \abovedisplayshortskip \z@ \@plus\p@
-   \belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
-   \def\@listi{\leftmargin\leftmargini
-               \topsep 5\p@ \@plus2\p@ \@minus2\p@
-               \parsep 2\p@ \@plus\p@ \@minus\p@
-               \itemsep \parsep}%
-   \belowdisplayskip \abovedisplayskip
+  \@setfontsize\footnotesize\uzl@footnotesize{12}%
+  \abovedisplayskip 9\p@ \@plus2\p@ \@minus4\p@
+  \abovedisplayshortskip \z@ \@plus\p@
+  \belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
+  \def\@listi{\leftmargin\leftmargini
+    \topsep 5\p@ \@plus2\p@ \@minus2\p@
+    \parsep 2\p@ \@plus\p@ \@minus\p@
+    \itemsep \parsep}%
+  \belowdisplayskip \abovedisplayskip
 }
 \newcommand\scriptsize{\@setfontsize\scriptsize\uzl@scriptsize{10.25}}
 \newcommand\tiny{\@setfontsize\tiny\uzl@tiny\@viiipt}
@@ -290,7 +290,7 @@
 \setlength\headsep   {25\p@}
 \setlength\topskip   {11\p@}
 \setlength\footskip{30\p@}
-\setlength\maxdepth{.5\topskip} 
+\setlength\maxdepth{.5\topskip}
 
 \setlength\footnotesep{7.7\p@}
 \setlength{\skip\footins}{10\p@ \@plus 4\p@ \@minus 2\p@}
@@ -311,7 +311,7 @@
 
 %
 % Page geometry: Use geometry package with "ample margin" to ensure
-% that there are normally 12 to 14 words per line 
+% that there are normally 12 to 14 words per line
 %
 
 \RequirePackage[a4paper,left=3cm,right=3cm,top=3cm,bottom=3.75cm,footskip=1.5cm,headsep=1cm]{geometry}
@@ -373,7 +373,7 @@
 
 
 %
-% Headline: 
+% Headline:
 %
 
 \def\ps@headings{%
@@ -449,24 +449,24 @@
 }
 \def\uzl@chapternum{
   {%
-    \UzLStyle{chapter number}%
-    \UzLStyle{chapter number pre}%
-    \thechapter%
-    \UzLStyle{chapter number post}%
-  }%
+      \UzLStyle{chapter number}%
+      \UzLStyle{chapter number pre}%
+      \thechapter%
+      \UzLStyle{chapter number post}%
+    }%
 }
 \def\@makechapterhead#1#2{%
   {%
-    \normalfont%
-    \rightskip 0pt plus1fil%
-    \UzLStyle{chapter}%
-    \UzLStyle{chapter pre}%
-    \parindent \z@ 
-    #2%
-    \interlinepenalty\@M%
-    #1\par\nobreak
-    \UzLStyle{chapter post}%
-  }%
+      \normalfont%
+      \rightskip 0pt plus1fil%
+      \UzLStyle{chapter}%
+      \UzLStyle{chapter pre}%
+      \parindent \z@
+      #2%
+      \interlinepenalty\@M%
+      #1\par\nobreak
+      \UzLStyle{chapter post}%
+    }%
 }
 
 \UzLStyle{
@@ -499,7 +499,7 @@
   {%
     \normalfont\parindent0pt\leavevmode\UzLStyle{section font,section layout,section color}%
   }% font
-}
+ }
 
 \newif\ifuzl@is@sec
 
@@ -508,10 +508,10 @@
   section/.uzl style inherits from = structure,
   section font/.append code = \Large,
   section layout/.code = {%
-    \rightskip 0pt plus1fil%
-    \uzl@is@sectrue
-    \uzl@sec@layout
-  },
+      \rightskip 0pt plus1fil%
+      \uzl@is@sectrue
+      \uzl@sec@layout
+    },
 }
 
 \let\uzl@sec@layout\relax
@@ -527,21 +527,21 @@
 % Subsections
 %
 %%%
-                                 
+
 \newcommand\subsection{\@startsection{subsection}{2}{\z@}%
-                                     {-3.25ex\@plus -1ex \@minus -.2ex}%
-                                     {1.5ex \@plus .2ex}%
-                                     {\normalfont\parindent0pt\leavevmode\UzLStyle{subsection font,subsection layout,subsection color}}}
+  {-3.25ex\@plus -1ex \@minus -.2ex}%
+  {1.5ex \@plus .2ex}%
+  {\normalfont\parindent0pt\leavevmode\UzLStyle{subsection font,subsection layout,subsection color}}}
 
 \UzLStyle{
   %
   subsection/.uzl style inherits from = section,
   subsection font/.append code = \large,
   subsection layout/.code = {%
-    \rightskip 0pt plus1fil%
-    \uzl@is@secfalse
-    \uzl@sec@layout
-  }
+      \rightskip 0pt plus1fil%
+      \uzl@is@secfalse
+      \uzl@sec@layout
+    }
 }
 
 
@@ -552,7 +552,7 @@
 % Table of contents (partly taken from report.cls)
 %
 %%%%%%%%%%%%%%%%%%%%
-                                   
+
 \newcommand\@pnumwidth{1.55em}
 \newcommand\@tocrmarg{2.55em plus1fil}
 \newcommand\@dotsep{4.5}
@@ -567,16 +567,16 @@
   \vskip 1.5em \@plus\p@
   \setlength\@tempdima{1.5em}%
   \begingroup
-    \UzLStyle{chapter in toc}
-    \interlinepenalty\@M
-    \parindent \z@
-    \rightskip \@pnumwidth plus 1fil
-    \parfillskip -\@pnumwidth
-    \leavevmode
-    \advance\leftskip\@tempdima
-    \UzLStyle{format chapter toc line={#1}}%
-    \UzLStyle{format chapter toc number={#2}}\par
-    \penalty\@highpenalty
+  \UzLStyle{chapter in toc}
+  \interlinepenalty\@M
+  \parindent \z@
+  \rightskip \@pnumwidth plus 1fil
+  \parfillskip -\@pnumwidth
+  \leavevmode
+  \advance\leftskip\@tempdima
+  \UzLStyle{format chapter toc line={#1}}%
+  \UzLStyle{format chapter toc number={#2}}\par
+  \penalty\@highpenalty
   \endgroup
 }
 \newcommand*\l@section{\uzl@sec@tocline{1}{1.5em}{2.3em}}
@@ -585,17 +585,17 @@
 \def\uzl@sec@tocline#1#2#3#4#5{%
   \ifnum #1>\c@tocdepth \else
     \vskip \z@ \@plus.2\p@
-    {\leftskip #2\relax \rightskip \@tocrmarg \parfillskip -\@tocrmarg 
-     \parindent #2\relax\@afterindenttrue
-     \interlinepenalty\@M
-     \leavevmode
-     \@tempdima #3\relax
-     \advance\leftskip \@tempdima \null\nobreak\hskip -\leftskip
-     {#4}\nobreak
-     \UzLStyle{section leaders}%
-     \nobreak
-     \hb@xt@\@pnumwidth{\hfil\normalfont \normalcolor #5}%
-     \par}%
+    {\leftskip #2\relax \rightskip \@tocrmarg \parfillskip -\@tocrmarg
+      \parindent #2\relax\@afterindenttrue
+      \interlinepenalty\@M
+      \leavevmode
+      \@tempdima #3\relax
+      \advance\leftskip \@tempdima \null\nobreak\hskip -\leftskip
+      {#4}\nobreak
+      \UzLStyle{section leaders}%
+      \nobreak
+      \hb@xt@\@pnumwidth{\hfil\normalfont \normalcolor #5}%
+      \par}%
   \fi}
 
 \UzLStyle{
@@ -612,7 +612,7 @@
 % Itemize and enumerate
 %
 %%%%%%%%%%%%%%%%%%%%
-      
+
 \setlength\leftmargini  {20pt}
 \setlength\leftmarginii  {2.2em}
 \setlength\leftmarginiii {1.87em}
@@ -633,11 +633,11 @@
 \newcommand\labelitemi{\normalfont \bfseries –}
 \let\labelitemii\labelitemi
 \newenvironment{description}
-               {\list{}{\labelwidth\z@ \itemindent-\leftmargin
-                        \let\makelabel\descriptionlabel}}
-               {\endlist}
+{\list{}{\labelwidth\z@ \itemindent-\leftmargin
+    \let\makelabel\descriptionlabel}}
+{\endlist}
 \newcommand*\descriptionlabel[1]{\hspace\labelsep%
-                                \UzLStyle{description}#1}
+  \UzLStyle{description}#1}
 
 
 \UzLStyle{
@@ -645,36 +645,36 @@
 }
 
 
-                              
+
 \def\@listi{\leftmargin\leftmargini
-            \listparindent.5\parindent
-            \parsep 0\p@% \@plus2\p@ \@minus\p@
-            \topsep 9\p@   \@plus3\p@ \@minus5\p@
-            \itemsep0\p@% \@plus2\p@ \@minus\p@
-          }
+  \listparindent.5\parindent
+  \parsep 0\p@% \@plus2\p@ \@minus\p@
+  \topsep 9\p@   \@plus3\p@ \@minus5\p@
+  \itemsep0\p@% \@plus2\p@ \@minus\p@
+}
 \let\@listI\@listi
 \@listi
 \def\@listii {\leftmargin\leftmarginii
-              \labelwidth\leftmarginii
-              \advance\labelwidth-\labelsep
-              \topsep    4.5\p@ \@plus2\p@ \@minus\p@
-              \parsep    0\p@ %  \@plus\p@  \@minus\p@
-              \itemsep   \parsep}
+  \labelwidth\leftmarginii
+  \advance\labelwidth-\labelsep
+  \topsep    4.5\p@ \@plus2\p@ \@minus\p@
+  \parsep    0\p@ %  \@plus\p@  \@minus\p@
+  \itemsep   \parsep}
 \def\@listiii{\leftmargin\leftmarginiii
-              \labelwidth\leftmarginiii
-              \advance\labelwidth-\labelsep
-              \topsep    2\p@ \@plus\p@\@minus\p@
-              \parsep    \z@
-              \partopsep \p@ \@plus\z@ \@minus\p@
-              \itemsep   \parsep}
+  \labelwidth\leftmarginiii
+  \advance\labelwidth-\labelsep
+  \topsep    2\p@ \@plus\p@\@minus\p@
+  \parsep    \z@
+  \partopsep \p@ \@plus\z@ \@minus\p@
+  \itemsep   \parsep}
 \def\enumerate{%
   \ifnum \@enumdepth >1\uzl@toodeep\else
     \advance\@enumdepth\@ne
     \edef\@enumctr{enum\romannumeral\the\@enumdepth}%
-      \expandafter
-      \list
-        \csname label\@enumctr\endcsname
-        {\usecounter\@enumctr\def\makelabel##1{\hss\llap{##1}}}%
+    \expandafter
+    \list
+    \csname label\@enumctr\endcsname
+    {\usecounter\@enumctr\def\makelabel##1{\hss\llap{##1}}}%
   \fi}
 \let\endenumerate =\endlist
 \newcount\@itemdepth \@itemdepth = 0
@@ -684,16 +684,16 @@
     \edef\@itemitem{labelitem\romannumeral\the\@itemdepth}%
     \expandafter
     \list
-      \csname\@itemitem\endcsname
-      {\def\makelabel##1{\hss\llap{##1}}}%
+    \csname\@itemitem\endcsname
+    {\def\makelabel##1{\hss\llap{##1}}}%
   \fi}
 
 \def\uzl@toodeep{
   \ClassError{uzl-thesis}{%
     Nesting too deep!
-    \MessageBreak 
-    You can only nest enumerate and itemize 
-    \MessageBreak 
+    \MessageBreak
+    You can only nest enumerate and itemize
+    \MessageBreak
     by two levels
   }
   {%
@@ -713,7 +713,7 @@
 % Footnotes
 %
 %%%%%%%%%%%%%%%%%%%%
-      
+
 \renewcommand\footnoterule{%
   {\UzLStyle{structure color}\hrule\@width.333\textwidth height.8pt}
   \kern2.6\p@}
@@ -731,13 +731,13 @@
 
 
 
-            
+
 %%%%%%%%%%%%%%%%%%%%
 %
 % Arrays and equations
 %
 %%%%%%%%%%%%%%%%%%%%
-      
+
 \setlength\arraycolsep{5\p@}
 \setlength\tabcolsep{6\p@}
 \setlength\arrayrulewidth{.4\p@}
@@ -748,10 +748,10 @@
 \setlength\fboxrule{.4\p@}
 \@addtoreset {equation}{chapter}
 \renewcommand\theequation
-  {\ifnum \c@chapter>\z@ \thechapter.\fi \@arabic\c@equation}
+{\ifnum \c@chapter>\z@ \thechapter.\fi \@arabic\c@equation}
 
 
-                              
+
 %%%%%%%%%%%%%%%%%%%%
 %
 % Floats
@@ -760,12 +760,12 @@
 
 \newif\ifuzl@listoffigures
 \newif\ifuzl@listoftables
-               
+
 \UzLThesisSetup{
   Abbildungsverzeichnis/.is if=uzl@listoffigures,
   Tabellenverzeichnis/.is if=uzl@listoftables
 }
-  
+
 \setcounter{topnumber}{2}
 \renewcommand\topfraction{.7}
 \setcounter{bottomnumber}{1}
@@ -778,24 +778,24 @@
 \renewcommand\dblfloatpagefraction{.5}
 \newcounter{figure}[chapter]
 \renewcommand \thefigure
-     {\ifnum \c@chapter>\z@ \thechapter.\fi \@arabic\c@figure}
+{\ifnum \c@chapter>\z@ \thechapter.\fi \@arabic\c@figure}
 \def\fps@figure{tbp}
 \def\ftype@figure{1}
 \def\ext@figure{lof}
 \def\fnum@figure{\figurename\nobreakspace\thefigure}
 \newenvironment{figure}[1][\fps@figure]
-               {\@float{figure}[#1]\small}
-               {\end@float}
+{\@float{figure}[#1]\small}
+{\end@float}
 \newcounter{table}[chapter]
 \renewcommand \thetable
-     {\ifnum \c@chapter>\z@ \thechapter.\fi \@arabic\c@table}
+{\ifnum \c@chapter>\z@ \thechapter.\fi \@arabic\c@table}
 \def\fps@table{tbp}
 \def\ftype@table{1}
 \def\ext@table{lot}
 \def\fnum@table{\tablename\nobreakspace\thetable}
 \newenvironment{table}[1][\fps@table]
-               {\@float{table}[#1]\small}
-               {\end@float}
+{\@float{table}[#1]\small}
+{\end@float}
 \newlength\abovecaptionskip
 \newlength\belowcaptionskip
 \setlength\abovecaptionskip{10\p@}
@@ -812,35 +812,35 @@
   \vskip\belowcaptionskip}
 
 \newcommand\listoffigures{%
-    \chapter*{\listfigurename}%
-      \@mkboth{\MakeUppercase\listfigurename}%
-      {\MakeUppercase\listfigurename}%
-    {\def\numberline##1{\hbox to\uzl@toc@fig@width{\UzLStyle{float label}\figurename~##1\hss}}%
+  \chapter*{\listfigurename}%
+  \@mkboth{\MakeUppercase\listfigurename}%
+  {\MakeUppercase\listfigurename}%
+  {\def\numberline##1{\hbox to\uzl@toc@fig@width{\UzLStyle{float label}\figurename~##1\hss}}%
     \@starttoc{lof}}%
 }
 \newcommand*\l@figure{\uzl@sec@tocline{1}{0em}{\uzl@toc@fig@width}}
 \newcommand\listoftables{%
-    \chapter*{\listtablename}%
-      \@mkboth{%
-          \MakeUppercase\listtablename}%
-         {\MakeUppercase\listtablename}%
-    {\def\numberline##1{\hbox to\uzl@toc@fig@width{\UzLStyle{float label}\tablename~##1\hss}}%
+  \chapter*{\listtablename}%
+  \@mkboth{%
+    \MakeUppercase\listtablename}%
+  {\MakeUppercase\listtablename}%
+  {\def\numberline##1{\hbox to\uzl@toc@fig@width{\UzLStyle{float label}\tablename~##1\hss}}%
     \@starttoc{lot}%
-    }}
+  }}
 \let\l@table\l@figure
 
 \newdimen\uzl@toc@fig@width
 \AtBeginDocument{%
   {%
-    \setbox0=\hbox{\ifuzl@german Abbildung\else Figure\fi~XX.XX}%
-    \global\uzl@toc@fig@width\wd0\relax%
-    \global\advance\uzl@toc@fig@width by1em%
-  }
+      \setbox0=\hbox{\ifuzl@german Abbildung\else Figure\fi~XX.XX}%
+      \global\uzl@toc@fig@width\wd0\relax%
+      \global\advance\uzl@toc@fig@width by1em%
+    }
 }
 
 \def\uzlhline{\noalign{\ifnum0=`}\fi\arrayrulewidth.8pt\UzLStyle{structure color}\hrule \@height \arrayrulewidth \futurelet \reserved@a\@xhline}
 \def\uzlemph#1{{\leavevmode\UzLStyle{structure}#1}}
-  
+
 % Unify counters:
 \let\c@table\c@figure
 \let\cl@table\cl@figure
@@ -856,7 +856,7 @@
 
 %%%
 %
-% Math 
+% Math
 %
 %%%
 
@@ -951,7 +951,7 @@
   \def\uzlTheorem{Satz}
   \def\uzlLemma{Hilfssatz}
   \def\uzlCorollary{Folgerung}
-  \def\uzlDefinition{Definition}  
+  \def\uzlDefinition{Definition}
   \def\uzlFact{Fakt}
   \def\uzlObservation{Beobachtung}
   \def\uzlRemark{Bemerkung}
@@ -970,17 +970,17 @@
   % Greek text in German
   %
   Greek theorem labels/.code={
-    \ifuzl@german
-      \def\uzlTheorem{Theorem}
-      \def\uzlLemma{Lemma}
-      \def\uzlCorollary{Korollar}
-    \fi
-  }
+      \ifuzl@german
+        \def\uzlTheorem{Theorem}
+        \def\uzlLemma{Lemma}
+        \def\uzlCorollary{Korollar}
+      \fi
+    }
 }
 
 %%%
 %
-% Fonts 
+% Fonts
 %
 %%%
 
@@ -999,15 +999,15 @@
 \newskip\uzl@latex@postskip \uzl@latex@postskip.15em
 
 \DeclareRobustCommand{\LaTeX}{L\kern-\uzl@latex@preskip%
-        {\sbox\z@ T%
-         \vbox to\ht\z@{\hbox{\check@mathfonts
-                              \fontsize\sf@size\z@
-                              \math@fontsfalse\selectfont
-                              A}%
-                        \vss}%
-        }%
-        \kern-\uzl@latex@postskip%
-        \TeX}
+  {\sbox\z@ T%
+    \vbox to\ht\z@{\hbox{\check@mathfonts
+        \fontsize\sf@size\z@
+        \math@fontsfalse\selectfont
+        A}%
+      \vss}%
+  }%
+  \kern-\uzl@latex@postskip%
+  \TeX}
 
 
 \newif\ifuzlfontfound
@@ -1019,15 +1019,15 @@
     \ClassError{uzl-thesis}
     {%
       Font not found!
-      \MessageBreak 
+      \MessageBreak
       I failed to find '#3'.
-      \MessageBreak 
+      \MessageBreak
       Try installing package '#4'
     }
     {%
       I tried to load the file
       \MessageBreak
-      '#1', but did not find it. 
+      '#1', but did not find it.
       \MessageBreak
       This file contains the font '#3',
       \MessageBreak
@@ -1043,16 +1043,16 @@
 
 \def\uzlcheckmyriad{
   \uzlfontfoundfalse
-  \directlua{if kpse.find_file('MyriadPro-Regular.otf', 'opentype fonts') 
-             or kpse.find_file('Myriad Pro.ttf', 'truetype fonts') then  tex.print('\noexpand\\uzlfontfoundtrue') end}
+  \directlua{if kpse.find_file('MyriadPro-Regular.otf', 'opentype fonts')
+    or kpse.find_file('Myriad Pro.ttf', 'truetype fonts') then  tex.print('\noexpand\\uzlfontfoundtrue') end}
   \ifuzlfontfound
   \else
     \ClassError{uzl-thesis}
     {%
       Lookup for Myriad font failed!
-      \MessageBreak 
+      \MessageBreak
       I found neither 'MyriadPro-Regular.otf' nor
-      \MessageBreak 
+      \MessageBreak
       'Myriad Pro.ttf' in a TeX directory.
       \MessageBreak
       You can get it from the university network at
@@ -1075,12 +1075,12 @@
     }
   \fi
 }
-      
+
 \newif\ifuzl@font@chosen
 \let\ttfamilyinline\ttfamily
 
 \UzLStyle{
-  computer modern font/.code={
+computer modern font/.code={
     \uzl@check@font
     \uzl@font@chosentrue
     \setmonofont{Latin Modern Mono Light}
@@ -1089,93 +1089,93 @@
     \newfontfamily\ttfamilyinline{Latin Modern Mono Prop Light}
     % Adjust listing settings
   },
-  pagella font/.code={
-    \uzl@check@font
-    \uzl@font@chosentrue
-    \RequirePackage{unicode-math}
-    \uzlcheckfont{texgyrepagella-regular.otf}{opentype fonts}{TeX Gyre Pagella}{tex-gyre or fonts-texgyre}
-    \uzlcheckfont{texgyrepagella-math.otf}{opentype fonts}{TeX Gyre Pagella Math}{tex-gyre-math or fonts-texgyre}
-    \uzlcheckfont{ClearSans-Regular.ttf}{truetype fonts}{Clear Sans}{clearsans}
-    \setmainfont{TeX Gyre Pagella}
-    \setmathfont{TeX Gyre Pagella Math}
-    \setsansfont[Scale=0.95]{Clear Sans}
-    \setmonofont[
-      Scale=1.05,
-      UprightFeatures={SmallCapsFont=LMMonoCaps10-Regular},
-      ItalicFeatures={SmallCapsFont=LMMonoCaps10-Oblique},
-      ]{Latin Modern Mono}
-    % Patch for modern versions of fontspec:
-    \let\ttfamilyinline\relax
-    \newfontfamily\ttfamilyinline{Latin Modern Mono Prop}
-    % Compensate for smaller font sizes
-    \uzl@footnotesize   9.2pt
-    \uzl@scriptsize     8.5pt
-    \uzl@tiny           7pt
-    % Adjust tikz settings:
-    \tikzset{
-      > = {Stealth[length=2.8pt .8, inset'=0pt .575, width'=0pt 1.55, line join=round, sep]},
-      normal linewidth/.style = semithick,
-    }
-  },
-  alegrya font/.code={
-    \uzl@check@font
-    \uzl@font@chosentrue
-    \RequirePackage{unicode-math}
-    \RequirePackage{Alegreya,AlegreyaSans}
-    \setmonofont[
-      Scale=1.025,
-      UprightFeatures={SmallCapsFont=LMMonoCaps10-Regular},
-      ItalicFeatures={SmallCapsFont=LMMonoCaps10-Oblique},
-      ]{Latin Modern Mono}
-    \uzlcheckfont{texgyrepagella-math.otf}{opentype fonts}{TeX Gyre Pagella Math}{tex-gyre-math or fonts-texgyre}
-    \uzlcheckfont{texgyrechorus-mediumitalic.otf}{opentype fonts}{TeX Gyre Chorus}{tex-gyre or fonts-texgyre}
-    \setmathfont{TeX Gyre Pagella Math}
-    \setmathfont[Scale=1.1,range=\mathcal]{TeX Gyre Chorus}
-    \setmathfont[Numbers=Lining,range=\mathup/{latin,Latin,num}]{Alegreya}
-    \setmathfont[Numbers=Lining,range=\mathit/{latin,Latin,num}]{Alegreya Italic}
-    \setmathfont[Numbers=Lining,range=\mathbfup/{latin,Latin,num}]{Alegreya Bold}
-    \setmathfont[Numbers=Lining,range=\mathbfit/{latin,Latin,num}]{Alegreya Bold Italic}
-    \setmathfont[range={\partial}]{Alegreya}
-    % Patch for modern versions of fontspec:
-    \let\ttfamilyinline\relax
-    \newfontfamily\ttfamilyinline{Latin Modern Mono Prop}
-    \newfontfamily\amslogofont[Scale=1.1,ItalicFont={TeX Gyre Chorus}]{TeX Gyre Chorus}
-    \def\AmSfont{\amslogofont}
-    % Compensate for different font scale:
-    \uzl@Huge          27pt
-    \uzl@huge          22pt
-    \uzl@LARGE         18.5pt
-    \uzl@Large         15.4pt 
-    \uzl@large         13pt
-    \uzl@normalsize    12pt
-    \uzl@small         10.9pt
-    \uzl@footnotesize  10pt
-    \uzl@scriptsize     9.25pt
-    \uzl@tiny           7.2pt
-    \uzl@latex@preskip  .23em
-    \uzl@latex@postskip .1em
-    % Adjust tikz settings:
-    \tikzset{
-      > = {Stealth[length=2.8pt .8, inset'=0pt .575, width'=0pt 1.55, line join=round, sep]},
-      normal linewidth/.style = semithick,
-    }
-  },  
+pagella font/.code={
+\uzl@check@font
+\uzl@font@chosentrue
+\RequirePackage{unicode-math}
+\uzlcheckfont{texgyrepagella-regular.otf}{opentype fonts}{TeX Gyre Pagella}{tex-gyre or fonts-texgyre}
+\uzlcheckfont{texgyrepagella-math.otf}{opentype fonts}{TeX Gyre Pagella Math}{tex-gyre-math or fonts-texgyre}
+\uzlcheckfont{ClearSans-Regular.ttf}{truetype fonts}{Clear Sans}{clearsans}
+\setmainfont{TeX Gyre Pagella}
+\setmathfont{TeX Gyre Pagella Math}
+\setsansfont[Scale=0.95]{Clear Sans}
+\setmonofont[
+  Scale=1.05,
+  UprightFeatures={SmallCapsFont=LMMonoCaps10-Regular},
+  ItalicFeatures={SmallCapsFont=LMMonoCaps10-Oblique},
+]{Latin Modern Mono}
+% Patch for modern versions of fontspec:
+\let\ttfamilyinline\relax
+\newfontfamily\ttfamilyinline{Latin Modern Mono Prop}
+% Compensate for smaller font sizes
+\uzl@footnotesize   9.2pt
+\uzl@scriptsize     8.5pt
+\uzl@tiny           7pt
+% Adjust tikz settings:
+\tikzset{
+> = {Stealth[length=2.8pt .8, inset'=0pt .575, width'=0pt 1.55, line join=round, sep]},
+normal linewidth/.style = semithick,
+}
+},
+alegrya font/.code={
+\uzl@check@font
+\uzl@font@chosentrue
+\RequirePackage{unicode-math}
+\RequirePackage{Alegreya,AlegreyaSans}
+\setmonofont[
+  Scale=1.025,
+  UprightFeatures={SmallCapsFont=LMMonoCaps10-Regular},
+  ItalicFeatures={SmallCapsFont=LMMonoCaps10-Oblique},
+]{Latin Modern Mono}
+\uzlcheckfont{texgyrepagella-math.otf}{opentype fonts}{TeX Gyre Pagella Math}{tex-gyre-math or fonts-texgyre}
+\uzlcheckfont{texgyrechorus-mediumitalic.otf}{opentype fonts}{TeX Gyre Chorus}{tex-gyre or fonts-texgyre}
+\setmathfont{TeX Gyre Pagella Math}
+\setmathfont[Scale=1.1,range=\mathcal]{TeX Gyre Chorus}
+\setmathfont[Numbers=Lining,range=\mathup/{latin,Latin,num}]{Alegreya}
+\setmathfont[Numbers=Lining,range=\mathit/{latin,Latin,num}]{Alegreya Italic}
+\setmathfont[Numbers=Lining,range=\mathbfup/{latin,Latin,num}]{Alegreya Bold}
+\setmathfont[Numbers=Lining,range=\mathbfit/{latin,Latin,num}]{Alegreya Bold Italic}
+\setmathfont[range={\partial}]{Alegreya}
+% Patch for modern versions of fontspec:
+\let\ttfamilyinline\relax
+\newfontfamily\ttfamilyinline{Latin Modern Mono Prop}
+\newfontfamily\amslogofont[Scale=1.1,ItalicFont={TeX Gyre Chorus}]{TeX Gyre Chorus}
+\def\AmSfont{\amslogofont}
+% Compensate for different font scale:
+\uzl@Huge          27pt
+\uzl@huge          22pt
+\uzl@LARGE         18.5pt
+\uzl@Large         15.4pt
+\uzl@large         13pt
+\uzl@normalsize    12pt
+\uzl@small         10.9pt
+\uzl@footnotesize  10pt
+\uzl@scriptsize     9.25pt
+\uzl@tiny           7.2pt
+\uzl@latex@preskip  .23em
+\uzl@latex@postskip .1em
+% Adjust tikz settings:
+\tikzset{
+> = {Stealth[length=2.8pt .8, inset'=0pt .575, width'=0pt 1.55, line join=round, sep]},
+normal linewidth/.style = semithick,
+}
+},
 }
 
 \def\uzl@check@font{
   \ifuzl@font@chosen
     \ClassError{uzl-thesis}
-      {%
-        Double font selection!
-        \MessageBreak 
-        You can use only exactly one
-        \MessageBreak 
-        font selection key ('... als Schrift')
-      }
-      {%
-        Use exactly one of the keys '... als Schrift'
-        \MessageBreak
-      }
+    {%
+      Double font selection!
+      \MessageBreak
+      You can use only exactly one
+      \MessageBreak
+      font selection key ('... als Schrift')
+    }
+    {%
+      Use exactly one of the keys '... als Schrift'
+      \MessageBreak
+    }
   \fi
 }
 
@@ -1197,7 +1197,7 @@
 
 \RequirePackage[unicode,breaklinks,bookmarksnumbered,hidelinks]{hyperref}
 
-\pdfstringdefDisableCommands{%  
+\pdfstringdefDisableCommands{%
   \let\UzLStyle\@gobble
 }
 
@@ -1309,7 +1309,7 @@
 
 \UzLStyle{
   %
-  % The title page 
+  % The title page
   %
   title page/.uzl style inherits from = plain,
   %
@@ -1324,66 +1324,66 @@
 }
 
 \def\uzl@make@titlepage{
-  \pagenumbering{roman}  % but no page numbers are printed here because:
-  \thispagestyle{empty}
-  {
-    \selectlanguage{german}
-    \parindent0pt
-    \parskip.25em
-    {%
-      \setbox0=\hbox{\kern-\uzl@x@offset\lower\uzl@y@offset\hbox{\includegraphics{\uzl@logo}}}%
-      \wd0=0pt
-      \ht0=5mm
-      \dp0=2cm
-      \leavevmode\box0
-      \par
-    }%
-    \UzLStyle{title page}%
-    \vfill
-    {
-      {\UzLStyle{title on title page}\ifuzl@german\foreignlanguage{german}{\ignorespaces\uzl@title@german}\else\foreignlanguage{english}{\ignorespaces\uzl@title@english}\fi\par}
-      \medskip
-      {\UzLStyle{translated title on title page}\ifuzl@german\foreignlanguage{english}{\ignorespaces\uzl@title@english}\else\foreignlanguage{german}{\ignorespaces\uzl@title@german}\fi\par}
-    }%      
-    \vskip2.5em
-    {\UzLStyle{element on title page}\ignorespaces\uzl@degree}
-    \par
-    \vskip1.5em
-    verfasst \uzl@institute@am\\
-    {\UzLStyle{element on title page}\ignorespaces\uzl@institute}\par
-    \par
-    \vskip1.5em
-    im Rahmen des Studiengangs\\
-    {\UzLStyle{element on title page}\ignorespaces\uzl@programme}\\
-    der Universität zu Lübeck\par
-    \vskip1.5em
-    vorgelegt von\\
-    {\UzLStyle{element on title page}\ignorespaces\uzl@author}\par
-    \vskip1.5em
-    ausgegeben und betreut von\\
-    {\UzLStyle{element on title page}\ignorespaces\uzl@supervisor}%
-    \par
-    \vskip1.5em
-    \ifx\uzl@support@person\relax\else%
-      mit Unterstützung von\\
-      {\UzLStyle{element on title page}\ignorespaces\uzl@support@person}\par
-      \vskip1.5em
-    \fi
-    \ifx\uzl@support@further\relax\else%
-      \ignorespaces\uzl@support@further\par
-    \fi
-    \vfill
-    \vfill
-    Lübeck, den \ignorespaces\uzl@date\par
-    \vskip-2em
-    \raggedright
-    \noindent\hfill{%
-      \setbox0=\hbox{\lower2.1cm\hbox{\includegraphics{uzl-thesis-logo-slogan.pdf}}\kern-1.1cm}%
-      \dp0=0pt%
-      \box0%
-    }%
-    \clearpage
-  }
+\pagenumbering{roman}  % but no page numbers are printed here because:
+\thispagestyle{empty}
+{
+\selectlanguage{german}
+\parindent0pt
+\parskip.25em
+{%
+\setbox0=\hbox{\kern-\uzl@x@offset\lower\uzl@y@offset\hbox{\includegraphics{\uzl@logo}}}%
+\wd0=0pt
+\ht0=5mm
+\dp0=2cm
+\leavevmode\box0
+\par
+}%
+\UzLStyle{title page}%
+\vfill
+{
+  {\UzLStyle{title on title page}\ifuzl@german\foreignlanguage{german}{\ignorespaces\uzl@title@german}\else\foreignlanguage{english}{\ignorespaces\uzl@title@english}\fi\par}
+  \medskip
+  {\UzLStyle{translated title on title page}\ifuzl@german\foreignlanguage{english}{\ignorespaces\uzl@title@english}\else\foreignlanguage{german}{\ignorespaces\uzl@title@german}\fi\par}
+}%
+\vskip2.5em
+{\UzLStyle{element on title page}\ignorespaces\uzl@degree}
+\par
+\vskip1.5em
+verfasst \uzl@institute@am\\
+{\UzLStyle{element on title page}\ignorespaces\uzl@institute}\par
+\par
+\vskip1.5em
+im Rahmen des Studiengangs\\
+{\UzLStyle{element on title page}\ignorespaces\uzl@programme}\\
+der Universität zu Lübeck\par
+\vskip1.5em
+vorgelegt von\\
+{\UzLStyle{element on title page}\ignorespaces\uzl@author}\par
+\vskip1.5em
+ausgegeben und betreut von\\
+{\UzLStyle{element on title page}\ignorespaces\uzl@supervisor}%
+\par
+\vskip1.5em
+\ifx\uzl@support@person\relax\else%
+  mit Unterstützung von\\
+  {\UzLStyle{element on title page}\ignorespaces\uzl@support@person}\par
+  \vskip1.5em
+\fi
+\ifx\uzl@support@further\relax\else%
+  \ignorespaces\uzl@support@further\par
+\fi
+\vfill
+\vfill
+Lübeck, den \ignorespaces\uzl@date\par
+\vskip-2em
+\raggedright
+\noindent\hfill{%
+  \setbox0=\hbox{\lower2.1cm\hbox{\includegraphics{uzl-thesis-logo-slogan.pdf}}\kern-1.1cm}%
+  \dp0=0pt%
+  \box0%
+}%
+\clearpage
+}
 }
 
 
@@ -1404,7 +1404,7 @@
   %
   frontmatter block head/.uzl style inherits from = structure,
   %
-  % 
+  %
   %
   frontmatter block head pre/.code={},
   frontmatter block head post/.code={},
@@ -1461,22 +1461,22 @@
   {
     \selectlanguage{german}
     \begin{frontmatter block}{Eidesstattliche Erklärung}
-      \itshape
-      Ich erkläre hiermit an Eides statt, dass ich diese Arbeit
-      selbständig verfasst und keine anderen als die angegebenen Quellen
-      und Hilfsmittel benutzt habe.
-      \par\vskip3em
-      {%
-        \setbox0=\hbox{\normalfont\ignorespaces\uzl@author}%
-        \hfill \vrule width5mm height.4pt\vrule width \wd0 height.4pt\vrule width5mm height.4pt\\
-        \hbox{}\hfill \box0\kern5mm\par
-      }
+    \itshape
+    Ich erkläre hiermit an Eides statt, dass ich diese Arbeit
+    selbständig verfasst und keine anderen als die angegebenen Quellen
+    und Hilfsmittel benutzt habe.
+    \par\vskip3em
+    {%
+      \setbox0=\hbox{\normalfont\ignorespaces\uzl@author}%
+      \hfill \vrule width5mm height.4pt\vrule width \wd0 height.4pt\vrule width5mm height.4pt\\
+      \hbox{}\hfill \box0\kern5mm\par
+    }
     \end{frontmatter block}
   }
   \vfill
   \vfill
   \clearpage
-  % 
+  %
   %
   % Abstracts
   %
@@ -1484,11 +1484,11 @@
   \leavevmode%
   \vfill
   \noindent\minipage{\textwidth}
-    \parindent17pt
-    \selectlanguage{german}
-    \begin{frontmatter block}{Zusammenfassung}
-      \uzl@zusammenfassung
-    \end{frontmatter block}
+  \parindent17pt
+  \selectlanguage{german}
+  \begin{frontmatter block}{Zusammenfassung}
+  \uzl@zusammenfassung
+  \end{frontmatter block}
   \endminipage%
   \vfill
   \vfill
@@ -1500,11 +1500,11 @@
   \vfill
   \vfill
   \noindent\begin{minipage}{\textwidth}
-    \parindent17pt
-    \selectlanguage{english}
-    \begin{frontmatter block}{Abstract}
-      \uzl@abstract
-    \end{frontmatter block}
+  \parindent17pt
+  \selectlanguage{english}
+  \begin{frontmatter block}{Abstract}
+  \uzl@abstract
+  \end{frontmatter block}
   \end{minipage}%
   \vfill
   \vfill
@@ -1516,7 +1516,7 @@
     \leavevmode
     \vfill
     \begin{frontmatter block}{\ifuzl@german Danksagungen\else Acknowledgements\fi}
-      \uzl@acknowledgements
+    \uzl@acknowledgements
     \end{frontmatter block}
     \vfill
     \vfill
@@ -1543,27 +1543,27 @@
 %%%
 
 \newenvironment{verse}
-               {\let\\\@centercr
-                \list{}{\itemsep      \z@
-                        \itemindent   -1.5em%
-                        \listparindent\itemindent
-                        \rightmargin  \leftmargin
-                        \advance\leftmargin 1.5em}%
-                \item\relax}
-               {\endlist}
+{\let\\\@centercr
+  \list{}{\itemsep      \z@
+    \itemindent   -1.5em%
+    \listparindent\itemindent
+    \rightmargin  \leftmargin
+    \advance\leftmargin 1.5em}%
+  \item\relax}
+{\endlist}
 \newenvironment{quotation}
-               {\small\list{}{\listparindent 1.5em%
-                        \itemindent    \listparindent
-                        \rightmargin   \leftmargin
-                        \parsep        \z@}%
-                \item\relax}
-               {\endlist}
+{\small\list{}{\listparindent 1.5em%
+    \itemindent    \listparindent
+    \rightmargin   \leftmargin
+    \parsep        \z@}%
+  \item\relax}
+{\endlist}
 \newenvironment{quote}
-               {\small\list{}{\rightmargin\leftmargin
-                   \parsep        \z@
-                 \listparindent 1.5em}%
-                \item\relax}
-               {\endlist}
+{\small\list{}{\rightmargin\leftmargin
+    \parsep        \z@
+    \listparindent 1.5em}%
+  \item\relax}
+{\endlist}
 
 
 
@@ -1575,89 +1575,89 @@
 %%%
 
 \newif\ifuzl@bibliography@printed
-               
+
 \UzLThesisSetup{
   biblatex/.code=\expandafter\def\expandafter\uzl@biblatex@options\expandafter{\uzl@biblatex@options,#1},
   Alphabetische Bibliographie/.code={
-    \uzl@load@biblatex{style=authoryear,dashed=false,uniquename=init}
-    %
-    % Till Tantau's code for reproducing the Cell bibliography style
-    % in biblatex:
-    %
-    \DeclareNameAlias{sortname}{last-first}
-    \setlength{\bibhang}{0pt}
-    \setlength{\bibitemsep}{1em}
-    \renewcommand*{\bibinitdelim}{}
-    \renewbibmacro*{in:}{%
-      \iffieldequalstr{entrytype}{inproceedings}{%
-        \printtext{\bibstring{in}\addspace}%
-      }{}%
-    }
-    \DeclareFieldFormat[book]{title}{##1\isdot}
-    \DeclareFieldFormat[inproceedings]{title}{##1\isdot}
-    \DeclareFieldFormat{booktitle}{##1\addcomma}
-    \renewbibmacro*{byeditor+others}{%
-      \ifnameundef{editor}
-      {}
-      {\printtext[parens]{%
-          \printnames[paren]{editor}%
-          \addcomma\addspace
-          \usebibmacro{editorstrg}%
-        }
-        \setunit{\addspace}
-        \newunit}%
-      \usebibmacro{byeditorx}%
-      \usebibmacro{bytranslator+others}}
-    %
-    \DeclareFieldFormat[article,inbook,incollection,inproceedings,patent,thesis,unpublished]{title}{##1}
-    \DeclareFieldFormat[article]{journaltitle}{##1\isdot}
-    \DeclareFieldFormat[article]{volume}{\textit{##1}}
-    \DeclareFieldFormat[article]{pages}{##1}
-    \renewbibmacro*{volume+number+eid}{\printfield{volume}}
-    \renewcommand*{\nameyeardelim}{\addcomma\addspace}
-    \DeclareCiteCommand{\cite}[\mkbibparens]
+      \uzl@load@biblatex{style=authoryear,dashed=false,uniquename=init}
+      %
+      % Till Tantau's code for reproducing the Cell bibliography style
+      % in biblatex:
+      %
+      \DeclareNameAlias{sortname}{last-first}
+      \setlength{\bibhang}{0pt}
+      \setlength{\bibitemsep}{1em}
+      \renewcommand*{\bibinitdelim}{}
+      \renewbibmacro*{in:}{%
+        \iffieldequalstr{entrytype}{inproceedings}{%
+          \printtext{\bibstring{in}\addspace}%
+        }{}%
+      }
+      \DeclareFieldFormat[book]{title}{##1\isdot}
+      \DeclareFieldFormat[inproceedings]{title}{##1\isdot}
+      \DeclareFieldFormat{booktitle}{##1\addcomma}
+      \renewbibmacro*{byeditor+others}{%
+        \ifnameundef{editor}
+        {}
+        {\printtext[parens]{%
+            \printnames[paren]{editor}%
+            \addcomma\addspace
+            \usebibmacro{editorstrg}%
+          }
+          \setunit{\addspace}
+          \newunit}%
+        \usebibmacro{byeditorx}%
+        \usebibmacro{bytranslator+others}}
+      %
+      \DeclareFieldFormat[article,inbook,incollection,inproceedings,patent,thesis,unpublished]{title}{##1}
+      \DeclareFieldFormat[article]{journaltitle}{##1\isdot}
+      \DeclareFieldFormat[article]{volume}{\textit{##1}}
+      \DeclareFieldFormat[article]{pages}{##1}
+      \renewbibmacro*{volume+number+eid}{\printfield{volume}}
+      \renewcommand*{\nameyeardelim}{\addcomma\addspace}
+      \DeclareCiteCommand{\cite}[\mkbibparens]
       {\usebibmacro{prenote}}
       {\usebibmacro{citeindex}%
         \usebibmacro{cite}}
       {\multicitedelim}
       {\usebibmacro{postnote}}
-    \DeclareCiteCommand*{\cite}[\mkbibparens]
+      \DeclareCiteCommand*{\cite}[\mkbibparens]
       {\usebibmacro{prenote}}
       {\usebibmacro{citeindex}%
         \usebibmacro{citeyear}}
       {\multicitedelim}
       {\usebibmacro{postnote}}
-  },
+    },
   Numerische Bibliographie/.code={
-    \uzl@load@biblatex{style=numeric}
-    \DeclareNameAlias{sortname}{last-first}
-    \DeclareNameAlias{author}{sortname}
-    \DeclareNameAlias{editor}{sortname}
-    \DeclareNameAlias{translator}{sortname}
-    \DeclareFieldFormat[article]{pages}{##1}
-    \DeclareFieldFormat[article,inbook,incollection,inproceedings,patent,thesis,unpublished]{title}{##1}
-    \renewcommand*{\labelnamepunct}{\space\space}
-    \renewbibmacro*{volume+number+eid}{%
-      \printfield{volume}%
-      \printfield[parens]{number}%
-      \setunit{\adddot}%
-      \printfield{eid}%
-      \setunit{\addcolon}%
-      \printfield{pages}%
-    }
-    \renewbibmacro*{note+pages}{%
-      \printfield{note}%
-      \newunit}
-    \renewbibmacro*{issue+date}{%
-      \setunit{\addcomma\space}%
-      \iffieldundef{issue}
-      {\usebibmacro{date}}
-      {\printfield{issue}%
-        \setunit*{\addspace}%
-        \usebibmacro{date}}%
-      \newunit%
-    }%
-  },
+      \uzl@load@biblatex{style=numeric}
+      \DeclareNameAlias{sortname}{last-first}
+      \DeclareNameAlias{author}{sortname}
+      \DeclareNameAlias{editor}{sortname}
+      \DeclareNameAlias{translator}{sortname}
+      \DeclareFieldFormat[article]{pages}{##1}
+      \DeclareFieldFormat[article,inbook,incollection,inproceedings,patent,thesis,unpublished]{title}{##1}
+      \renewcommand*{\labelnamepunct}{\space\space}
+      \renewbibmacro*{volume+number+eid}{%
+        \printfield{volume}%
+        \printfield[parens]{number}%
+        \setunit{\adddot}%
+        \printfield{eid}%
+        \setunit{\addcolon}%
+        \printfield{pages}%
+      }
+      \renewbibmacro*{note+pages}{%
+        \printfield{note}%
+        \newunit}
+      \renewbibmacro*{issue+date}{%
+        \setunit{\addcomma\space}%
+        \iffieldundef{issue}
+        {\usebibmacro{date}}
+        {\printfield{issue}%
+          \setunit*{\addspace}%
+          \usebibmacro{date}}%
+        \newunit%
+      }%
+    },
 }
 
 \def\uzl@biblatex@options{
@@ -1691,25 +1691,25 @@
   \ifuzl@bibstyleset
   \else
     \ClassError{uzl-thesis}
-      {%
-        Bibliography style not specified!
-        \MessageBreak 
-        You must use
-        \MessageBreak 
-        'Naturwissenschaftliche Bibliographie' or
-        \MessageBreak 
-        'Ingenieurwissenschaftliche Bibliographie' 
-        \MessageBreak 
-        in \string\UzLThesisSetup
-      }
-      {%
-        Say \string\UzLThesisSetup{Naturwissenschaftliche Bibliographie} or
-        \MessageBreak
-        \string\UzLThesisSetup{Ingenieurwissenschaftliche Bibliographie} somewhere
-        \MessageBreak
-        in the preamble, depending on the study programme of your thesis
-        \MessageBreak
-      }
+    {%
+      Bibliography style not specified!
+      \MessageBreak
+      You must use
+      \MessageBreak
+      'Naturwissenschaftliche Bibliographie' or
+      \MessageBreak
+      'Ingenieurwissenschaftliche Bibliographie'
+      \MessageBreak
+      in \string\UzLThesisSetup
+    }
+    {%
+      Say \string\UzLThesisSetup{Naturwissenschaftliche Bibliographie} or
+      \MessageBreak
+      \string\UzLThesisSetup{Ingenieurwissenschaftliche Bibliographie} somewhere
+      \MessageBreak
+      in the preamble, depending on the study programme of your thesis
+      \MessageBreak
+    }
   \fi
 }
 
@@ -1742,19 +1742,19 @@
   every picture/.style={normal linewidth},
   outer sep=auto,
   base shape/.style={
-    thick,
-    fill=white,
-    draw=#1,
-  },
+      thick,
+      fill=white,
+      draw=#1,
+    },
   base shape/.default=uzlstructure,
   normalsize shape/.style={
-    minimum size=7mm,
-  },
+      minimum size=7mm,
+    },
   small shape/.style={
-    font=\scriptsize,
-    minimum size=5mm,
-    inner sep=2pt,
-  },
+      font=\scriptsize,
+      minimum size=5mm,
+      inner sep=2pt,
+    },
   block/.style={rectangle, base shape=#1, normalsize shape},
   block/.default=uzlstructure,
   small block/.style={block=#1, small shape},
@@ -1780,25 +1780,25 @@
 
 \tikzset{
   thesis outline shapes/.style={
-    base shape/.style={
-      thick,
-      fill=white,
-      draw=##1,
-    }
-  },
+      base shape/.style={
+          thick,
+          fill=white,
+          draw=##1,
+        }
+    },
   thesis box shapes/.style={
-    base shape/.style={
-      thick,
-      fill=##1!10,
-      draw=##1,
+      base shape/.style={
+          thick,
+          fill=##1!10,
+          draw=##1,
+        },
     },
-  },
   thesis flat shapes/.style={
-    base shape/.style={
-      draw=##1!10,
-      fill=##1!10,
+      base shape/.style={
+          draw=##1!10,
+          fill=##1!10,
+        },
     },
-  },
 }
 
 
@@ -1852,14 +1852,14 @@
 
 \lstdefinelanguage{pseudocode}{
   morekeywords={
-    algorithm,
-    if,then,else,while,do,repeat,until,seq,
-    seqdo,return,call,
-    for,pardo,in,foreach,print,output,input,exit,
-    break,loop,end,begin,goto,par,global,local,
-    read,write,to,stop,idle,procedure,function,
-    throw,catch
-  },
+      algorithm,
+      if,then,else,while,do,repeat,until,seq,
+      seqdo,return,call,
+      for,pardo,in,foreach,print,output,input,exit,
+      break,loop,end,begin,goto,par,global,local,
+      read,write,to,stop,idle,procedure,function,
+      throw,catch
+    },
   sensitive=true,
   morecomment=[l]{//},
   morestring=[b]",
@@ -1868,7 +1868,7 @@
 
 \lstdefinestyle{escapemath}{
   escapechar=$, %$
-  escapebegin=\currentStyle@lstparam$,
+    escapebegin=\currentStyle@lstparam$,
   escapeend=$,
 }
 
@@ -1926,13 +1926,13 @@
   \expandafter\edef\csname#1\endcsname{%
     \noexpand\ifuzl@in@lst@env%
       \noexpand\expandafter\noexpand\expandafter\noexpand\expandafter\expandafter\noexpand\csname uzl@int@cmd@#1\endcsname%
-    \noexpand\else%
+      \noexpand\else%
       \noexpand\ifx\noexpand\@currenvir\expandafter\noexpand\csname uzl@#1@text\endcsname%
         \noexpand\expandafter\noexpand\expandafter\noexpand\expandafter\expandafter\noexpand\csname uzl@int@env@#1\endcsname%
-      \noexpand\else%
+        \noexpand\else%
         \noexpand\expandafter\noexpand\expandafter\noexpand\expandafter\expandafter\noexpand\csname uzl@int@cmd@#1\endcsname%
+        \noexpand\fi%
       \noexpand\fi%
-    \noexpand\fi%
   }
   \expandafter\def\csname uzl@#1@text\endcsname{#1}
 }
@@ -1958,17 +1958,17 @@
 
 \def\uzl@missing@error#1{
   \ClassError{uzl-thesis}
-    {%
-      '#1' not configured!
-      \MessageBreak 
-      You must say \string\UzLThesisSetup[#1={...}]
-    }
-    {%
-      '#1' is one of the compulsory keys that you must set.
-      \MessageBreak
-      Say \string\UzLThesisSetup[#1={...}] in your setup.
-      \MessageBreak
-    }%
+  {%
+    '#1' not configured!
+    \MessageBreak
+    You must say \string\UzLThesisSetup[#1={...}]
+  }
+  {%
+    '#1' is one of the compulsory keys that you must set.
+    \MessageBreak
+    Say \string\UzLThesisSetup[#1={...}] in your setup.
+    \MessageBreak
+  }%
 }
 
 \ifuzl@language@set
@@ -1977,41 +1977,41 @@
       \ClassError{uzl-thesis}
       {%
         Double language option!
-        \MessageBreak 
+        \MessageBreak
         You cannot select both 'german' and 'english'.
-        \MessageBreak 
+        \MessageBreak
         Add exactly one of them to \string\documentclass[...]
       }
       {%
         Your thesis must be written in German or English.
-        \MessageBreak 
+        \MessageBreak
         You *must* indicate which language you use either saying
-        \MessageBreak 
+        \MessageBreak
         \string\documentclass[german]{uzl-thesis} or saying
-        \MessageBreak 
+        \MessageBreak
         \string\documentclass[english]{uzl-thesis}
-        \MessageBreak 
+        \MessageBreak
       }
     \fi
-  \fi  
+  \fi
 \else
   \ClassError{uzl-thesis}
   {%
     Missing language option!
-    \MessageBreak 
+    \MessageBreak
     You must select either 'german' or 'english'.
-    \MessageBreak 
+    \MessageBreak
     Add exactly one of them to \string\documentclass[...]
   }
   {%
     Your thesis must be written in German or English.
-    \MessageBreak 
+    \MessageBreak
     You *must* indicate which language you use either saying
-    \MessageBreak 
-     \string\documentclass[german]{uzl-thesis} or saying
-    \MessageBreak 
-     \string\documentclass[english]{uzl-thesis}
-    \MessageBreak 
+    \MessageBreak
+    \string\documentclass[german]{uzl-thesis} or saying
+    \MessageBreak
+    \string\documentclass[english]{uzl-thesis}
+    \MessageBreak
   }
 \fi
 
@@ -2021,18 +2021,18 @@
   \ClassError{uzl-thesis}
   {%
     Missing version!
-    \MessageBreak 
+    \MessageBreak
     You must say which version of uzl-thesis
-    \MessageBreak 
+    \MessageBreak
     you use. Add 'version 2019' to \string\documentclass[...]
   }
   {%
     It is important that you specify which version of
-    \MessageBreak 
-    the class you wish to use. This way, an existing thesis 
-    \MessageBreak 
+    \MessageBreak
+    the class you wish to use. This way, an existing thesis
+    \MessageBreak
     can still be typeset in the future when the class changes.
-    \MessageBreak 
+    \MessageBreak
   }
 \fi
 
@@ -2070,46 +2070,46 @@
   %
   \ifx\uzl@degree\relax
     \ClassError{uzl-thesis}
-      {%
-        Degree not specified!
-        \MessageBreak 
-        You must use 'Bachelorarbeit' or
-        \MessageBreak 
-        'Masterarbeit' in \string\UzLThesisSetup
-      }
-      {%
-        Say \string\UzLThesisSetup{Bachelorarbeit} or
-        \MessageBreak
-        \string\UzLThesisSetup{Masterarbeit} somewhere
-        \MessageBreak
-        in the preamble  
-        \MessageBreak
-      }
+    {%
+      Degree not specified!
+      \MessageBreak
+      You must use 'Bachelorarbeit' or
+      \MessageBreak
+      'Masterarbeit' in \string\UzLThesisSetup
+    }
+    {%
+      Say \string\UzLThesisSetup{Bachelorarbeit} or
+      \MessageBreak
+      \string\UzLThesisSetup{Masterarbeit} somewhere
+      \MessageBreak
+      in the preamble
+      \MessageBreak
+    }
   \fi
   \ifuzl@font@chosen
   \else
     \ClassError{uzl-thesis}
-      {%
-        No font or design selection!
-        \MessageBreak 
-        You must select a font, usually by
-        \MessageBreak 
-        selecting a design. Try saying 
-        \MessageBreak
-        \string\UzLStyle{alegrya modern design} 
-      }
-      {%
-        You must select a font, using the \string\UzLStyle
-        \MessageBreak 
-        command. Normally, you do not direclty select a font,
-        \MessageBreak
-        but you select a design, which internally selects the font.
-        \MessageBreak
-        Try saying \string\UzLStyle{alegrya modern design} 
-        \MessageBreak
-        (or some other design) in the preamble of the thesis.
-        \MessageBreak
-      }
+    {%
+      No font or design selection!
+      \MessageBreak
+      You must select a font, usually by
+      \MessageBreak
+      selecting a design. Try saying
+      \MessageBreak
+      \string\UzLStyle{alegrya modern design}
+    }
+    {%
+      You must select a font, using the \string\UzLStyle
+      \MessageBreak
+      command. Normally, you do not direclty select a font,
+      \MessageBreak
+      but you select a design, which internally selects the font.
+      \MessageBreak
+      Try saying \string\UzLStyle{alegrya modern design}
+      \MessageBreak
+      (or some other design) in the preamble of the thesis.
+      \MessageBreak
+    }
   \fi
 }
 
@@ -2145,10 +2145,10 @@
 
 \UzLStyle{
   frontmatter block layout/.code={
-    \par\vskip1em
-    \leftskip1.5\parindent
-    \rightskip1.5\parindent
-  },
+      \par\vskip1em
+      \leftskip1.5\parindent
+      \rightskip1.5\parindent
+    },
   frontmatter block head post/.code=\par\medskip,
   title page font/.append code = \large,
   title on title page font/.append code = \Large,
@@ -2171,7 +2171,7 @@
 %
 % Style choice
 %
-%%% 
+%%%
 
 %
 % Possible fonts choices
@@ -2179,25 +2179,25 @@
 
 \UzLStyle{
   thesis bold structure/.style={
-    structure font/.code = \bfseries,    
-    head and foot font/.code = ,
-  },
+      structure font/.code = \bfseries,
+      head and foot font/.code = ,
+    },
   thesis sansserif structure/.style={
-    structure font/.code = \sffamily,
-    title page font/.code = \sffamily,
-    head and foot font/.code = \sffamily,
-  },
+      structure font/.code = \sffamily,
+      title page font/.code = \sffamily,
+      head and foot font/.code = \sffamily,
+    },
   thesis bold sansserif structure/.style={
-    structure font/.code = \bfseries\sffamily,
-    title page font/.code = \sffamily,
-    head and foot font/.code = \sffamily,
-  },
+      structure font/.code = \bfseries\sffamily,
+      title page font/.code = \sffamily,
+      head and foot font/.code = \sffamily,
+    },
   thesis small caps structure/.style={
-    structure font/.code = \scshape,    
-    head and foot font/.code = \scshape,
-    title on title page font/.append code = \LARGE,
-    translated title on title page font/.append code = \rmfamily\itshape
-  }
+      structure font/.code = \scshape,
+      head and foot font/.code = \scshape,
+      title on title page font/.append code = \LARGE,
+      translated title on title page font/.append code = \rmfamily\itshape
+    }
 }
 
 
@@ -2206,33 +2206,33 @@
 %
 
 \UzLStyle{
-  %
-  % Title page
-  %
-  title page left layout/.style={
+%
+% Title page
+%
+title page left layout/.style={
     title page layout/.code={\leftskip0pt \rightskip0pt plus1fill},
   },
-  title page centered layout/.style={
+title page centered layout/.style={
     title page layout/.code={\leftskip0pt plus1fill\rightskip0pt  plus1fill},
   },
-  %
-  % Frontmatter blocks
-  %
-  frontmatter block left layout/.style={
+%
+% Frontmatter blocks
+%
+frontmatter block left layout/.style={
     frontmatter block head layout/.code={
-      \rightskip 2cm plus 1fill
-    }
+        \rightskip 2cm plus 1fill
+      }
   },
-  frontmatter block centered layout/.style={
+frontmatter block centered layout/.style={
     frontmatter block head layout/.code={
-      \leftskip1cm plus 1fill
-      \rightskip1cm plus 1fill
-    }
-  },  
-  %
-  % Chapters
-  %
-  chapter left layout/.style={
+        \leftskip1cm plus 1fill
+        \rightskip1cm plus 1fill
+      }
+  },
+%
+% Chapters
+%
+chapter left layout/.style={
     chapter font/.append code = \huge,
     chapter pre/.code = \vspace*{35\p@},
     chapter post/.code = \vspace*{35\p@},
@@ -2241,7 +2241,7 @@
     chapter number post/.code = \par\nobreak \vskip 20\p@,
     chapter number color/.append code = \color{.!50},
   },
-  chapter centered layout/.style={
+chapter centered layout/.style={
     chapter layout/.code = \leftskip 5mm plus 1fill\rightskip 5mm plus1fill,
     chapter font/.append code = \huge,
     chapter pre/.code = \vspace*{35\p@},
@@ -2251,55 +2251,55 @@
     chapter number post/.code = \par\nobreak \vskip 20\p@,
     chapter number color/.style = structure color,% \color{.!50},
   },
-  %
-  % Sections
-  %
-  section left layout/.code = {\let\uzl@sec@layout\relax},
-  section centered layout/.code = {\let\uzl@sec@layout\uzl@centersec},
-  %
-  % Toc
-  %
-  toc left layout/.style={
+%
+% Sections
+%
+section left layout/.code = {\let\uzl@sec@layout\relax},
+section centered layout/.code = {\let\uzl@sec@layout\uzl@centersec},
+%
+% Toc
+%
+toc left layout/.style={
+format chapter toc line/.code={
+\leftskip3em%
+\def\numberline####1{\hbox to3em{####1\hss}}%
+\hskip -\leftskip
+##1\nobreak
+\UzLStyle{chapter leaders}\nobreak
+},
+format chapter toc number/.code=\hb@xt@\@pnumwidth{\hss ##1}\smallskip,
+/utils/exec=\renewcommand*\l@section{\uzl@sec@tocline{1}{0em}{3em}}
+},
+toc tree layout/.style={
     format chapter toc line/.code={
-      \leftskip3em%
-      \def\numberline####1{\hbox to3em{####1\hss}}%
-      \hskip -\leftskip
-      ##1\nobreak
-      \UzLStyle{chapter leaders}\nobreak
-    },
-    format chapter toc number/.code=\hb@xt@\@pnumwidth{\hss ##1}\smallskip,
-    /utils/exec=\renewcommand*\l@section{\uzl@sec@tocline{1}{0em}{3em}}
-  },
-  toc tree layout/.style={
-    format chapter toc line/.code={
-      \hskip -\leftskip
-      ##1\nobreak
-      \UzLStyle{chapter leaders}\nobreak
-    },
+        \hskip -\leftskip
+        ##1\nobreak
+        \UzLStyle{chapter leaders}\nobreak
+      },
     format chapter toc number/.code=\hb@xt@\@pnumwidth{\hss ##1},
     /utils/exec=\renewcommand*\l@section{\uzl@sec@tocline{1}{1.5em}{2.3em}}
   },
-  toc centered layout/.style={
-    format chapter toc line/.code={
-      \rightskip 1cm plus 1fil
-      \leftskip 1cm plus 1fil
-      \parfillskip 0cm
-      \def\numberline####1{}%
-      ##1\vskip.75em\nobreak    
-    },
-    format chapter toc number/.code={},
-    /utils/exec=\renewcommand*\l@section{\uzl@sec@tocline{1}{0em}{2.3em}}
-  },
-  %
-  % all
-  %
-  thesis left layout/.style={
+toc centered layout/.style={
+format chapter toc line/.code={
+\rightskip 1cm plus 1fil
+\leftskip 1cm plus 1fil
+\parfillskip 0cm
+\def\numberline####1{}%
+##1\vskip.75em\nobreak
+},
+format chapter toc number/.code={},
+/utils/exec=\renewcommand*\l@section{\uzl@sec@tocline{1}{0em}{2.3em}}
+},
+%
+% all
+%
+thesis left layout/.style={
     title page left layout,
     frontmatter block left layout,
     chapter left layout,
     section left layout,
   },
-  thesis centered layout/.style={
+thesis centered layout/.style={
     title page centered layout,
     frontmatter block centered layout,
     chapter centered layout,
@@ -2313,16 +2313,16 @@
 %
 
 \UzLStyle{
-  % 
+  %
   thesis page number hyphen/.style={
-    page number pre/.code={\textendash\space},
-    page number post/.code={\space\textendash},
-  },
+      page number pre/.code={\textendash\space},
+      page number post/.code={\space\textendash},
+    },
   %
   thesis page number plain/.style={
-    page number pre/.code={},
-    page number post/.code={},
-  }
+      page number pre/.code={},
+      page number post/.code={},
+    }
 }
 
 
@@ -2332,21 +2332,21 @@
 
 \UzLStyle{
   dotted leaders/.style={
-    section leaders/.code={%
-      \leaders\hbox{$\m@th \mkern \@dotsep mu\hbox{.}\mkern \@dotsep
-        mu$}\hfill%
+      section leaders/.code={%
+          \leaders\hbox{$\m@th \mkern \@dotsep mu\hbox{.}\mkern \@dotsep
+              mu$}\hfill%
+        },
     },
-  },
   solid leaders/.style={
-    section leaders/.code={%
-      \kern1ex\textcolor{.!50}{\leaders\hrule\hfill}%
+      section leaders/.code={%
+          \kern1ex\textcolor{.!50}{\leaders\hrule\hfill}%
+        },
     },
-  },
   empty leaders/.style={
-    section leaders/.code={%
-      \hfill%
-    },
-  }
+      section leaders/.code={%
+          \hfill%
+        },
+    }
 }
 
 
@@ -2359,31 +2359,31 @@
 
 \UzLStyle{
   thesis myriad title page/.style={
-    /utils/exec=\uzlcheckmyriad,
-    title page font/.code={\fontspec{MyriadPro}},
-  },
+      /utils/exec=\uzlcheckmyriad,
+      title page font/.code={\fontspec{MyriadPro}},
+    },
   thesis colored structure/.style={
-    /utils/exec=\colorlet{uzlstructure}{Ozeangruen},
-    structure color/.code={\color{Ozeangruen}},
-    element on title page color/.code={\color{black}}
-  },
+      /utils/exec=\colorlet{uzlstructure}{Ozeangruen},
+      structure color/.code={\color{Ozeangruen}},
+      element on title page color/.code={\color{black}}
+    },
   thesis black and white structure/.style={
-    /utils/exec=\colorlet{uzlstructure}{black},
-    structure color/.code={},
-    element on title page color/.code={},
-    code comment/.code=\itshape,
-    pseudocode comment/.code=\rmfamily,
-    code keyword/.code=\bfseries\color{black!75},
-    pseudocode keyword/.code=\bfseries\color{black!75}\itshape,
-    code string/.code=\color{black!80},
-    pseudocode string/.code=\color{black!80},
-  },
+      /utils/exec=\colorlet{uzlstructure}{black},
+      structure color/.code={},
+      element on title page color/.code={},
+      code comment/.code=\itshape,
+      pseudocode comment/.code=\rmfamily,
+      code keyword/.code=\bfseries\color{black!75},
+      pseudocode keyword/.code=\bfseries\color{black!75}\itshape,
+      code string/.code=\color{black!80},
+      pseudocode string/.code=\color{black!80},
+    },
   thesis theorem newline/.style={
-    theorem layout/.code=\newline
-  },
+      theorem layout/.code=\newline
+    },
   thesis theorem inline/.style={
-    theorem layout/.code=
-  },
+      theorem layout/.code=
+    },
 }
 
 
@@ -2394,7 +2394,7 @@
 
 \UzLStyle{
   solid leaders,
-  toc tree layout, 
+  toc tree layout,
   thesis left layout,
   thesis bold structure,
   thesis page number hyphen,
@@ -2409,86 +2409,86 @@
 
 \UzLStyle{
   computer modern oldschool design/.style={
-    computer modern font,
-    thesis bold structure,
-    thesis left layout,
-    thesis black and white structure,
-    toc tree layout,
-    frontmatter block centered layout,
-    dotted leaders,
-    chapter number color/.code=,
-  },
+      computer modern font,
+      thesis bold structure,
+      thesis left layout,
+      thesis black and white structure,
+      toc tree layout,
+      frontmatter block centered layout,
+      dotted leaders,
+      chapter number color/.code=,
+    },
   computer modern basic design/.style={
-    computer modern font,
-    thesis bold structure,
-    thesis left layout,
-    thesis colored structure,
-    thesis myriad title page,
-    frontmatter block centered layout,
-  },
+      computer modern font,
+      thesis bold structure,
+      thesis left layout,
+      thesis colored structure,
+      thesis myriad title page,
+      frontmatter block centered layout,
+    },
   computer modern scholary design/.style={
-    computer modern font,
-    thesis small caps structure,
-    thesis centered layout,
-    thesis black and white structure,
-    toc centered layout,
-    dotted leaders,
-    section font/.append code = \normalsize,
-    subsection font/.append code = \normalsize,
-    chapter number font/.append code = \huge
-  },
+      computer modern font,
+      thesis small caps structure,
+      thesis centered layout,
+      thesis black and white structure,
+      toc centered layout,
+      dotted leaders,
+      section font/.append code = \normalsize,
+      subsection font/.append code = \normalsize,
+      chapter number font/.append code = \huge
+    },
   pagella basic design/.style={
-    pagella font,
-    thesis bold structure,
-    thesis left layout,
-    thesis colored structure,
-  },
+      pagella font,
+      thesis bold structure,
+      thesis left layout,
+      thesis colored structure,
+    },
   pagella centered design/.style={
-    pagella font,
-    thesis bold structure,
-    thesis centered layout,
-    thesis colored structure,
-    toc centered layout,
-  },
+      pagella font,
+      thesis bold structure,
+      thesis centered layout,
+      thesis colored structure,
+      toc centered layout,
+    },
   pagella contrast design/.style={
-    pagella font,
-    thesis bold sansserif structure,
-    thesis left layout,
-    thesis colored structure,
-    toc left layout,
-  },
+      pagella font,
+      thesis bold sansserif structure,
+      thesis left layout,
+      thesis colored structure,
+      toc left layout,
+    },
   alegrya basic design/.style={
-    alegrya font,
-    thesis bold structure,
-    thesis left layout,
-    thesis colored structure,
-  },
+      alegrya font,
+      thesis bold structure,
+      thesis left layout,
+      thesis colored structure,
+    },
   alegrya scholary design/.style={
-    alegrya font,
-    thesis small caps structure,
-    thesis centered layout,
-    thesis black and white structure,
-    dotted leaders,
-    toc centered layout,
-    code keyword/.code=\bfseries\color{black!60},
-    pseudocode keyword/.code=\bfseries\color{black!50}\itshape,
-  },
+      alegrya font,
+      thesis small caps structure,
+      thesis centered layout,
+      thesis black and white structure,
+      dotted leaders,
+      toc centered layout,
+      code keyword/.code=\bfseries\color{black!60},
+      pseudocode keyword/.code=\bfseries\color{black!50}\itshape,
+    },
   alegrya stylish design/.style={
-    alegrya font,
-    thesis small caps structure,
-    thesis centered layout,
-    thesis colored structure,
-    title page left layout,
-    toc left layout,
-  },
+      alegrya font,
+      thesis small caps structure,
+      thesis centered layout,
+      thesis colored structure,
+      title page left layout,
+      toc left layout,
+    },
   alegrya modern design/.style={
-    alegrya font,
-    thesis sansserif structure,
-    thesis left layout,
-    thesis colored structure,
-    toc left layout,
-    element on title page font/.append code=\bfseries
-  }
+      alegrya font,
+      thesis sansserif structure,
+      thesis left layout,
+      thesis colored structure,
+      toc left layout,
+      element on title page font/.append code=\bfseries
+    }
 }
 
 
@@ -2498,7 +2498,7 @@
 
 
 %%%
-% 
+%
 % Thesis font
 %
 %
@@ -2551,7 +2551,7 @@
 % it (the directory of your thesis will usually work nicely). Note
 % that you *can* just copy the font from where ever you get it (like
 % from your institute) since the university has licensed this font
-% explicitly. 
+% explicitly.
 %
 %%%
 %
@@ -2634,7 +2634,7 @@
 %
 % Colors
 %
-% 
+%
 % You can say
 %
 % \UzLStyle{thesis colored structure}
@@ -2650,7 +2650,7 @@
 % available as “Oceangruen”.
 %
 %
-%%% 
+%%%
 %
 % Table of contents
 %
@@ -2665,18 +2665,18 @@
 % This creates a pretty “strict” left layout in which all chapters and
 % sections are flushed left. Fits nicely with modern fonts.
 %
-% 
+%
 % \UzLStyle{toc tree layout}
 %
 % This is the default layout in which sections are indented relative
 % to the chapters, creating a treelike impression. Looks good with any
 % font.
 %
-% 
+%
 % \UzLStyle{toc centered layout}
 %
 % Centers the chapter titles in the table of contents. This is
-% \emph{very} scholary and a bit too much for my taste these days. 
+% \emph{very} scholary and a bit too much for my taste these days.
 %
 %
 % In addition to the above layouts questions, you can also configure
@@ -2708,7 +2708,7 @@
 % \UzLStyle{thesis theorem newline}
 %
 %
-% Second, there is a special consideration for German text: 
+% Second, there is a special consideration for German text:
 % In German, a 'Theorem' is actually correctly called 'Satz' and a
 % 'Lemma' is actually a 'Hilfssatz'. If you prefer instead the Greek
 % words also in a German text, use
@@ -2720,7 +2720,7 @@
 % 'Lemma' rather than 'Hilfssatz' and will cause {corollary} to use
 % 'Korollar' rather than 'Folgerung'. In an English thesis, this key
 % has no effect.
-% 
+%
 %%%%%%%
 
 
@@ -2747,7 +2747,7 @@
   \UzLThesisSetup{
     Masterarbet/.code=\def\uzl@degree{Masterarbeit},
   }
-  \uzl@normalsizeskip 14pt 
+  \uzl@normalsizeskip 14pt
 \fi
 
 

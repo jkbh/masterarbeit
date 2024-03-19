@@ -1,0 +1,42 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+The evaluation of large language model agents is a difficult task,
+as evaluating LLMs themselves presents a challenge.
+There are different approaches to evaluating systems built around language models.
+Subjective evaluation is based on human feedback.
+As LLM systems are generally made to serve humans this is an important part of evaluation.
+On the other hand,
+quantitative metrics that can be computed are used for objective evaluation.
+Different metrics are used for different tasks. Another important method is benchmarks.
+Benchmarks are a set of tasks or an environment that the agent is to move in.
+
+\section{Existing IR Agent Benchmarks}
+
+As the space of possible agent domains is large, lots of different benchmarks were proposed.
+Simulation environments like
+
+Although lots of benchmarks for LLM applications have been proposed,
+few benchmarks are designed to test the information retrieval capabilities of an agent.
+Some benchmarks are used to evaluate information retrieval in general and in diverse domains. %TODO : sources, examples
+
+\section{The AutoGPT Benchmarking System}
+
+To evaluate AutoGPT and other agent systems that implement the agent protocol, the AutoGPT project has implemented a benchmarking system.
+The system consists of a set of tasks that the agent has to complete. The tasks are designed to test different aspects of the agent and are divided into different topics.
+Some tasks depend on the previous successful completion of other tasks. A task consists of an input prompt and an expected output.
+The output is defined by certain words that should be contained.
+
+\begin{itemize}
+    \item Level-based system
+    \item Dependencies
+\end{itemize}
+
+\section{Custom Benchmarks for Local IR over Journals}
+
+\begin{itemize}
+    \item Retrieval benchmarks
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,39 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+% TODO: this needs work
+While working with AutoGPT and developing the information retrieval agent,
+a couple of weaknesses of current LLM agent systems became visible.
+The most important challenge for LLM agents is the non-deterministic generation of large language models.
+It makes it significantly harder to build a software system around it because every time the language model is called,
+there has to be a fallback mechanism in case something fails.
+For fixed pipeline systems this is true as well,
+but the error handling is easier as the task steps are known beforehand.
+
+\section{Points of Failure}
+
+Using large language models as agent controllers is a recent idea, and therefore there is a lot of experimentation left to do.
+A challenge when developing such agents is the natural language interface that language models communicate with.
+While it makes describing the task easier for humans, it complicates the internal communication in the software.
+For example, AutoGPT wants a certain system format that the LLM should respond in.
+While this works most of the time, it is not guaranteed that the answer complies with the format.
+A small deviation such as a missing bracket can break the parsing process.
+Therefore, a lot of effort and time is put into creating better tools and frameworks that handle such mistakes,
+instead of doing actual research on the agent performance.
+
+Another aspect is the non-deterministic generation of large language models. % TODO: lookup temperature of llms in this context
+For the same prompt, large language models can generate a different answer.
+This answer will probably be semantically similar to the previous one,
+but when a model has to choose between two abilities,
+this small difference can decide if the agent succeeds or fails at completing the task.
+Like earlier, developers have to spend time handling these cases by re-prompting several times or putting fallback actions in place.
+
+For a lot of tasks, a static pipeline is enough to meet the user demands.
+Almost all retrieval tools that work in production use a fixed pipeline.
+
+\section{Benchmarking Results}
+
+\section{Subjective Evaluation}
+
+\end{document}

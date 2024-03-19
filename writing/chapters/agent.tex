@@ -1,0 +1,328 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+Large language models are excellent at generating text in a variety of styles.
+But when prompted about specific topics the answer quality suffers.
+Different approaches try to tackle this problem.
+A promising method is retrieval augmented generation, which combines in-context learning prompting techniques with a vector database.
+In this section, I present an agent that is designed to answer user prompts in a retrieval-augmented fashion.
+
+To create the information retrieval agent,
+I used the Forge SDK \autocite{zotero-117} that is included in AutoGPT.
+The Forge agent SDK is a tool to create a custom agent without having to write the boilerplate code.
+In comparison with the AutoGPT agent, it comes with less predefined abilities and has no initial logic.
+On the contrary, fewer parts can break, and it is not under an ongoing re-factoring process,
+compared to the AutoGPT agent.
+Additionally, the AutoGPT agent is not optimized for information retrieval over a set of documents
+but operates more as a general-purpose agent.
+
+I extended the Forge agent with abilities that are needed for retrieval augmented generation.
+To store the documents for retrieval, I used a \emph{Chroma} vector database.
+The 'ingest' ability of the agent can be used to ingest a PDF file that is saved in the workspace.
+The PDF is converted into plain text and then chunked into smaller documents using the \emph{SentenceSplitter},
+which produces chunks of roughly equal length while respecting sentence boundaries.
+
+\section{Methods To Improve LLM Generation}
+
+Different approaches try to embed information sources into the generated text.
+One approach is to fine-tune the language model on a dataset that contains the information.
+The creation of fine-tuning data is an expensive task, as data needs to be gathered and cleaned to produce good results in training.
+There is some emerging work on generating synthetic datasets by using large language models as data augmentation tools.
+But even if the fine-tuning data quality is sufficient, it is still a challenge to make an LLM expert in a specific domain.
+Rather than learning new knowledge, fine-tuning is best suited to guide the model toward a certain answering style.
+Furthermore, fine-tuning models with billions of parameters is only possible on expensive hardware and therefore not feasible for on-demand tasks.
+
+Following up on the challenges of fine-tuning researchers have searched for ways to optimize prompts to get the best model performance.
+These methods make use of a phenomenon called in-context learning.
+In-context learning describes the observation that giving a large language model more context surrounding the prompt can drastically improve the response quality.
+\cite{Wei2022} found that adding a sentence that suggests step-by-step thinking to solve a problem makes the model better at solving logical questions.
+For GPT models, \autocite{Xu2023} showed an improvement after giving the language model a hint that it is an expert in a certain topic.
+The findings in the area of prompting techniques and in-context learning are suggesting
+that prompt optimizations have a high potential of getting the most out of large language models.
+
+A more promising approach is retrieval augmented generation \cite{Lewis2020}.
+Before generating an answer to a prompt, a vector database is searched for relevant information.
+The prompt then includes the information of the returned documents as context.
+
+\section{Retrieval Augmented Generation}
+
+\begin{figure}[t]
+      \centering
+      \begin{tikzpicture}[every node/.style={block}, every path/.style={->}]
+            \node (u) {User};
+            \node[right=of u] (q) {Query};
+            \node[right=of q] (DB) {DB};
+            \node[right=of DB] (qc) {Query + Docs};
+            \node[right=of qc] (LLM) {LLM};
+            \node[right=of LLM] (a) {Answer};
+            \draw (q) -- (DB);
+            \draw (DB) -- (qc);
+            \draw (qc) -- (LLM);
+            \begin{scope}[on background layer]
+                  \node[fit={(q) (DB) (qc) (LLM)}, label={RAG Pipeline}] (rag) {};
+            \end{scope}
+            \draw (u) -- (rag);
+            \draw (rag) -- (a);
+      \end{tikzpicture}
+      \caption{Instead of directly answering the user prompt with an LLM,
+            a retrieval augmentation system leverages context to generate better answers.
+            After receiving the user prompt, it is used to retrieve relevant documents from a database.
+            These documents are appended to the language model prompt as context.
+            The model is instructed to answer only using the provided context.}
+      \label{fig:rag_flowchart}
+\end{figure}
+
+
+Large language models can embed a large amount of knowledge into the weights during the pre-training phase.
+It is possible to generate good answers for different kinds of prompts.
+But when it comes to specific domain knowledge, the exactness of large language models starts to degrade.
+
+When trying to prompt models about very specific topics common problems such as hallucinations start to show.
+Not only does the model generate wrong information, it does so with strong confidence.
+A promising method to make the model answer based on specific sources is called retrieval augmented generation (RAG).
+
+The RAG method combines an information store with in-context learning.
+A corpus of documents is stored in a database.
+When the user prompts the system the database is queried with that prompt matching documents are returned.
+These documents are then included in the prompt to the LLM as context.
+
+To store the information a vector database is used.
+A vector database uses embedding models to embed each document into a high-dimensional vector space.
+After a user query, the query string gets embedded by the same model,
+and then a metric such as the cosine similarity is used to find semantically close documents.
+The top-k documents are then returned.
+
+\section{Agent}
+
+I will first explain the default Forge agent.
+Then will describe how I built the information retrieval agent.
+
+\subsection{The Forge Agent}
+
+To make collaboration with agents easier, the open-source community created the agent protocol.
+The Agent Protocol defines an API schema that handles the communication with an agent.
+On a high level, the protocol defines endpoints to create a task and to trigger the next step for the task.
+The two important concepts of the agent protocol are tasks and steps:
+
+\begin{description}
+      \item[Task] A task describes a goal for the agent.
+            A task has an input prompt and contains a list of steps.
+      \item[Step] A step describes a single action of the agent.
+            A step can have custom input or copy the task input.
+            Additionally, there is a variable that signals if this is the last step.
+            If this variable is false, then the next step is requested automatically after completing the current.
+            Every step has to be linked to a parent task.
+\end{description}
+
+The Forge SDK handles the boilerplate code that implements the agent protocol.
+On running, the server with the corresponding endpoints gets started, and the agent can be used over the API endpoints.
+AutoGPT also comes with a chatbot web app that builds the appropriate HTTP requests to the agent endpoints.
+The user of the Forge SDK has to create the actual agent logic, create custom prompt templates for the used model and add abilities to interact with external resources.
+Because the Forge SDK is still under development and by no means a polished product, some internals also need to be tweaked to achieve the desired agent behavior.
+
+By default, the Forge agent comes with abilities to read and write text files and to search a search engine as well as scraping a webpage.
+Each ability is specific by a name that the LLM can use to call it.
+Additionally, a short description of what the ability does, input parameters and return types are described.
+The information about an ability is formatted into a string before adding it to the step prompt.
+
+\begin{description}
+      \item[File System] The file system abilities allow operations on files located in the workspace of the agent.
+            The agent can only operate in the defined workspace, this prevents unwanted effects when the agent proposes unexpected actions.
+            Abilities to read, write and list files are present.
+            All the abilities have a path parameter that the large language model has to populate when generating a step proposal with actions from this category.
+      \item[Web] The web search functionality is split up into abilities to call a search engine and to read a webpage
+            The search engine ability requires a search string that is sent to the engine.
+            For the web page ability a URL is needed, and if specific information should be extracted the LLM also has to provide a question.
+      \item[Finish] The "finish" ability terminates the agent loop.
+            The agent is asked to choose this ability if the initial user prompt can be answered and give a reason.
+\end{description}
+
+The Forge agent comes with a built-in template engine that is used
+to populate the prompts before sending them to the large language model.
+Some templates are included by default:
+
+\begin{description}
+      \item[Task-Step] This template is used to create the prompt that is sent to the language model for each step.
+            It includes the current task description and placeholders for extra information.
+            The template always needs to be populated with the list of available abilities,
+            allowing the language model to choose one of them.
+      \item[System-Format] The system format defines how the model should respond to prompts.
+            It is shown in Listing \ref{lst:system-format}
+            The responses of the model need to be parsed according to this definition.
+            Language models have different capabilities in answering in a structured manner, % TODO: Sources
+            so the format has to be tuned for every model.
+      \item[Techniques] Techniques is a collection of prompting techniques that have been shown to improve generation quality.
+            By default, the Forge agent has templates for few-shot, expert and chain-of-thought prompting. % TODO: Sources
+\end{description}
+
+\begin{Code}[
+      caption={The system format of the Forge agent.
+                  The language model is asked to only answer in this format.
+                  The thoughts before creating the output for the user (speak),
+                  the LLM generates reasoning, a plan and criticism.
+                  After the model generated its thoughts,
+                  it generates an ability proposal with the corresponding arguments.},
+      label={lst:system-format},
+      captionpos=b,
+      float=tp]
+      Reply only in JSON with the following format:
+
+      {
+            \"thoughts\": {
+                  \"text\":  \"thoughts\",
+                  \"reasoning\": \"reasoning behind thoughts\",
+                  \"plan\": \"- short bulleted\
+                              - list that conveys\
+                              - long-term plan\",
+                  \"criticism\": \"constructive self-criticism\",
+                  \"speak\": \"thoughts summary to say to user\",
+            },
+            \"ability\": {
+                  \"name\": \"ability name\",
+                  \"args\": {
+                        \"arg1\": \"value1", etc...
+                  }
+            }
+      }
+\end{Code}
+
+The core of an agent is its logic.
+The Forge agent comes without any logic, its default behavior is to write a boilerplate text into a file in the workspace.
+
+
+\subsection{Agent Memory}
+
+Similar to the view of human memory,
+different implementations of memories for agents have been proposed.
+For short-term memory,
+the message history format used by instruct language models can be used.
+The last $n$ messages of a conversation between the user and the agent
+are recorded and change the generation behavior of the LLM that controls the agent.
+For example, a researcher could
+
+Long-term memory is generally represented as some external store
+where information can be stored and retrieved.
+This memory can include past conversations between the agent and the user,
+as well as additional data that the agent should have access to.
+The information can be present from the beginning or added at runtime by a user prompt.
+
+For large language model applications vector databases are a popular choice,
+because they integrate well into the embedding-based language modeling concept.
+Vector databases store data together with their high-dimensional embedding.
+Embedding models that are specifically trained to produce rich embeddings are used.
+The agent uses a \emph{chromadb} vector database \autocite{zotero-176}.
+
+
+\subsection{Agent Main Loop}
+
+\begin{figure}[t]
+      \centering
+      \begin{tikzpicture}
+            \node[block] (user) {User};
+            \node[block, right=of user] (task) {Task};
+            \node[block, right=of task] (step) {Step};
+            \node[block, above right=of step] (LLM) {LLM};
+            \node[block, below right=of step] (output) {Output};
+            \node[block, below right=of LLM] (ability) {Ability};
+
+            \draw[->] (user) -- (task);
+            \draw[->] (task) -- (step);
+            \draw[->] (step) -- (LLM);
+            \draw[->] (LLM) -- (ability);
+            \draw[->] (ability) -- (output);
+            \draw[->] (output) -- (step);
+            \draw[->, dotted] (output) -- (user);
+
+      \end{tikzpicture}
+      \caption{The information retrieval agent receives the user prompt at the start of each cycle.
+            Next, the step prompt is constructed with the action history, list of abilities and extra information.
+            After the LLM responds to the step prompt, the proposed action is executed
+            and the step output is presented to the user.
+            The loop ends if the LLM proposes the 'finish' ability.}
+      \label{fig:agent_loop}
+\end{figure}
+
+The agent program is defined in the agent step execution function.
+Every time a new step request is given this function is called.
+For the first user input, a task is created,
+then the agent proceeds to complete steps until the task goal is reached.
+A single cycle of the agent follows a fixed set of actions.
+First, the step input is updated for the current step.
+The user can give updated instructions in each step to further guide the agent.
+If no new input is given, the agent uses the input of the parent task as the step input.
+
+After the input is updated the agent constructs the message history for the language model.
+The first message is always the same system format specification.
+The agent uses the default Forge agent format shown in \autoref{lst:system-format}.
+The second message is the populated step prompt, which describes the current perceived environment of the agent.
+When the step prompt is constructed, it is sent to the language model.
+The generated answer is parsed into the thoughts and ability parts.
+
+The response is parsed into the thoughts of the LLM and the proposed ability.
+If a valid ability is proposed, it is executed.
+
+\subsection{Step Prompt}
+
+\lstinputlisting[
+      style=Code,
+      linerange={1-29, 36-41},
+      float=tp,
+      caption={The step prompt is the core of each step the agent takes.
+                  It describes the current environment representation of the agent.
+                  First, the current task is presented to the agent.
+                  Next, available resources and abilities are described.
+                  Finally, some hints for best practices are denoted.
+                  In this example, there is no step history as this is the first step.
+                  A full step prompt example is show in },
+      captionpos=b,
+      label={lst:step_prompt}]{include/code/example_step_answer.txt}
+
+The main step of the agent is to populate its step prompt template
+As denoted in \autoref{sec:agents}, an agent perceives its environment through sensors.
+Our agent describes the current environment in the step prompt.
+An example step prompt is shown in \autoref{lst:step_prompt}.
+It includes the current step input and instructions on how to answer.
+The available resources are denoted, and the action history is appended.
+
+If the agent is in its first step, the action history is empty.
+Otherwise, a list of the previous actions is compiled to give the agent a sense of its current state inside the task context.
+Each entry has the proposed ability with its parameters and the ability output.
+If the ability produced an error, this is also denoted.
+In the best practices section, the agent is prompted to react to errors and to not use the same action with the same arguments again.
+
+In addition to the action history, the available abilities are added to the prompt.
+The abilities enable the agent to act out its decisions in the environment.
+For each ability, the name, parameters, return type and a short description is given.
+
+\subsection{Abilities}
+
+In \autoref{sec:agents}, I described how agents use actuators to perform actions in the environment.
+The IR agent is a software agent that uses functions to modify its workspace.
+In particular, it has abilities that enable retrieval augmentation capabilities.
+These abilities will be described in the following.
+
+\begin{description}
+      \item[Ingest] The \emph{Ingest} ability should be used
+            when a document should be a source of information for the agent.
+            A file with the specified filename has to exist in the agent workspace before calling this function.
+            This ability converts the PDF into plain text, creates text chunks of the same length
+            and calls the functions to embed them into the vector database.
+      \item[Retrieve] The \emph{Retrieve} ability accepts to query string and an output file path.
+            With the query string, the agent queries its memory and gets the most relevant documents for it.
+            The documents are formatted and saved to the specified file path.
+      \item[Answer] This ability uses the contents of a text file to populate the augmented generation template.
+            The populated template is then sent to the LLM to generate an answer based on that context.
+\end{description}
+
+As the LLM tends to choose web search abilities to collect information, I removed the corresponding abilities.
+The agent is now forced to retrieve information from local sources.
+
+\subsection{Language Model Response}
+
+The populated step prompt is sent to the language model.
+To react to the model answer, the agent parses the generated response.
+From the thoughts part of the answer, only the 'speak' string is used as an output to the user.
+The second part contains the action proposal for the step.
+
+\end{document}

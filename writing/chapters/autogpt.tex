@@ -1,0 +1,149 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+The general notion of an agent in computer science was introduced in \autoref{sec:agents}.
+AutoGPT is an open-source project that tries to 'make GPT fully autonomous'.
+It started as a collection of loose scripts but quickly gained a lot of interest in the open-source community and grew into a much bigger and now-funded project.
+Initially, it only contained the AutoGPT agent that I will analyze in this chapter but over time has seen multiple additions.
+An agent framework called \textit{forge}, a benchmarking system that was put in place to host an agent hackathon and creation of the \textit{agent protocol}.
+The agent protocol is an attempt by the community to standardize agent applications.
+
+The AutoGPT was not built with a focus on information retrieval,
+which is why I will analyze the information retrieval capabilities in this chapter.
+
+GPT language models are used to control an agent that works towards reaching a stated goal.
+The project contains a core agent with a predefined set of abilities.
+Additionally, a baseline SDK is being developed to build custom agents.
+
+\section{LLM Agents Backgrounds}
+\todo[inline]{Move section into background chapter}
+
+The concept of agents in computer science is not new.
+An agent is a system that acts towards reaching a goal in an environment.
+Agents can be implemented as software as physical robots or even humans.
+In the same way, different environments are possible such as the real physical world,
+a web browser or a simulation.
+The agent needs ways to sense its environment,
+which can be done by sensors in a physical environment or programmatically in a software environment.
+A task has to be specified to the agent,
+so it knows what his goal is.
+It can then employ different strategies to reach that goal.
+These strategies consist of planning steps to execute.
+While acting out these steps, the environment will probably change as time passes, so an agent needs to reevaluate its plan and the contained steps.
+
+The increasing capabilities of large language models have led to research implementing them into agent systems.
+
+\section{Project Overview}
+
+\todo[inline, caption={}]{
+    \begin{itemize}
+        \item Default agent
+        \item Forge agent
+        \item Evo ninja
+        \item Benchmarking
+        \item Activity Decline
+        \item GUI
+    \end{itemize}
+}
+
+Originally, the default agent lived in the computer terminal and was controlled through the command line.
+Later, an option to start a server that serves the agent protocol was added.
+The user can interact with the agent through a GUI frontend running in the browser.
+
+The web interface lists all conversations an agent had and provides a chat interface for the selected one.
+When the user sends an input to the agent, a task or step request is made to the server running the agent.
+Furthermore, the web interface can be used to start benchmarks for an agent.
+A single test or a complete test suite consisting of stages can be started.
+The GUI has no support for uploading documents to an agent.
+Because of this, documents for information retrieval would need to be placed in specific folder locations
+such that the agent can access them before it is started.
+
+AutoGPT agents use workspaces in which they can act.
+Each agent has its workspace and can not modify files outside it by default.
+If the user wants the agent to have access to documents he needs to place them into its workspace by hand.
+Often, the workspace is also used to save intermediate information to text files.
+Some abilities produce large outputs,
+and the limited context window of large language models can be exceeded quickly
+if all intermediate information is appended to the prompt.
+
+\section{Architecture Overview}
+
+\todo[inline]{How should this differ from the Forge and IR agent overview?}
+The AutoGPT agent is modeled after the classic agent architecture.
+After the start,
+the user is asked to enter a task the AutoGPT agent should perform.
+Then the agent enters a loop of prompting the LLM,
+executing the proposed action
+handling the result of the action and updating the agent state.
+
+The LLM is prompted in a structured way.
+A base prompt template is defined
+and populated with current information before each prompting step.
+The information includes the task at hand,
+a list of possible actions,
+a history of previous actions and their results
+and some extra statements that are there to guide the language model.
+As the answer needs to be parsed,
+the system prompt defines a fixed format the LLM should answer in.
+The answer consists of the thoughts and the proposed next action.
+
+AutoGPT is divided into four modules.
+The \textit{brain} is the main module that controls the agent.
+In AutoGPT this is realized by prompting the language model in a structured way.
+Using the chat system prompt,
+the language model is prompted to answer in a structured format.
+Different techniques are implemented in this structure.
+The language model is forced not only to plan the next step
+but also to explain the choice for the chosen step and to add self-criticism.
+An extra output for the human user is also returned.
+The second part of the answer is the actual next action with the needed arguments.
+The action makes up the second module of the agent.
+In this module, the abilities of the agent are defined.
+These can be file operations,
+database queries or web search functionalities.
+The third module is the \textit{memory}.
+Memories are modeled after humans which have short and long-term memory.
+Short-term memory can be implemented
+as an in-memory list of messages to the language model.
+Long-term memory needs persistent storage such as a database.
+A popular option for language models is vector databases that work with embeddings.
+
+Currently,
+the AutoGPT agent is implemented for OpenAI GPT models.
+The prompts are tailored in ways
+that benefit the characteristics of GPT-3 and GPT-4.
+Switching to a different model is not difficult from a software perspective,
+but semantically poses a challenge.
+If one knows the message format for a specific model the input can be adjusted.
+However, the same prompting techniques do not necessarily work for all language models.
+The challenge is to switch between different prompting styles,
+as every model needs to be prompted differently.
+For example,
+OpenAI models benefit from profile sentences like "You are an expert in computer science",
+while Anthropic Claude does not\dots
+
+\section{Information Retrieval Capabilities}
+
+The AutoGPT Agent has different abilities that can be utilized for information retrieval.
+It can search the web and operate on files, execute code and
+
+The web search is implemented by a two-step process.
+First, a search API like DuckDuckGo is called to get a list of relevant pages.
+Then the page contents are scraped with a headless browser.
+It is possible to read and write text files.
+Other document types are processed by basic text extraction tools to get the plain text.
+
+For longer files such as scientific journals the extracted text is too long for the language model.
+The AutoGPT agent cannot chunk the text into smaller chunks or store it in a database.
+This is a limitation that needs to be addressed for information retrieval tasks over a research database repository.
+
+Having a vector database would enable techniques such as retrieval augmented generation.
+The agent would get a prompt with a question over the RDR and choose an action to start a semantic search over the vector database.
+The result of the search is the chunks that are semantically closest to the question.
+These chunks can then be included as context for the LLM prompt to generate an answer.
+
+The default agent tends to search the web for information. We want an agent that prioritizes information that is present in the research repository.
+This needs to be addressed in the prompting techniques of the agent.
+
+\end{document}

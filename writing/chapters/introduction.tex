@@ -1,0 +1,72 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+Encoding knowledge in natural language is an everyday process for humans,
+but has been a problem for machines for decades.
+
+In recent years, there has been a large increase in language modeling capabilities.
+After the proposal of the transformer architecture \cite{Vaswani2017},
+which removed all sequential components from previous language modeling techniques,
+the architecture and its components were applied to all kinds of language modeling problems.
+
+Humans need to retrieve information from somewhere constantly.
+It can be a task like digging out an old and hidden memory or finding a book that contains the desired information.
+Improving the efficiency of tasks like the latter has been extensively researched in the information retrieval area in the last decades.
+With the introduction of Internet search engines and data repositories, the barrier to accessing information has been drastically improved.
+
+\section{Contributions of this Thesis}
+
+Three main contributions of this Thesis are
+
+\begin{enumerate}
+    \item An analysis of AutoGPT and its default agent for information retrieval tasks.
+    \item An agent for information retrieval that uses retrieval augmented generation.
+    \item A way to benchmark an information retrieval agent using the AutoGPT benchmarking system with a synthetic IR dataset
+\end{enumerate}
+
+\section{Related Work}
+
+There are different attempts at creating LLM outputs with sources. Perplexity AI hosts a question-answering service, that gives sources from websites.
+
+\subsection{LLM Agent Tools}
+
+AutoGPT was the first attempt to make LLM autonomous, but other projects have since been published.
+Each project focuses on different aspects of agent behavior
+
+BabyAGI is a minimal task-driven autonomous agent, similar to the nanoGPT project.
+
+
+\subsection{LLM Information Retrieval Tools}
+
+Since the release of more capable language models,
+Many developers work on tools that use these models for information retrieval
+
+In a variety of application contexts,
+the answers of an assistant have to be correct.
+This is especially true in research contexts.
+A model that hallucinates isn't feasible in this case.
+But while hallucination can be reduced with fine-tuning,
+it can not be eliminated.
+Perplexity AI is an online service that leverages a language model
+to provide a search that generates an answer from different sources on the internet.
+The content of the answer is then linked to the found sources,
+so the user can see and verify the result.
+
+As this is a proprietary closed-source product accessible through a web interface,
+this is not useful to create our custom research assistant.
+The provided API simply hosts different language models and allows prompting them.
+There is no possibility of fine-tuning.
+
+\section{Structure of this Thesis}
+
+In chapter \ref{chap:backgrounds} I will introduce the main topics
+are relevant to this work.
+Chapter \ref{chap:autogpt} will then give an introduction to AutoGPT and its
+core elements,
+as well as an analysis of the shipped information retrieval capabilities.
+The RAG Agent will be presented in chapter \ref{chap:agent}.
+In chapter \ref{chap:benchmarks}, I use the AutoGPT benchmarking system
+to evaluate the RAG Agent on generated test prompts.
+
+\end{document}

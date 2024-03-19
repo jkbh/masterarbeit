@@ -1,8 +1,24 @@
 \documentclass[english, version-2022-01]{uzl-thesis}
 
+\usepackage{import}
+\usepackage{xifthen}
+\usepackage{pdfpages}
+\usepackage{transparent}
 \usepackage{subfiles}
+\usepackage{varwidth}
+\usepackage[obeyFinal, textsize=small, textwidth=3cm]{todonotes}
 
-\UzLStyle{pagella basic design}
+\usetikzlibrary{fit, positioning, external, backgrounds}
+\tikzexternalize
+\tikzset{thesis outline shapes}
+
+\setuptodonotes{color=orange!50, inlinewidth=7cm}
+\makeatletter
+\renewcommand{\todo}[2][]{\tikzexternaldisable\@todo[#1]{#2}\tikzexternalenable}
+\makeatother
+\newcommand{\missingref}[1]{\todo[options]{color=red!50}{Missing references!}}
+
+\UzLStyle{alegrya modern design}
 \UzLThesisSetup{
 Masterarbeit,
 Verfasst = {am}{Institut für Informationssysteme},
@@ -12,236 +28,41 @@ Autor = {Jakob Horbank},
 Betreuerin = {Prof. Dr. Ralf Möller},
 Studiengang = {Informatik},
 Datum = {15. April 2024},
-Abstract = {It is about saying ``hello'' to the world.},
-Zusammenfassung = {Es geht darum, der Welt »Hallo« zu sagen.},
+Abstract = {Abstract},
+Zusammenfassung = {Abstract},
 Numerische Bibliographie
 }
-
+\graphicspath{include/images}
 \addbibresource{bib/zotero}
-
+\setlength{\marginparwidth}{3cm}
 \begin{document}
+
 \chapter{Introduction}
+\label{chap:introduction}
+\subfile{chapters/introduction}
 
-This is an introduction like not other. Information retrieval hard and stuff.
-Would be nice to have a chatbot that answer natural language questions and gives sources from research database and even web.
-
-\section{Contributions of this Thesis}
-
-Hopefully the above.
-
-\section{Related Work}
-
-There are different attempts at creating LLM outputs with sources. Perplexity AI hosts a question answering service, that gives source from websites.
-
-\subsection{Open Source LLM Agents}
-\begin{itemize}
-    \item AutoGPT
-    \item babyagi
-\end{itemize}
-\subsection{Information Retrieval Applications}
-
-In a variety of application contexts,
-the answers of an assistant have to be correct.
-This is especially true in research contexts.
-A model that hallucinates isn't feasable in this case.
-But while hallucination can be reducing with fine-tuning,
-it can not be competely eliminated.
-Perplexity AI is a online service that leverages a language model
-to provide a search that generates an answer from different sources in the internet.
-The content of the answer is then linked to the found sources,
-so the user can see and verify the result.
-
-As this is a proprierty closed source product accessible through a web interface,
-this is not a useful to create our own research assistant.
-The provided API simply hosts different LLMs and allows prompting them.
-There is no possibilty of of fine-tuning.
-
-\section{Structure of this Thesis}
-I do this then that and then that.
-
-% Backgrounds
 \chapter{Backgrounds}
+\label{chap:backgrounds}
+\subfile{chapters/backgrounds}
 
-Different branches of research were used to build upon in this work.
-These topics and how their are connected to my work
-is explained in more detail in this section.
-
-\section{Information Retrieval}
-
-Retrieving the best documents for a query from a large databse,
-filled with information of different kind is a classic problem in computer science.
-There has been extensive reasearch on database architectures and indexing algorithms.
-
-\section{Agents}
-
-Although the notion of agent is not new,
-it recently gained attention in combination with the rise of generative language models.
-
-\section{Language Modeling}
-
-Natural language processing is a long studied research area of computer science.
-In recent years delevopments have significantly sped up,
-with the introduction of deep learning into NLP.
-The transformer archticture has been the basis for all advancements in recent years.
-
-\subsection{Transformer Networks}
-\label{subsec:transformer}
-\subfile{chapters/backgrounds/transformer.tex}
-
-\subsection{Generative Pre-Trained Transformers}
-\label{subsec:gpt}
-\subfile{chapters/backgrounds/gpt.tex}
-
-\subsection{Embedding Models}
-\label{subsec:embedding}
-\subfile{chapters/backgrounds/embedding.tex}
-
-\subsection{Instruction-Tuned Models}
-\subfile{chapters/backgrounds/instruct.tex}
-
-% AutoGPT
 \chapter{Analysis of AutoGPT for Information Retrieval Tasks}
-\subfile{chapters/autogpt_analysis/introduction}
+\label{chap:autogpt}
+\subfile{chapters/autogpt}
 
-\section{Agent Backgrounds}
-\subfile{chapters/autogpt_analysis/agents}
-
-\section{Architecture Overview}
-\subfile{chapters/autogpt_analysis/architecture.tex}
-
-\section{Information Retrieval Capabilities}
-\subfile{chapters/autogpt_analysis/IR_capabilities}
-
-% Agent
 \chapter{Retrieval Augmented Generation Agent}
-\subfile{chapters/agent/introduction.tex}
-
-\section{Methods To Improve LLM Generation}
-\subfile{chapters/agent/llm_generation_improvement_methods.tex}
-
-\section{Retrieval Augmented Generation}
-\subfile{chapters/agent/retrieval_augmented_generation.tex}
-
-\section{Agent}
-
-To create the information retrieval agent,
-I used the Forge SDK\footnote{https://docs.agpt.co/forge/get-started/} that is included in AutoGPT.
-
-\subsection{Forge SDK}
-
-To make collaboration on agents easier,
-the open source LLM-agent community created the agent protocol.
-The Agent Protocol defines an API schema
-that handles the communication with an agent.
-On a high level the protocol defines endpoints to create a task
-and to trigger the next step for the task.
-
-The Forge SDK handles the boilerplate code
-that implements the agent protocol.
-On running,
-the server with the corresponding endpoints gets started and
-the agent can be used over the API endpoints.
-AutoGPT also comes with a chatbot webapp
-that builds the appropriate HTTP requests to the agent endpoints.
-
-The user of the Forge SDK has to create the actual agent logic,
-create custom prompt templates for the used model and
-add abilities to interact with external resources.
-Because the Forge SDK is still under development
-and by no means a polished product,
-some internals also have to be tweaked to achieve the desired agent behaviour.
-
-By default the Forge agent comes with abilities to read and write textfiles and
-to search a search engine as well as scraping a webpage.
-The default behaviour is to write a test string into a file
-in the workspace no matter what the user prompts.
-
-\subsection{Agent Memory}
-
-Similar to the view of human memory,
-different implementations of memories for agents have been proposed.
-For short-term memory,
-message history format used by instruct language models can used.
-The last n messages of a conversation between the user and the agent
-are recored and change the generation behaviour of the LLM
-that controls the agent.
-Long-term memroy is generally represented as some external store
-where information can be written and stored.
-
-\begin{itemize}
-    \item Vector Database
-    \item
-\end{itemize}
-\subsection{Agent Abilities}
-
-
-
-
-\begin{itemize}
-
-    \item Custom agent Loop
-    \item Custom abilities
-    \item Further guidances for the agent
-\end{itemize}
+\label{chap:agent}
+\subfile{chapters/agent}
 
 \chapter{Benchmarking for an IR Agent}
-
-The evaluation of large language model agents is a difficult task, as evaluating LLMs themselves presents a challenge.
-There are different approaches to evaluate systems built around language models. Subjective evaluation is based on human feedback.
-As LLM systems are generally made to serve humans this is an important part of evaluation.
-On the other hand, quantiative metrics that can be computed are used for objective evaluation. Different metrics are used for different tasks. Another importat method are benchmarks.
-Benchmarks are a set of tasks or an environment that the agent is to move in.
-
-\section{Existing IR Agent Benchmarks}
-
-As the space of possible agent domains is large, lots of different benchmarks were proposed. Simulation environments like
-
-Although lots of benchmarks for LLM applications have been proposed, there are few benchmarks that are designed to test the information retrieval capabilities of an agent.
-There are some benchmarks that are used to evaluate information retrieval in general and in a diverse domains like "cite".
-
-\section{The AutoGPT Benchmarking System}
-
-To evaluate AutoGPT and other agent systems that implement the agent protocol, the AutoGPT project has implemented its own benchmarking system.
-The system consists of a set of tasks that the agent has to complete. The tasks are designed to test different aspects of the agent, and are divided into different topics.
-Some tasks depend on the previous succesful completion of other tasks. A task consists of an input prompt and a expected output.
-The ouput is defined by certain words that should be contained.
-
-\begin{itemize}
-    \item Level based system
-    \item Dependencies
-\end{itemize}
-
-\section{Custom Benchmarks for Local IR over Journals}
-
-\begin{itemize}
-    \item Retrieval benchmarks
-\end{itemize}
+\label{chap:benchmarks}
+\subfile{chapters/benchmark}
 
 \chapter{Results}
-
-\section{Points of Failure}
-
-\section{Benchmarking Results}
-
-\section{Subjective Evaluation}
-
-\begin{itemize}
-    \item Why is subjective evaluation needed
-    \item What aspects of the agent can be evaluated subjectively
-\end{itemize}
+\label{ch:results}
+\subfile{chapters/results}
 
 \chapter{Conclusion}
+\label{ch:conclusion}
+\subfile{chapters/conclusion}
 
-\begin{itemize}
-    \item What was the premise
-    \item What was tried out
-    \item What worked what did not and why
-\end{itemize}
-
-\section{Future Work}
-
-The reserach area about large language models currently moves at a rapid pace.
-While writing this thesis, communities have focus more on 'agentic' applications of LLMs.
-OpenAI has released OpenAI Assistants, which\dots.
-The AutoGPT team is still working on making the use of local models feasable.
 \end{document}

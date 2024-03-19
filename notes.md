@@ -27,6 +27,7 @@ As the output can get large it is better to save it into a file and return the f
 **Added best practices to task-step prompt**
 
 Contents:
+
 - Respect errors
 - No ability twice (might cause problems)
 - Prefer querying vector DB before answering
@@ -52,16 +53,16 @@ focus points: 3/10
 - Refactored agent class
 - Organized references
 
-## Mo Feb 26 
+## Mo Feb 26
 
 **Reasons I split up the RAG steps into single steps**
 
 A fixed rag pipeline works for single question and answer conversation flows
 But what if the query are more complex and require a retrieving two different topics and then connecting the results in an answer.
-So we might need retrieval and generation once, or retrieval twice and generation once or any other combination. 
+So we might need retrieval and generation once, or retrieval twice and generation once or any other combination.
 Also iterating generation steps could be on option.
 
-**Implemeting backlinging sentences to retrieved source** 
+**Implemeting backlinging sentences to retrieved source**
 
 Either use similarity again or ask the model to inlucde source tokens into the answer.
 

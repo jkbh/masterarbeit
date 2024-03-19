@@ -1,0 +1,393 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+
+Different branches of research were used to build upon this work.
+These topics and how they are connected to my work
+are explained in more detail in this section.
+
+A core concept in the creation of artificial intelligence is \emph{agents}.
+An introduction to agents is given in \autoref{sec:agents}.
+In \autoref{sec:information_retrieval} I will describe the process of \emph{information retrieval} on a high level.
+Finally, in \autoref{sec:language_modeling} the topic of \emph{language modeling}
+and the current developments of large language models are explained in more detail.
+
+\section{Information Retrieval}
+\label{sec:information_retrieval}
+Retrieval of information is essential for humans.
+Information can be anything, like things seen by the eye, thoughts or an article from a book.
+Retrieving the best documents for a query from a large database
+filled with information of different kinds is a classic problem in computer science.
+There has been extensive research on database architectures and indexing algorithms.
+Popular applications of IR algorithms are search engines that enable fast access to billions of documents on the internet.
+Before retrieving information from an information retrieval system,
+the data is preprocessed and stored.
+Then a user query initiates a series of steps that can rewrite the query, retrieve relevant documents,
+re-rank the relevant documents and finally present the information to the user.
+
+\subsection{Information Retrieval Steps}
+
+\begin{figure}[t]
+    \centering
+    \begin{tikzpicture}[node distance=1.5cm]
+        \node[block] (query) at (0,0) {Query};
+        \node[block] (rewrite) [right=of query] {Rewrite};
+        \node[block] (retrieve) [right=of rewrite] {Retrieve};
+        \node[block] (db) [below=of retrieve] {Database};
+        \node[block] (docs) [left=of db] {Documents};
+        \node[block] (rerank) [right=of retrieve] {Re-Rank};
+        \node[block] (present) [right=of rerank] {Present};
+
+        \draw[->] (query) -- (rewrite);
+        \draw[->] (rewrite) -- (retrieve);
+        \draw[->] (db) -- (retrieve);
+        \draw[->] (docs) -- node[above] {index} (db);
+        \draw[->] (retrieve) -- (rerank);
+        \draw[->] (rerank) -- (present);
+    \end{tikzpicture}
+    \caption{Every information retrieval process starts with a user query.
+        The database is then queried to retrieve relevant documents to the query.
+        Before presenting an answer to the user, the retrieved documents are ranked by another relevance measure.}
+    \label{fig:ir_steps}
+\end{figure}
+Information retrieval systems consist of multiple steps.
+Typically, the user interacts with an information retrieval system by writing out a query that describes the retrieval topics.
+A problem with queries written by humans is that they are not optimized for the following steps of the retrieval system.
+Human writing sentences can include spelling mistakes missing words or even wrong descriptions of information.
+In IR systems researchers try to mitigate such problems with query rewriting.
+A core query rewriting technique is to expand the query with more words to improve the retrieval accuracy.
+
+To retrieve documents that correlate to the search query,
+different algorithms and models have been proposed.
+For a long time, functions like the BM25 \cite{Robertson2009}
+were often used to retrieve the best matching documents from a corpus.
+Term-based bag-of-words functions like BM25 rank documents based on word occurrences in every document.
+With neural network approaches becoming more popular,
+the focus has shifted toward mapping documents to high-dimensional vectors called embeddings.
+A similarity matrix can then be used to calculate the distance between to embeddings corresponding to the query and a document.
+
+After a set of relevant documents was retrieved with an efficient retrieval method,
+the documents are re-ranked by their relevance.
+This time the algorithms used for ranking the documents are specialized towards quality rather than efficiency.
+In addition, the re-ranking phase can include task-specific ranking strategies to meet user demands.
+
+In the last step, the information is presented to the user.
+Large language models have become a popular method to create user-friendly responses from retrieved documents.
+
+% Indexing
+
+Before documents can be retrieved from a database,
+they have to be stored.
+How documents are stored is a crucial part of creating an information retrieval system.
+While some data sources are delivered in structured formats like JSON or XML,
+academic texts are published in journals, articles or conference proceedings.
+All of these mediums are distributed as PDFs which is an unstructured data format.
+The PDF format does not save the content
+A preprocessing step is required before storing the documents to extract information from unstructured formats.
+There are different techniques to preprocess text before storing it.
+With \emph{tokenization}, sentences are split up into words, phrases or symbols.
+Words with little information such as articles and prepositions are removed from the word list.
+The words are called \emph{stop words}.
+Furthermore, a \emph{stemmer} can be used to group words that have the same stem.
+All of these preprocessing steps help to capture the semantics of a text or sentence.
+
+
+\subsection{Evaluation}
+
+The evaluation of an information retrieval system is not a trivial task, as it is not clear what the human user searches for.
+Different information retrieval evaluation strategies are categorized into subjective and objective evaluations.
+
+Objective evaluations use metrics that can be computed and compared over time.
+
+Subjective evaluations are needed because
+
+\section{Agents}
+\label{sec:agents}
+Rationality is viewed as a core component of intelligence.
+In computer science, computational entities that act rationally are called agents.
+What it means to act rational is, and will stay an open research question for a long time.
+However, to use the notion of an agent in practical work a more concrete definition has emerged.
+An agent is anything that can be viewed as perceiving its environment through sensors
+and acting upon that environment through actuators \cite{Russel2022}.
+A human perceives the world through eyes and can act with hands or speech,
+a software can perceive and act through software interfaces.
+Both examples can be called agents.
+
+A key step when constructing an agent is to define the \emph{task environment}.
+The task environment consists of a performance measure, the environment, the actuators and the sensors \cite{Russel2022}.
+Environments can be physical but also purely virtual, we are then using a software agent.
+
+\subsection{Agent Types}
+
+An agent consists of an agent architecture and an agent program.
+While the agent architecture makes perceptions and actions through sensors and actuators available,
+the agent program implements the mapping from perceptions to actions.
+Agent programs can be categorized into four basic types that almost all agents are based on \cite{Russel2022}.
+What kind of agent is useful depends on the given task environment.
+
+\begin{figure}[t]
+    \centering
+    \begin{tikzpicture}[
+            outer sep=auto,
+            bblock/.style={block, inner sep=1em, label={[above]:#1}}
+        ]
+
+        \node[block] (agent) at (0,0) {Agent Program};
+        \node[above=2ex of agent.north] (sensors) {Sensors};
+        \node[below=2ex of agent.south](actuators) {Actuators};
+        \coordinate[right=4cm of sensors] (sensors_origin);
+        \coordinate[right=4cm of actuators] (actuators_target);
+        \draw[->] (sensors) -- (agent);
+        \draw[->] (agent) -- (actuators);
+        \draw[->] (sensors_origin) -- node[above] {Percepts} (sensors);
+        \draw[->] (actuators) -- node[above] {Actions} (actuators_target);
+
+        \begin{scope}[on background layer]
+            \node[bblock={Agent Architecture}, fit={(sensors) (agent) (actuators)}] (arch) {};
+            \node[bblock={Environment}, fit={(sensors_origin) (actuators_target)}, minimum width=1.5cm] (env) {};
+        \end{scope}
+    \end{tikzpicture}
+    \caption{An agent as defined in \citeauthor{Russel2022}.
+        The agent program runs on the agent architecture.
+        Agents perceive their environment through sensors and act upon it using actuators.
+        The agent program continuously maps perceptions to action and defines the agent type.}
+    \label{fig:agent_overview}
+\end{figure}
+
+\begin{description}
+    \item[Simple reflex agents]
+        Simple reflex agents are the simplest kind of agent.
+        They choose actions based on the current perceptions looking at the perception history.
+        This means that even a bit of unobservability can break the agent.
+    \item[Model-based reflex agents]
+        Model-based reflex agents deal with partially observable environments
+        by keeping an internal state of the world.
+        This internal state depends on the perception history.
+        Modeling physical or mental states is a complex topic that is heavily researched.
+    \item[Goal-based agents]
+        In many cases, the perception history is not enough to choose the best action.
+        To be able to do that a goal is required.
+        Goal-based agents search for action sequences that end in a goal state.
+        This process is called planning.
+    \item[Utility-based agents]
+        Even with a goal in mind, there are cases where more than one action sequence leads to the goal state.
+        To decide which action to select, utility-based agents choose the action that maximizes the expected utility.
+        The utility function of the agent should ideally match the performance measure of the task environment.
+\end{description}
+
+To improve the performance of an agent it \emph{has to learn}.
+All agent types can be extended to learning agents.
+For an agent, learning means modifying each component
+such that it better aligns with feedback from a new critic component \autocite{Russel2022}.
+As a result of these modifications, the agent performance improves.
+
+\subsection{Large Language Model Agents}
+
+With the rise of large language models and their impressive capabilities in various language tasks,
+efforts began to leverage them in agent systems.
+Experiments to give GPT the option to access tools \autocite{Shen2023, Schick2023} showed that it was possible.
+\todo{Mention AutoGPT and link to chapter}
+
+Four key reasons why large language models are suitable as agent brains are outlined in \cite{Xi2023}.
+Agents should act autonomously without direct interventions from humans.
+The generative capabilities and dynamically adjusted outputs based on the input fit that characteristic.
+\todo[inline]{Move agent backgrounds from agent chapter to here?}
+
+For practical applications \autocite{Zhu2024}, a distinction between static and dynamic agents is proposed.
+A static agent is characterized as a fixed pipeline that mimics the user behavior.
+While this approach works,
+it cannot deal with complex and sometimes random human actions.
+The other type of agent can dynamically execute actions that are presented to it.
+The most prominent way of using LLM for agents
+is to build a prompt that contains all the information about the task,
+and then ask it to propose the next action.
+The prompt can contain descriptions of possible abilities, the task, guidelines,
+information about the environment and more.
+
+For LLM agents we do not have all the components of a classical agent
+that were listed in the previous section about agent types.
+\autocite{SignificantGravitas2024}
+
+\section{Language Modeling}
+\label{sec:language_modeling}
+Language modeling is an important research area of computer science.
+In recent years, developments have significantly sped up with the introduction of deep learning into language modeling.
+The transformer network \cite{Vaswani2017} has been the base for many advancements in recent years.
+Deriving from the transformer network,
+massively scaled-up pre-trained transformer models \autocite{Brown2020}
+enabled a big leap in the capabilities of language processing models.
+
+
+\subsection{Transformer Networks}
+\label{subsec:transformer}
+
+Using recurrent structures such as recurrent neural networks
+and long short-term memory \cite{Chung2014}
+was the dominant strategy in sequence modeling
+before transformer networks \cite{Vaswani2017}.
+Every sentence token was represented as a hidden state
+that is a function of all previous hidden states.
+While this approach has a reasonable motivation,
+the sequential nature constrains computation speed for a single training example.
+This limitation is especially hindering for longer sequences,
+where batching the training data is only possible to a memory limit.
+Attempts to minimize sequential computation included convolutional networks
+that can be computed in parallel \cite{Gehring2017}.
+For these models, however,
+the number of operations required to relate two tokens
+grows in the distance of their positions in the sequence.
+Attention mechanisms allow modeling token relationships
+independent of their distance in a sequence.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[scale=0.4]{include/images/transformer_architecture.png}
+    \caption{
+        The encoder-decoder architecture
+        of a full transformer network \cite{Vaswani2017}.
+        The encoder (left) can attend overall positions to learn rich embeddings.
+        The decoder (right) can generate output sequences.
+        The first decoder attention layer
+        can only attend to previous positions of the input sequence,
+        while the second can attend to the outputs of the encoder.
+        This combines a sequence-to-sequence with
+        autoregressive properties into the decoder.
+    }
+    \label{fig:transformer_arch}
+\end{figure}
+
+The transformer network \cite{Vaswani2017}
+shown in Figure \ref{fig:transformer_arch}
+was the first model that removed all recurrent structures
+and only relies on attention mechanisms.
+In particular,
+they use multi-headed self-attention layers.
+Attention mechanisms learn dependencies between tokens in sentences
+without regard to their distance.
+Their non-sequential characteristics allow for better parallelization.
+Self-attention is an attention mechanism
+that computes relations between different positions of the same sequence
+to find a representation of the sequence.
+
+Since the transformer architecture does not use any recurrent structures,
+the order of the tokens in the sequence must be manually injected.
+Positional encodings are added to the input embeddings to achieve this.
+
+Like most language modeling networks,
+a transformer consists of an encoder and a decoder.
+The encoder has two sub-layers,
+a multi-head attention block
+and a fully connected feed-forward block.
+The decoder is similar to the encoder
+but has an additional multi-head attention layer
+that attends to the outputs of the encoder.
+The first attention layer is masked,
+and the decoder input sequence is shifted to the right,
+so only previous positions can be
+attended by the decoder.
+
+The full architecture has the capabilities of a classic sequence-to-sequence model
+used for tasks like language translation.
+All positions in the decoder can attend to all positions in the encoder.
+For other tasks, however,
+the individual encoder and decoder sections are a better fit,
+as explained in the sections \ref{subsec:embedding} and \ref{subsec:gpt}.
+
+\subsection{Generative Pre-Trained Transformers}
+\label{subsec:gpt}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[scale=0.3]{include/images/gpt_architecture.png}
+    \caption{
+        The GPT architecture \cite{Radford2018}.
+        A transformer encoder
+        without connections to a previous encoder is used.
+        The attention layer
+        can only attend to previous positions in the input sequence.
+        The decoder is stacked $12$ times before generating the final output.
+    }
+    \label{fig:gpt_arch}
+\end{figure}
+
+
+Decoder-only transformers are the base of generative pre-trained transformers (GPT).
+The decoder used for GPT does not rely on the outputs of an encoder,
+because it is designed for generation tasks.
+In Figure \ref{fig:gpt_arch} we can see
+that only the masked multi-head attention layer is kept in comparison to
+the full transformer network.
+The simple architecture enables faster pre-training and fine-tuning.
+
+GPT is trained in two phases.
+In the unsupervised pre-training phase,
+the model is trained with big datasets of unlabeled text data.
+The training objective here is
+to accurately generate the next token of a sequence.
+
+After the first pre-training phase,
+the model needs to be fine-tuned for a specific task.
+By including custom tokens in the fine-tuning dataset,
+the decoder can learn to handle a variety of different tasks
+such as text generation or classification.
+
+Newer research on generation models focuses on scaling the network.
+The \emph{scaling law} states
+that by simply increasing the number of parameters of the network,
+the model capabilities increase.
+Furthermore,
+after a certain level of scaling,
+abilities emerge that the model was not directly trained on.
+
+As large language models have reached parameter counts over a billion,
+only very few companies have the hardware to train or even run inference tasks.
+
+\subsection{Embedding Models}
+\label{subsec:embedding}
+
+The left-to-right nature of the transformer encoder suits text generation tasks that only depend on previous tokens.
+However, there are dependencies between tokens in both directions,
+which means a decoder-only model can not capture all relations.
+
+The amount of knowledge learned in the pre-training phase is encoded in embeddings.
+Embeddings are high-dimensional vectors that represent a sequence of words or tokens.
+Semantically similar documents are represented with embedding vectors that have a small distance,
+while semantically different documents have a high distance.
+
+BERT \cite{Devlin2019} uses the encoder part of a transformer network, to create rich embeddings of input sequences.
+In pre-training, the bidirectional encoder is trained with two unsupervised tasks.
+For the first task,
+random tokens in the sequence are masked out to predict the masked tokens from the remaining tokens in the sequence.
+In the second task, sentence-level relationships are learned by predicting the next sentence.
+After pre-training, BERT can be fine-tuned on different downstream tasks
+leveraging the rich bidirectional embeddings learned in pre-training.
+
+\subsection{Instruction-Tuned Models}
+
+Language models are trained to predict the next token of a sequence.
+While a lot of knowledge is captured in the weights of the model,
+most information on the internet is not formatted in a conversational style.
+Because of this, language models need to be prompted in a specific way to be effective.
+The prompt needs to be written such that its continuation yields the desired output.
+This is not optimal for human users, as one would rather write in a conversational style.
+The training objective of large language models is different from the objective
+"follow the user's instructions helpfully and safely" \cite{Ouyang2022}.
+Researchers say that the language model is not \emph{aligned}.
+A popular attempt at aligning language models is reinforcement learning with human feedback (RLHF) \cite{Ouyang2022}.
+
+
+Instruct models are fine-tuned versions of language models.
+Capturing the intent of the user is a key challenge for language models.
+This process is called \emph{alignment}.
+A popular approach to the alignment problem is reinforcement learning with human feedback (RLHF) \cite{Ouyang2022}.
+Handcrafted prompts are used to fine-tune GPT-3.
+The outputs of the model are collected into a set and ranked by humans.
+This set is then used to train a reward model.
+With this reward model, the language model is further fine-tuned.
+The resulting model is called \emph{InstructGPT} and performs better than the baseline GPT-3 model.
+
+Large language models are trained to predict the next token of a sequence,
+not to follow the instructions of the user.
+This leads to some unwanted results such as toxic, harmful or fabricated answers that are not true.
+
+\end{document}
