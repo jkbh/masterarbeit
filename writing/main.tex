@@ -1,68 +1,15 @@
 \documentclass[english, version-2022-01]{uzl-thesis}
 
-\usepackage{import}
-\usepackage{xifthen}
-\usepackage{pdfpages}
-\usepackage{transparent}
-\usepackage{subfiles}
-\usepackage{varwidth}
-\usepackage[obeyFinal, textsize=small, textwidth=3cm]{todonotes}
+\input{preamble.tex}
 
-\usetikzlibrary{fit, positioning, external, backgrounds}
-\tikzexternalize
-\tikzset{thesis outline shapes}
-
-\setuptodonotes{color=orange!50, inlinewidth=7cm}
-\makeatletter
-\renewcommand{\todo}[2][]{\tikzexternaldisable\@todo[#1]{#2}\tikzexternalenable}
-\makeatother
-\newcommand{\missingref}[1]{\todo[options]{color=red!50}{Missing references!}}
-
-\UzLStyle{alegrya modern design}
-\UzLThesisSetup{
-Masterarbeit,
-Verfasst = {am}{Institut für Informationssysteme},
-Titel auf Deutsch = {Nutzung von AutoGPT für Informations-Recherche Agenten},
-Titel auf Englisch = {Using AutoGPT for Information Retrieval Agents},
-Autor = {Jakob Horbank},
-Betreuerin = {Prof. Dr. Ralf Möller},
-Studiengang = {Informatik},
-Datum = {15. April 2024},
-Abstract = {Abstract},
-Zusammenfassung = {Abstract},
-Numerische Bibliographie
-}
-\graphicspath{include/images}
-\addbibresource{bib/zotero}
-\setlength{\marginparwidth}{3cm}
 \begin{document}
 
-\chapter{Introduction}
-\label{chap:introduction}
 \subfile{chapters/introduction}
-
-\chapter{Backgrounds}
-\label{chap:backgrounds}
 \subfile{chapters/backgrounds}
-
-\chapter{Analysis of AutoGPT for Information Retrieval Tasks}
-\label{chap:autogpt}
 \subfile{chapters/autogpt}
-
-\chapter{Retrieval Augmented Generation Agent}
-\label{chap:agent}
 \subfile{chapters/agent}
-
-\chapter{Benchmarking for an IR Agent}
-\label{chap:benchmarks}
 \subfile{chapters/benchmark}
-
-\chapter{Results}
-\label{ch:results}
 \subfile{chapters/results}
-
-\chapter{Conclusion}
-\label{ch:conclusion}
 \subfile{chapters/conclusion}
 
 \end{document}

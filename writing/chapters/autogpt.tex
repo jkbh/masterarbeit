@@ -1,75 +1,85 @@
 \documentclass[../main.tex]{subfiles}
 
 \begin{document}
+\chapter{An Introduction to AutoGPT}
+\label{ch:autogpt}
 
 The general notion of an agent in computer science was introduced in \autoref{sec:agents}.
 AutoGPT is an open-source project that tries to 'make GPT fully autonomous'.
-It started as a collection of loose scripts but quickly gained a lot of interest in the open-source community and grew into a much bigger and now-funded project.
-Initially, it only contained the AutoGPT agent that I will analyze in this chapter but over time has seen multiple additions.
-An agent framework called \textit{forge}, a benchmarking system that was put in place to host an agent hackathon and creation of the \textit{agent protocol}.
-The agent protocol is an attempt by the community to standardize agent applications.
+The project quickly gained a lot of traction
+following its first release.
+The idea of an LLM that controls an agent sounded like the next step towards
+real intelligence of computer systems.
+Lots of programmers joined the AutoGPT Repository,
+and it grew into a much bigger and now-funded project.
+Initially, it only contained the AutoGPT agent
+but over time has seen multiple additions.
 
-The AutoGPT was not built with a focus on information retrieval,
-which is why I will analyze the information retrieval capabilities in this chapter.
+The documentation of AutoGPT is sparse,
+and the project is developed quickly,
+therefore existing documentation
+can often be outdated.
+Therefore, I will give a brief introduction to AutoGPT and its core components
+in this chapter.
 
-GPT language models are used to control an agent that works towards reaching a stated goal.
-The project contains a core agent with a predefined set of abilities.
-Additionally, a baseline SDK is being developed to build custom agents.
+What grabbed the attention of many people is not the whole project,
+but merely the default agent implementation of AutoGPT.
+The project further includes \emph{Forge},
+an agent framework that can be used to build a custom agent.
+It defines a minimal agent without logic
+that abstracts away all the boilerplate.
+In \autoref{sec:forge_agent} the Forge agent is introduced
+and in \autoref{ch:agent} I use the Forge agent
+to build a custom agent for information retrieval.
+While the first iteration of the default agent lived in the terminal,
+the project now ships with a web application
+that allows interaction with agents in the browser.
+Finally, a benchmarking system was introduced.
+The benchmarking can be used to build level-based test suites,
+to test the capabilities of an agent.
+The benchmarking system is introduced in \autoref{sec:benchmarking}
 
-\section{LLM Agents Backgrounds}
-\todo[inline]{Move section into background chapter}
+\section{The Default Agent}
+\label{sec:default_agent}
 
-The concept of agents in computer science is not new.
-An agent is a system that acts towards reaching a goal in an environment.
-Agents can be implemented as software as physical robots or even humans.
-In the same way, different environments are possible such as the real physical world,
-a web browser or a simulation.
-The agent needs ways to sense its environment,
-which can be done by sensors in a physical environment or programmatically in a software environment.
-A task has to be specified to the agent,
-so it knows what his goal is.
-It can then employ different strategies to reach that goal.
-These strategies consist of planning steps to execute.
-While acting out these steps, the environment will probably change as time passes, so an agent needs to reevaluate its plan and the contained steps.
+The default agent made up the whole project when AutoGPT was first released.
+The official documentation \autocite{zotero-189} describes the default agent as:
+\begin{quote}
+    A \emph{generalist} agent, meaning it is not designed with a specific task in mind.
+    Instead, it is designed to be able to execute a wide range of tasks across many disciplines,
+    as long as it can be done on a computer.
+\end{quote}
+This generalist design can be seen in the list of available abilities.
+\begin{description}
+    \item[Code Execution] The agent can execute arbitrary Python code given as a
+        string or a file.
+        The execution is contained in a docker container
+        that can access the agent workspace.
+    \item[File Operations] To access files in the agent workspace,
+        it has abilities to list, read and write files.
+    \item[Image Generation]
+        The agent can make calls to different image-generation services
+        that transform a prompt into an image.
+    \item[Web Search]
+        Web search is the most common application of the default agent.
+        The agent has abilities to query a search engine
+        and scrape website content using a headless browser.
+    \item[Other]
+        Further abilities are present in the default agent.
+        The user can be prompted to give more information about the task,
+        the system time can be retrieved, and a completion ability is implemented.
+\end{description}
+Since the development of the default agent started,
+different abilities have been present and were then removed again.
+For example, efforts were made to introduce long-term memory to the agent.
+There were abilities to save agent conversations into a database for later retrieval.
+The idea was to improve the agent's performance by using past conversations as context.
+However, experiments showed that using past conversations rather hindered its capabilities. % TODO: source
+This is only an example of the constant development and changing constraints
+one has to deal with when working with the default agent.
 
-The increasing capabilities of large language models have led to research implementing them into agent systems.
+\subsection{Agent Structure}
 
-\section{Project Overview}
-
-\todo[inline, caption={}]{
-    \begin{itemize}
-        \item Default agent
-        \item Forge agent
-        \item Evo ninja
-        \item Benchmarking
-        \item Activity Decline
-        \item GUI
-    \end{itemize}
-}
-
-Originally, the default agent lived in the computer terminal and was controlled through the command line.
-Later, an option to start a server that serves the agent protocol was added.
-The user can interact with the agent through a GUI frontend running in the browser.
-
-The web interface lists all conversations an agent had and provides a chat interface for the selected one.
-When the user sends an input to the agent, a task or step request is made to the server running the agent.
-Furthermore, the web interface can be used to start benchmarks for an agent.
-A single test or a complete test suite consisting of stages can be started.
-The GUI has no support for uploading documents to an agent.
-Because of this, documents for information retrieval would need to be placed in specific folder locations
-such that the agent can access them before it is started.
-
-AutoGPT agents use workspaces in which they can act.
-Each agent has its workspace and can not modify files outside it by default.
-If the user wants the agent to have access to documents he needs to place them into its workspace by hand.
-Often, the workspace is also used to save intermediate information to text files.
-Some abilities produce large outputs,
-and the limited context window of large language models can be exceeded quickly
-if all intermediate information is appended to the prompt.
-
-\section{Architecture Overview}
-
-\todo[inline]{How should this differ from the Forge and IR agent overview?}
 The AutoGPT agent is modeled after the classic agent architecture.
 After the start,
 the user is asked to enter a task the AutoGPT agent should perform.
@@ -89,7 +99,7 @@ the system prompt defines a fixed format the LLM should answer in.
 The answer consists of the thoughts and the proposed next action.
 
 AutoGPT is divided into four modules.
-The \textit{brain} is the main module that controls the agent.
+The \textit{emph} is the main module that controls the agent.
 In AutoGPT this is realized by prompting the language model in a structured way.
 Using the chat system prompt,
 the language model is prompted to answer in a structured format.
@@ -102,7 +112,7 @@ The action makes up the second module of the agent.
 In this module, the abilities of the agent are defined.
 These can be file operations,
 database queries or web search functionalities.
-The third module is the \textit{memory}.
+The third module is the \emph{memory}.
 Memories are modeled after humans which have short and long-term memory.
 Short-term memory can be implemented
 as an in-memory list of messages to the language model.
@@ -119,11 +129,54 @@ If one knows the message format for a specific model the input can be adjusted.
 However, the same prompting techniques do not necessarily work for all language models.
 The challenge is to switch between different prompting styles,
 as every model needs to be prompted differently.
-For example,
-OpenAI models benefit from profile sentences like "You are an expert in computer science",
-while Anthropic Claude does not\dots
 
-\section{Information Retrieval Capabilities}
+\section{The Forge Agent}
+\label{sec:forge_agent}
+
+\section{The Benchmark System}
+\label{sec:benchmarking}
+
+To evaluate AutoGPT and other agent systems that implement the agent protocol,
+the AutoGPT project has implemented a benchmarking system.
+The system consists of a set of tasks that the agent has to complete.
+The tasks are designed to test different aspects of the agent and are divided into different topics.
+Some tasks depend on the previous successful completion of other tasks.
+A task consists of an input prompt and an expected output.
+The output is defined by certain words that should be contained.
+
+- built for the hackathon
+
+- external agents can be tested
+
+- weak documentation
+
+- stale development
+
+\section{Project Overview}
+
+Originally,
+the default agent lived in the computer terminal
+and was controlled through the command line.
+Later, an option to start a server that serves the agent protocol was added.
+The user can interact with the agent through a GUI frontend running in the browser.
+
+The web interface lists all conversations an agent had and provides a chat interface for the selected one.
+When the user sends an input to the agent, a task or step request is made to the server running the agent.
+Furthermore, the web interface can be used to start benchmarks for an agent.
+A single test or a complete test suite consisting of stages can be started.
+The GUI has no support for uploading documents to an agent.
+Because of this, documents for information retrieval would need to be placed in specific folder locations
+such that the agent can access them before it is started.
+
+AutoGPT agents use workspaces in which they can act.
+Each agent has its workspace and can not modify files outside it by default.
+If the user wants the agent to have access to documents he needs to place them into its workspace by hand.
+Often, the workspace is also used to save intermediate information to text files.
+Some abilities produce large outputs,
+and the limited context window of large language models can be exceeded quickly
+if all intermediate information is appended to the prompt.
+
+\section{AutoGPT for Information Retrieval}
 
 The AutoGPT Agent has different abilities that can be utilized for information retrieval.
 It can search the web and operate on files, execute code and

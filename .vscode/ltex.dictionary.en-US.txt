@@ -8,3 +8,11 @@ encodings
 stemmer
 unobservability
 chromadb
+CoT
+Zero-shot-CoT
+LLMs
+HuggingGPT
+Huggingface
+LLM-based
+Toolformer
+ChatGPT

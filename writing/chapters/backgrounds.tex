@@ -1,47 +1,76 @@
 \documentclass[../main.tex]{subfiles}
 
 \begin{document}
+\chapter{Backgrounds}
+\label{ch:backgrounds}
 
 Different branches of research were used to build upon this work.
 These topics and how they are connected to my work
-are explained in more detail in this section.
+are explained in more detail in this chapter.
 
-A core concept in the creation of artificial intelligence is \emph{agents}.
-An introduction to agents is given in \autoref{sec:agents}.
-In \autoref{sec:information_retrieval} I will describe the process of \emph{information retrieval} on a high level.
-Finally, in \autoref{sec:language_modeling} the topic of \emph{language modeling}
-and the current developments of large language models are explained in more detail.
+In \autoref{sec:information_retrieval},
+I will describe the process of \emph{information retrieval systems}.
+
+The notion of \emph{agents} is described in \autoref{sec:agents}.
+Agents try to act as rational and goal-oriented decision-makers.
+In comparison to classical computer algorithms,
+agents observe, plan and act autonomously in order to complete a task.
+I will explain the basic concept of an agent and list the most important types of agents.
+Section~\ref{sec:language_modeling} deals with \emph{language modeling}
+and the current developments of large language models (LLMs).
+Building upon the attention-based transformer architecture, modern large language models (LLMs)
+can handle complex tasks such as text generation.
+Moreover, the natural language interface of LLMs can be used for tasks in other domains.
+An example of such a domain is \emph{LLM-based agents}, explained in section~\ref{sec:llm_agents}.
+The text generation ability of the LLM itself is not of interest here,
+but rather using the internal knowledge of the model to generate a decision of an agent.
+This section gives an introduction to proposed frameworks and ideas for LLM agents.
 
 \section{Information Retrieval}
 \label{sec:information_retrieval}
 Retrieval of information is essential for humans.
-Information can be anything, like things seen by the eye, thoughts or an article from a book.
+Information can be anything, like things seen by the eye,
+thoughts or an article from a book.
+A broad definition of information retrieval from \cite{Manning2009} is:
+\begin{quote}
+    Information retrieval (IR) is finding material (usually documents)
+    of an unstructured nature (usually text)
+    that satisfies an information need
+    from within large collections (usually stored on computers).
+\end{quote}
+Modern information retrieval systems extend this definition with a step
+dealing with the presentation of the information to the user.
+
 Retrieving the best documents for a query from a large database
 filled with information of different kinds is a classic problem in computer science.
 There has been extensive research on database architectures and indexing algorithms.
-Popular applications of IR algorithms are search engines that enable fast access to billions of documents on the internet.
+Popular applications of IR algorithms are search engines
+that enable fast access to billions of documents on the internet.
 Before retrieving information from an information retrieval system,
 the data is preprocessed and stored.
-Then a user query initiates a series of steps that can rewrite the query, retrieve relevant documents,
+Then a user query initiates a series of steps that can rewrite the query,
+retrieve relevant documents,
 re-rank the relevant documents and finally present the information to the user.
 
 \subsection{Information Retrieval Steps}
 
 \begin{figure}[t]
     \centering
-    \begin{tikzpicture}[node distance=1.5cm]
-        \node[block] (query) at (0,0) {Query};
-        \node[block] (rewrite) [right=of query] {Rewrite};
-        \node[block] (retrieve) [right=of rewrite] {Retrieve};
-        \node[block] (db) [below=of retrieve] {Database};
-        \node[block] (docs) [left=of db] {Documents};
-        \node[block] (rerank) [right=of retrieve] {Re-Rank};
-        \node[block] (present) [right=of rerank] {Present};
+    \begin{tikzpicture}[
+            node distance=1.5cm,
+            every node/.style={block}]
+        \node (query) at (0,0) {Query};
+        \node (rewrite) [right=of query] {Rewrite};
+        \node (retrieve) [right=of rewrite] {Retrieve};
+        \node (DB) [below=of retrieve] {Database};
+        \node (docs) [left=of DB] {Documents};
+        \node (rerank) [right=of retrieve] {Re-Rank};
+        \node (present) [right=of rerank] {Present};
 
         \draw[->] (query) -- (rewrite);
         \draw[->] (rewrite) -- (retrieve);
-        \draw[->] (db) -- (retrieve);
-        \draw[->] (docs) -- node[above] {index} (db);
+        \draw[->] (DB) -- (retrieve);
+        \draw[->] (docs) -- node[draw=none, above] {index} (DB);
         \draw[->] (retrieve) -- (rerank);
         \draw[->] (rerank) -- (present);
     \end{tikzpicture}
@@ -51,7 +80,8 @@ re-rank the relevant documents and finally present the information to the user.
     \label{fig:ir_steps}
 \end{figure}
 Information retrieval systems consist of multiple steps.
-Typically, the user interacts with an information retrieval system by writing out a query that describes the retrieval topics.
+Typically, the user interacts with an information retrieval system
+by writing out a query that describes the information need.
 A problem with queries written by humans is that they are not optimized for the following steps of the retrieval system.
 Human writing sentences can include spelling mistakes missing words or even wrong descriptions of information.
 In IR systems researchers try to mitigate such problems with query rewriting.
@@ -74,7 +104,7 @@ In addition, the re-ranking phase can include task-specific ranking strategies t
 In the last step, the information is presented to the user.
 Large language models have become a popular method to create user-friendly responses from retrieved documents.
 
-% Indexing
+\subsection{Indexing}
 
 Before documents can be retrieved from a database,
 they have to be stored.
@@ -94,12 +124,53 @@ All of these preprocessing steps help to capture the semantics of a text or sent
 
 \subsection{Evaluation}
 
-The evaluation of an information retrieval system is not a trivial task, as it is not clear what the human user searches for.
-Different information retrieval evaluation strategies are categorized into subjective and objective evaluations.
+Information retrieval systems are generally evaluated by categorizing documents
+as \emph{relevant} or \emph{non-relevant} concerning an information need of the user \cite{Manning2009}.
+The \emph{gold standard} defines which documents are relevant and non-relevant.
+One has to consider that the relevance decision is made according to an \emph{information need} and not the query.
+This distinction shows,
+that a clear information need has to be present in order to effectively evaluate an IR system.
 
-Objective evaluations use metrics that can be computed and compared over time.
+Although information retrieval can be seen as a two-label classification problem,
+it can not be evaluated with an accuracy measure
+that is the fraction of correct classifications.
+As almost all documents will be non-relevant for any given query,
+the system could achieve high accuracy by simply classifying all documents
+as non-relevant to the query.
+For that reason, two measures are used to evaluate IR systems.
+\begin{description}
+    \item[Precision] is the fraction of retrieved documents that are relevant:
+        \begin{equation}
+            \text{Precision} = \frac{\text{\#relevant retrieved}}{\text{\#retrieved}}
+        \end{equation}
+    \item[Recall] is the fraction of relevant documents that are retrieved:
+        \begin{equation}
+            \text{Recall} = \frac{\text{\#relevant retrieved}}{\text{\#relevant}}
+        \end{equation}
+\end{description}
+Having these two measures is helpful, as different tasks have different requirements.
+While high precision might be more important for the average web surfer,
+a professional researcher might be more interested in high recall.
+With the two measures trading off against each other, the \emph{F Measure} combines
+them into a single one.
+Often written as $F_1$, the balanced version equally weights precision and recall:
+\begin{equation}
+    F_1 = \frac{2PR}{P+R}
+\end{equation}
+where $P$ is the precision and $R$ is the recall.
+These measures are computed on unordered sets of documents.
+For documents ranked by relevance,
+the measures are calculated for sets containing the top $k$ documents for different $k$.
 
-Subjective evaluations are needed because
+Other properties of IR systems can be measured.
+The indexing and search speeds are important to enable effective usage of an IR system.
+Another property is the degree of complexity allowed by the query language.
+Nonetheless, the ultimate measure is the user utility.
+Here, all dimensions of evaluation culminate into a single idea,
+which makes this very hard to measure objectively.
+Each user has different tastes and needs for an IR system.
+The document relevance measurement is therefore a major simplification that can only
+approximate the user utility of a system.
 
 \section{Agents}
 \label{sec:agents}
@@ -129,7 +200,7 @@ What kind of agent is useful depends on the given task environment.
     \centering
     \begin{tikzpicture}[
             outer sep=auto,
-            bblock/.style={block, inner sep=1em, label={[above]:#1}}
+            bg/.style={block, inner sep=1em, label={[above]:#1}}
         ]
 
         \node[block] (agent) at (0,0) {Agent Program};
@@ -143,11 +214,11 @@ What kind of agent is useful depends on the given task environment.
         \draw[->] (actuators) -- node[above] {Actions} (actuators_target);
 
         \begin{scope}[on background layer]
-            \node[bblock={Agent Architecture}, fit={(sensors) (agent) (actuators)}] (arch) {};
-            \node[bblock={Environment}, fit={(sensors_origin) (actuators_target)}, minimum width=1.5cm] (env) {};
+            \node[bg={Agent Architecture}, fit={(sensors) (agent) (actuators)}] (arch) {};
+            \node[bg={Environment}, fit={(sensors_origin) (actuators_target)}, minimum width=1.5cm] (env) {};
         \end{scope}
     \end{tikzpicture}
-    \caption{An agent as defined in \citeauthor{Russel2022}.
+    \caption{An agent as defined in \autocite{Russel2022}.
         The agent program runs on the agent architecture.
         Agents perceive their environment through sensors and act upon it using actuators.
         The agent program continuously maps perceptions to action and defines the agent type.}
@@ -180,33 +251,6 @@ All agent types can be extended to learning agents.
 For an agent, learning means modifying each component
 such that it better aligns with feedback from a new critic component \autocite{Russel2022}.
 As a result of these modifications, the agent performance improves.
-
-\subsection{Large Language Model Agents}
-
-With the rise of large language models and their impressive capabilities in various language tasks,
-efforts began to leverage them in agent systems.
-Experiments to give GPT the option to access tools \autocite{Shen2023, Schick2023} showed that it was possible.
-\todo{Mention AutoGPT and link to chapter}
-
-Four key reasons why large language models are suitable as agent brains are outlined in \cite{Xi2023}.
-Agents should act autonomously without direct interventions from humans.
-The generative capabilities and dynamically adjusted outputs based on the input fit that characteristic.
-\todo[inline]{Move agent backgrounds from agent chapter to here?}
-
-For practical applications \autocite{Zhu2024}, a distinction between static and dynamic agents is proposed.
-A static agent is characterized as a fixed pipeline that mimics the user behavior.
-While this approach works,
-it cannot deal with complex and sometimes random human actions.
-The other type of agent can dynamically execute actions that are presented to it.
-The most prominent way of using LLM for agents
-is to build a prompt that contains all the information about the task,
-and then ask it to propose the next action.
-The prompt can contain descriptions of possible abilities, the task, guidelines,
-information about the environment and more.
-
-For LLM agents we do not have all the components of a classical agent
-that were listed in the previous section about agent types.
-\autocite{SignificantGravitas2024}
 
 \section{Language Modeling}
 \label{sec:language_modeling}
@@ -257,7 +301,7 @@ independent of their distance in a sequence.
 \end{figure}
 
 The transformer network \cite{Vaswani2017}
-shown in Figure \ref{fig:transformer_arch}
+shown in \autoref{fig:transformer_arch}
 was the first model that removed all recurrent structures
 and only relies on attention mechanisms.
 In particular,
@@ -291,7 +335,7 @@ used for tasks like language translation.
 All positions in the decoder can attend to all positions in the encoder.
 For other tasks, however,
 the individual encoder and decoder sections are a better fit,
-as explained in the sections \ref{subsec:embedding} and \ref{subsec:gpt}.
+as explained in the \autoref{subsec:embedding} and \autoref{subsec:gpt}.
 
 \subsection{Generative Pre-Trained Transformers}
 \label{subsec:gpt}
@@ -314,7 +358,7 @@ as explained in the sections \ref{subsec:embedding} and \ref{subsec:gpt}.
 Decoder-only transformers are the base of generative pre-trained transformers (GPT).
 The decoder used for GPT does not rely on the outputs of an encoder,
 because it is designed for generation tasks.
-In Figure \ref{fig:gpt_arch} we can see
+In \autoref{fig:gpt_arch} we can see
 that only the masked multi-head attention layer is kept in comparison to
 the full transformer network.
 The simple architecture enables faster pre-training and fine-tuning.
@@ -339,7 +383,7 @@ Furthermore,
 after a certain level of scaling,
 abilities emerge that the model was not directly trained on.
 
-As large language models have reached parameter counts over a billion,
+As large language models have reached parameter counts of over a billion,
 only very few companies have the hardware to train or even run inference tasks.
 
 \subsection{Embedding Models}
@@ -389,5 +433,107 @@ The resulting model is called \emph{InstructGPT} and performs better than the ba
 Large language models are trained to predict the next token of a sequence,
 not to follow the instructions of the user.
 This leads to some unwanted results such as toxic, harmful or fabricated answers that are not true.
+
+\section{Large Language Model Agents}
+\label{sec:llm_agents}
+With the rise of large language models and their impressive capabilities in various language tasks,
+efforts began to leverage them in agent systems.
+Experiments to give GPT access to tools \autocite{Shen2023, Schick2023},
+that large language models can use external functions
+if they are prompted with a description of how to access them.
+
+Four key reasons why large language models are suitable as agent brains are outlined in \cite{Xi2023}.
+Agents should act autonomously without direct interventions from humans.
+The generative capabilities and dynamically adjusted outputs based on the input fit that characteristic.
+
+For practical applications, \autocite{Zhu2024} proposes a distinction between static and dynamic agents.
+A static agent is characterized as a fixed pipeline that mimics the user behavior.
+While this approach works,
+it cannot deal with complex and sometimes random human actions.
+The other type of agent can dynamically execute actions that are presented to it.
+The most prominent way of using LLM for agents
+is to build a prompt that contains all the information about the task,
+and then ask it to propose the next action.
+The prompt can contain descriptions of possible abilities, the task, guidelines,
+information about the environment and more.
+
+Experiments in \cite{Liu2023} showed
+that large language models focus more on the first and last lines of the prompt
+in their answer generation.
+This needs to be respected when constructing long prompts to use LLMs for agents.
+
+\subsection{LLM Agent Construction}
+
+Most large language model agents follow a certain pattern
+when implementing an agent with LLMs.
+A construction framework for LLM agents consisting of four modules
+is proposed in \cite{Wang2023}.
+Their agent framework is composed of a profiling module, a memory module,
+a planning module and an action module.
+
+Before the actual execution of steps, an agent is given a profile that describes
+the role of the agent.
+This profile is usually written into the prompt that is sent to the language model.
+Profiles can be handcrafted by simply adding a "You are an x" statement to the prompt.
+Furthermore, profiles can be generated by LLMs which saves time for multiple agents
+but does not allow for precise control in the profile crafting process.
+
+Information is stored in the memory module.
+Memory is used to keep a mental state of the environment and store new observations.
+LLM agent memory types draw inspiration from human short-term and long-term memories.
+Short-term memory is generally represented by the in-context information given in the language model prompt.
+It is restricted by the context window length of the transformer architecture.
+Long-term memory represents an external storage of information.
+For LLM agents, a popular choice is a vector database,
+that allows for quick query and retrieval of information.
+
+Planning strategies for agents can be separated into planning with feedback
+and without feedback.
+Planning without feedback uses single-path or multi-path reasoning.
+Techniques like Chain of Thought (CoT) and Zero-shot-CoT prompt LLMs
+to "think step by step" \cite{Wei2022}.
+This produces a step-by-step solution to a task that can be used as a plan
+for the agent.
+Other single-path reasoning approaches like HuggingGPT
+prompt the language model after each reasoning step \cite{Shen2023}.
+For multi-path reasoning CoT can be used again, now generating multiple plans
+in a tree-like structure \cite{Yao2023}.
+For complex tasks, the agent should be able to incorporate feedback into
+the planning process.
+The feedback can come from the environment, humans or from a feedback model.
+All of these changes have to be represented in the language model prompt.
+
+To act out the agents' decisions in the environment, the agent needs an
+action module.
+There are two main strategies for acting out actions.
+For the first strategy,
+the agent uses the task and the memory as prompts
+to choose the next action in a continuous loop.
+As the agent proceeds the memory builds up with the action history.
+This allows for dynamic action choices while the agent is running.
+The second strategy uses the task to create a fixed action plan
+that is then executed strictly.
+Here, the agent can not adapt dynamically.
+The agent space defines the set of possible actions that can be performed.
+Agents can leverage external tools and internal knowledge.
+Types of external tools can include APIs, databases or other models
+that specialize in a specific task.
+The internal knowledge of a language model is also important for the action module.
+When deciding which action should be used in a step,
+The planning, conversation and commonsense understanding capabilities
+are crucial to make a good decision.
+The outcomes of actions can change the environment, the internal state and
+also trigger new actions.
+
+For LLM agents we do not have all the components of a classical agent
+that were listed in the previous section about agent types.
+\autocite{SignificantGravitas2024}
+
+\subsection{Evaluation}
+
+- subjective evaluation
+- human annotation
+- turing test
+- objective evaluation
 
 \end{document}

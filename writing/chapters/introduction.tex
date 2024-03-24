@@ -1,6 +1,8 @@
 \documentclass[../main.tex]{subfiles}
 
 \begin{document}
+\chapter{Introduction}
+\label{ch:introduction}
 
 Encoding knowledge in natural language is an everyday process for humans,
 but has been a problem for machines for decades.
@@ -9,11 +11,19 @@ In recent years, there has been a large increase in language modeling capabiliti
 After the proposal of the transformer architecture \cite{Vaswani2017},
 which removed all sequential components from previous language modeling techniques,
 the architecture and its components were applied to all kinds of language modeling problems.
+Using massively scaled transformer networks, researchers were able to
+see emerging behaviors, meaning that the model can solve tasks that it was not trained on.
 
 Humans need to retrieve information from somewhere constantly.
 It can be a task like digging out an old and hidden memory or finding a book that contains the desired information.
 Improving the efficiency of tasks like the latter has been extensively researched in the information retrieval area in the last decades.
 With the introduction of Internet search engines and data repositories, the barrier to accessing information has been drastically improved.
+
+This thesis presents an LLM-based agent that uses retrieval augmented generation to answer user prompts.
+
+The creation of benchmarks for LLM agents is a complex endeavor.
+
+Therefore, I will use a simple question-and-answer dataset to benchmark the agent performance with subjective evaluation.
 
 \section{Contributions of this Thesis}
 
@@ -27,20 +37,41 @@ Three main contributions of this Thesis are
 
 \section{Related Work}
 
-There are different attempts at creating LLM outputs with sources. Perplexity AI hosts a question-answering service, that gives sources from websites.
+With the rise of large language models, they have been introduced into different domains.
+LLM-based agents are a promising way to fulfill user goals autonomously,
+hinting in the direction of real computer intelligence.
+Language models have also seen rising popularity in information retrieval applications.
+Many popular search engines have introduced language models to present the retrieved data to the user.
+In the following, notable work that is of interest for this work is listed.
 
-\subsection{LLM Agent Tools}
+\subsection{LLM Agents}
 
-AutoGPT was the first attempt to make LLM autonomous, but other projects have since been published.
-Each project focuses on different aspects of agent behavior
+After the possibility of large language models like GPT-3 and then GPT-4 became public,
+researchers started to test different approaches to LLM-based agents.
+In particular, the introduction of tools to extend the language model capabilities
+Toolformer \cite{Schick2023} trains a language model to use different APIs in a self-supervised way.
+For example, the model can use a calculator to externalize math problems,
+a task category that LLMs struggle with.
+HuggingGPT \cite{Shen2023} uses GPT repeatedly in multiple rounds.
+For each step, a Huggingface model can be selected by the model to answer the prompt.
+In a virtual social setting, multiagent communication was demonstrated in \autocite{Park2023}.
+Agents living together in a virtual village have different goals and communicate through natural language.
 
-BabyAGI is a minimal task-driven autonomous agent, similar to the nanoGPT project.
+Building on top of these research experiments with tool usage and access to external knowledge,
+multiple applications of language model agents have been presented.
+AutoGPT \cite{SignificantGravitas2024} was the first attempt to make LLM autonomous,
+but other projects have since been published.
+An introduction to AutoGPT is given in \autoref{ch:autogpt}.
+BabyAGI \cite{Nakajima2024} is a minimal task-driven autonomous agent.
+With the OpenAI assistants \cite{zotero-195} API,
+users can build custom assistants
+that can use models, tools and knowledge to answer user queries.
 
 
-\subsection{LLM Information Retrieval Tools}
+\subsection{LLM Information Retrieval}
 
-Since the release of more capable language models,
-Many developers work on tools that use these models for information retrieval
+Because of their strong natural language capabilities,
+many developers work on tools that use these models for information retrieval
 
 In a variety of application contexts,
 the answers of an assistant have to be correct.
@@ -48,11 +79,11 @@ This is especially true in research contexts.
 A model that hallucinates isn't feasible in this case.
 But while hallucination can be reduced with fine-tuning,
 it can not be eliminated.
-Perplexity AI is an online service that leverages a language model
+
+Perplexity AI \cite{zotero-197} is an online service that leverages a language model
 to provide a search that generates an answer from different sources on the internet.
 The content of the answer is then linked to the found sources,
 so the user can see and verify the result.
-
 As this is a proprietary closed-source product accessible through a web interface,
 this is not useful to create our custom research assistant.
 The provided API simply hosts different language models and allows prompting them.
@@ -60,13 +91,31 @@ There is no possibility of fine-tuning.
 
 \section{Structure of this Thesis}
 
-In chapter \ref{chap:backgrounds} I will introduce the main topics
-are relevant to this work.
-Chapter \ref{chap:autogpt} will then give an introduction to AutoGPT and its
-core elements,
-as well as an analysis of the shipped information retrieval capabilities.
-The RAG Agent will be presented in chapter \ref{chap:agent}.
-In chapter \ref{chap:benchmarks}, I use the AutoGPT benchmarking system
-to evaluate the RAG Agent on generated test prompts.
+First, I will introduce the main \emph{backgrounds} that are relevant to this work in \autoref{ch:backgrounds}.
+The steps of an \emph{information retrieval} system are explained, as well
+as different strategies to evaluate such systems.
+Furthermore, I will give an overview of the concept of an \emph{agent} and its main components.
+Additionally, the \emph{language modeling} section covers the base to understand the current large language models.
+I will go from the introduction of the transformer architecture to current chat models like ChatGPT.
+Finally, the combination of language models and agents to \emph{LLM agents} is introduced.
+
+Chapter~\ref{ch:autogpt} contains an \emph{introduction to AutoGPT} and its core elements,
+as well as an analysis of its current information retrieval capabilities.
+First, an overview of the AutoGPT project and its components is given.
+I will then explain the default agent in more detail,
+looking at how the LLM agent ideas are implemented.
+After gaining an understanding of the AutoGPT project,
+we will then look at its default capabilities for information retrieval tasks.
+
+In \autoref{ch:agent},
+a custom AutoGPT agent that uses retrieval augmented generation for information retrieval is presented.
+In \autoref{ch:benchmarks}, will deal with how LLM agents can be benchmarking
+and present a test dataset for the RAG agent from \autoref{ch:agent}.
+The benchmark uses handcrafted question-and-answer pairs from a scientific humanities journal.
+
+Finally, a conclusion is given in \autoref{ch:conclusion}.
+Here I will describe the problems and challenges
+that LLM agents currently have being a relatively new concept.
+Additionally, open questions for possible future work are discussed.
 
 \end{document}
