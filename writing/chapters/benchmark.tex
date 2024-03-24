@@ -26,7 +26,7 @@ Simulation environments like
 
 Although lots of benchmarks for LLM applications have been proposed,
 few benchmarks are designed to test the information retrieval capabilities of an agent.
-Some benchmarks are used to evaluate information retrieval in general and in diverse domains. %TODO : sources, examples
+Some benchmarks are used to evaluate information retrieval in general and in diverse domains. %TODO: sources, examples
 In \autocite{Mialon2023} introduced a general benchmark for AI assistants.
 
 \section{Custom Benchmarks for Local IR over Journals}
@@ -36,7 +36,7 @@ but can struggle with domain-specific tasks.
 They can confidently generate answers that are completely made up but seem correct to a non-expert user.
 For this reason, the IR agent uses retrieval augmented generation to gather context from a local vector database,
 before generating an answer.
-The retrieval does not have to be evaluated, as the agent uses an external library that is tested seperatly.
+The retrieval does not have to be evaluated, as the agent uses an external library that is tested separately.
 What needs to be tested is the answer quality of the chatbot.
 As the built-in benchmarking system of AutoGPT was unfinished and not ready to be used for custom agents,
 I had to test question-and-answer pairs by hand in order to evaluate the IR agent.
@@ -63,7 +63,7 @@ In order to give the correct answer, one has to know the journal.
 \subsection{Comparing with other LLM IR Options}
 
 To put the evaluation results into perspective,
-other services for information retrieval were tested on the Q&A dataset.
+other services for information retrieval were tested on the Q\&A dataset.
 I tested GPT-3.5-Turbo, GPT-4-Turbo and Perplexity for comparison.
 For all tools, the answer quality was measured
 by calculating the cosine similarity between their embeddings.
