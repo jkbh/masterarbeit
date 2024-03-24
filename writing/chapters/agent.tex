@@ -320,6 +320,33 @@ These abilities will be described in the following.
 As the LLM tends to choose web search abilities to collect information, I removed the corresponding abilities.
 The agent is now forced to retrieve information from local sources.
 
+\subsection{Document Ingestion}
+
+To enable retrieval augmented generation,
+the agent is able to ingest documents into its vector database.
+The \emph{ingest} ability can be called with a PDF filename as the argument.
+For the ability to succeed, a PDF file with the exact filename has to be present
+in the agent workspace.
+This has to be done manually before prompting the agent.
+If a PDF is found, it is converted into plain text.
+Then, the text is split up into smaller chunks that can be mapped to embeddings
+with an embedding model.
+The \emph{SentenceSplitter} utility from the \emph{LLamaIndex} package \cite{zotero-255} is used,
+to create the chunks.
+The splitter splits up a text recursively and then joins words back together to
+generate chunks of similar length while respecting sentence borders.
+
+As PDF is an unstructured format, the conversation to plain text is not trivial.
+In addition to the article contents, page numbers, references, footnotes and other
+extra elements are present in the result text file.
+These extra elements can split articles between pages.
+After splitting up the text with the SentenceSplitter, these elements are still
+present in the chunks.
+
+After splitting the text into chunks, they are added to the \emph{ChromaDB}
+vector database \cite{zotero-176}.
+ChromaDB uses the OpenAI embedding models \cite{zotero-253} to get embeddings for new chunks.
+
 \subsection{Language Model Response}
 
 The populated step prompt is sent to the language model.
