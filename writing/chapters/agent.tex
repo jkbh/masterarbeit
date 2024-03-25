@@ -22,7 +22,7 @@ but operates more as a general-purpose agent.
 I extended the Forge agent with abilities that are needed for retrieval augmented generation.
 To store the documents for retrieval, I used a \emph{Chroma} vector database.
 The 'ingest' ability of the agent can be used to ingest a PDF file that is saved in the workspace.
-The PDF is converted into plain text and then chunked into smaller documents using the \emph{SentenceSplitter},
+The PDF is converted into plain text and then chunked into smaller documents using the \emph{SentenceSplitter} from \emph{LLamaIndex} \cite{zotero-255},
 which produces chunks of roughly equal length while respecting sentence boundaries.
 
 \section{Methods To Improve LLM Generation}
@@ -55,7 +55,7 @@ The prompt then includes the information of the returned documents as context.
         \node (u) {User};
         \node[right=of u] (q) {Query};
         \node[right=of q] (DB) {DB};
-        \node[right=of DB] (qc) {Query + Docs};
+        \node[right=of DB] (qc) {Query + Context};
         \node[right=of qc] (LLM) {LLM};
         \node[right=of LLM] (a) {Answer};
         \draw (q) -- (DB);
@@ -323,11 +323,11 @@ The agent is now forced to retrieve information from local sources.
 \subsection{Document Ingestion}
 
 To enable retrieval augmented generation,
-the agent is able to ingest documents into its vector database.
+the agent can ingest documents into its vector database.
 The \emph{ingest} ability can be called with a PDF filename as the argument.
 For the ability to succeed, a PDF file with the exact filename has to be present
 in the agent workspace.
-This has to be done manually before prompting the agent.
+The user has to manually place the file in the workspace before prompting the agent.
 If a PDF is found, it is converted into plain text.
 Then, the text is split up into smaller chunks that can be mapped to embeddings
 with an embedding model.
@@ -336,16 +336,28 @@ to create the chunks.
 The splitter splits up a text recursively and then joins words back together to
 generate chunks of similar length while respecting sentence borders.
 
+\lstinputlisting[
+    style=Code,
+    float=tp,
+    caption={A chunk produced by the SentenceSplitter that spans two pages.
+            The converted PDF plain text contains page titles, numbers,
+            footnotes and other additional information besides the main content.
+            The information splits the article content into multiple parts.
+            This can hinder the quality of the produced embeddings.},
+    captionpos=b,
+    label={lst:two_page_chunk}]{include/code/two_page_chunk.txt}
+
 As PDF is an unstructured format, the conversation to plain text is not trivial.
-In addition to the article contents, page numbers, references, footnotes and other
-extra elements are present in the result text file.
-These extra elements can split articles between pages.
+In addition to the main content, the article contains extra information like page numbers,
+references or footnotes.
+These extra elements can split paragraphs that span two pages.
 After splitting up the text with the SentenceSplitter, these elements are still
 present in the chunks.
-
+An exemplary chunk is shown in listing~\ref{lst:two_page_chunk}.
+For the following embedding step,
+this can hinder the semantic accuracy of the embedding.
 After splitting the text into chunks, they are added to the \emph{ChromaDB}
 vector database \cite{zotero-176}.
-ChromaDB uses the OpenAI embedding models \cite{zotero-253} to get embeddings for new chunks.
 
 \subsection{Language Model Response}
 

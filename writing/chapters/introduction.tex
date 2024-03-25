@@ -4,6 +4,44 @@
 \chapter{Introduction}
 \label{ch:introduction}
 
+\begin{figure}[t]
+    \centering
+    \begin{tikzpicture}[node distance=2cm]
+        \node[block=emph red] (workspace) {Workspace};
+        \node[above=of workspace] (user) {User};
+        \node[ability, below=of workspace] (retrieve) {Retrieve};
+        \node[ability, left=2.5cm of workspace] (ingest) {Ingest};
+        \node[ability, right=2.5cm of workspace] (answer) {Answer};
+        \node (DB) at (ingest |- retrieve) {DB};
+        \node[below=of answer] (LLM) {LLM};
+
+        \draw[->] (user) -- node[left] {place PDF} (workspace);
+        \draw[->] (workspace) -- node[above] {read PDF} (ingest);
+        \draw[->] (ingest) -- node[left] (chunks) {add chunks} (DB);
+        \draw[->] (DB) -- node[above] {top chunks} (retrieve);
+        \draw[->] (retrieve) -- node[left, align=center] {save\\context} (workspace);
+        \draw[->, transform canvas={yshift=1mm}]
+        (workspace) -- node[above, align=center] {get context} (answer);
+        \draw[->, transform canvas={yshift=-1mm}]
+        (answer) -- node[below, align=center] {save answer} (workspace);
+        \draw[->, transform canvas={xshift=1mm}]
+        (answer) -- node[right, align=center] {prompt\\with context} (LLM);
+        \draw[->, transform canvas={xshift=-1mm}]
+        (LLM) -- node[left] {answer} (answer);
+    \end{tikzpicture}
+    % TODO: revisit colors
+    \caption{The RAG agent manipulates the \textcolor{red}{workspace} folder with \textcolor{blue}{abilities}.
+        To ingest a PDF, the user has to place the file into the workspace.
+        After chunking the PDF, the chunks are ingested into the vector database.
+        With the retrieval ability,
+        the agent can retrieve the top five chunks for a query
+        and save them in a workspace file.
+        The retrieved documents are read from the workspace by the Answer ability.
+        The generated answer is then written back into a file in the workspace.}
+    \label{fig:abilities_workspace}
+\end{figure}
+
+
 Encoding knowledge in natural language is an everyday process for humans,
 but has been a problem for machines for decades.
 
@@ -91,11 +129,13 @@ There is no possibility of fine-tuning.
 
 \section{Structure of this Thesis}
 
-First, I will introduce the main \emph{backgrounds} that are relevant to this work in \autoref{ch:backgrounds}.
+First, I will introduce the main \emph{backgrounds}
+that are relevant to this work in \autoref{ch:backgrounds}.
 The steps of an \emph{information retrieval} system are explained, as well
 as different strategies to evaluate such systems.
 Furthermore, I will give an overview of the concept of an \emph{agent} and its main components.
-Additionally, the \emph{language modeling} section covers the base to understand the current large language models.
+Additionally, the \emph{language modeling} section covers the base
+to understand the current large language models.
 I will go from the introduction of the transformer architecture to current chat models like ChatGPT.
 Finally, the combination of language models and agents to \emph{LLM agents} is introduced.
 

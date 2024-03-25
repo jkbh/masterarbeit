@@ -11,7 +11,7 @@ The most important challenge for LLM agents is the non-deterministic generation 
 It makes it significantly harder to build a software system around it because every time the language model is called,
 there has to be a fallback mechanism in case something fails.
 For fixed pipeline systems this is true as well,
-but the error handling is easier as the task steps are known beforehand.
+but error handling is easier as the task steps are known beforehand.
 
 \section{Points of Failure}
 
@@ -33,6 +33,69 @@ Like earlier, developers have to spend time handling these cases by re-prompting
 
 For a lot of tasks, a static pipeline is enough to meet the user demands.
 Almost all retrieval tools that work in production use a fixed pipeline.
+
+\subsection{Wrong Ability Choice}
+
+\begin{figure}[t]
+    \centering
+    \begin{tikzpicture}[
+            ab/.style={ability, minimum height=2cm, align=left}]
+        \node[minimum height=2cm, align=left] (prompt) {What is\\a 'qersu'?};
+        \node[ab, right=of prompt, label={retrieve}] (step1) {Chunk1\\\dots\\Chunk5};
+        \node[ab, right=of step1, label={read\_file}] (step2) {Doc 1: Chunk 1\\\dots\\Doc 5: Chunk 5};
+        \node[ab, right=2cm of step2, label={write\_file}] (step3) {VGhlIH\\NlYXJja\\CBmb3I\\\dots};
+        \node[right=of step3] (finish) {finish};
+        \draw[->] (prompt) -- (step1);
+        \draw[->] (step1) -- node[above, align=center] {file} (step2);
+        \draw[->] (step2) -- node[above, align=center] {prompt\\context} (step3);
+        \draw[->] (step3) -- (finish);
+    \end{tikzpicture}
+    \caption{An agent run that failed because of an incorrect action choice.
+        The resulting answer is just random characters.}
+    \label{fig:bad_agent_run}
+\end{figure}
+
+The agent sometimes chose abilities that were not suited to progress towards the goal.
+When the agent had read and write abilities present, sometimes the agent chose to
+read the file containing the retrieved context for a query.
+The correct choice would have been to process with the Answer ability.
+In some instances, choosing the wrong ability leads to useless answers,
+as shown in figure~\ref{fig:bad_agent_run}.
+
+A solution to this problem is to either remove the read and write abilities
+or to guide the agent with explicit instruction in the prompt on which ability to use.
+For a true autonomous agent, these solutions are not ideal, because we want the
+agent to make the decisions with minimal user intervention.
+Fixes like removing abilities bring the agent closer to fixed pipeline solutions.
+Another solution could be to retry the same or modified prompts.
+This is feasible if the user does not demand fast responses.
+In the case of information retrieval, the agent should answer reasonably fast and
+give correct answers.
+Therefore, I opted to remove all abilities that were not needed for retrieval augmented generation.
+
+Furthermore, the model choice is important for decision-making.
+GPT-4 is a lot better than GPT-3 at making good decisions, following tasks and providing
+criticism and reasoning.
+For this reason, GPT-4 was used as the agent controller LLM.
+
+\subsection{Wrong Answer Format}
+
+After receiving the answer to the step prompt, the agent has to parse it.
+The parsing step can only work if the answer is generated in the exact format specification.
+It is not certain that an LLM adheres to the system format.
+The capabilities in answering in a structured format given by the user differ between models.
+% TODO: sources
+Larger models like GPT-4 are better than smaller ones like GPT-3, but also cost more.
+Other models improve at structured answers with fine-tuning
+but might lose capabilities in other areas as a result.
+
+% TODO: sources
+There are solutions, that try to catch common mistakes from LLMs
+such as missing brackets or missing commas in JSON.
+While some mistakes can be mitigated with this approach, it is not feasible
+for large-scale applications as there are too many where the format can break.
+Similar to the decision-making mistakes, another solution is to retry
+and hope for a parsable answer.
 
 \section{Benchmarking Results}
 
