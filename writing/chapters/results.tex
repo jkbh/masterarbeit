@@ -6,8 +6,8 @@
 
 % TODO: this needs work
 While working with AutoGPT and developing the information retrieval agent,
-a couple of weaknesses of current LLM agent systems became visible.
-The most important challenge for LLM agents is the non-deterministic generation of large language models.
+a couple of weaknesses of current \gls{llm} agent systems became visible.
+The most important challenge for \gls{llm} agents is the non-deterministic generation of large language models.
 It makes it significantly harder to build a software system around it because every time the language model is called,
 there has to be a fallback mechanism in case something fails.
 For fixed pipeline systems this is true as well,
@@ -18,7 +18,7 @@ but error handling is easier as the task steps are known beforehand.
 Using large language models as agent controllers is a recent idea, and therefore there is a lot of experimentation left to do.
 A challenge when developing such agents is the natural language interface that language models communicate with.
 While it makes describing the task easier for humans, it complicates the internal communication in the software.
-For example, AutoGPT wants a certain system format that the LLM should respond in.
+For example, AutoGPT wants a certain system format that the \gls{llm} should respond in.
 While this works most of the time, it is not guaranteed that the answer complies with the format.
 A small deviation such as a missing bracket can break the parsing process.
 Therefore, a lot of effort and time is put into creating better tools and frameworks that handle such mistakes,
@@ -76,13 +76,13 @@ Therefore, I opted to remove all abilities that were not needed for retrieval au
 Furthermore, the model choice is important for decision-making.
 GPT-4 is a lot better than GPT-3 at making good decisions, following tasks and providing
 criticism and reasoning.
-For this reason, GPT-4 was used as the agent controller LLM.
+For this reason, GPT-4 was used as the agent controller \gls{llm}.
 
 \subsection{Wrong Answer Format}
 
 After receiving the answer to the step prompt, the agent has to parse it.
 The parsing step can only work if the answer is generated in the exact format specification.
-It is not certain that an LLM adheres to the system format.
+It is not certain that an \gls{llm} adheres to the system format.
 The capabilities in answering in a structured format given by the user differ between models.
 % TODO: sources
 Larger models like GPT-4 are better than smaller ones like GPT-3, but also cost more.
@@ -90,7 +90,7 @@ Other models improve at structured answers with fine-tuning
 but might lose capabilities in other areas as a result.
 
 % TODO: sources
-There are solutions, that try to catch common mistakes from LLMs
+There are solutions, that try to catch common mistakes from \glspl{llm}
 such as missing brackets or missing commas in JSON.
 While some mistakes can be mitigated with this approach, it is not feasible
 for large-scale applications as there are too many where the format can break.
@@ -98,6 +98,78 @@ Similar to the decision-making mistakes, another solution is to retry
 and hope for a parsable answer.
 
 \section{Benchmarking Results}
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                ybar,
+                ymin=0,
+                ymax=0.7,
+                legend cell align={left},
+                width=\textwidth,
+                ylabel={Cosine Distance},
+                xlabel=Question,
+                bar width=0.2cm,
+                tickwidth=0pt,
+                y axis line style={opacity=0},
+                symbolic x coords = {
+                        Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q9
+                    }
+            ]
+            \addplot [draw=black, pattern=north east lines] coordinates {
+                    (Q1, 0.32)
+                    (Q2, 0.59)
+                    (Q3, 0.47)
+                    (Q4, 0.31)
+                    (Q5, 0.19)
+                    (Q6, 0.26)
+                    (Q7, 0.23)
+                    (Q8, 0.41)
+                    (Q9, 0.29)
+                };
+            \addplot [draw=black, pattern=north west lines] coordinates {
+                    (Q1, 0.32)
+                    (Q2, 0.45)
+                    (Q3, 0.46)
+                    (Q4, 0.35)
+                    (Q5, 0.22)
+                    (Q6, 0.23)
+                    (Q7, 0.24)
+                    (Q8, 0.31)
+                    (Q9, 0.33)
+                };
+            \addplot [draw=none, fill=red!30] coordinates {
+                    (Q1, 0.30)
+                    (Q2, 0.52)
+                    (Q3, 0.45)
+                    (Q4, 0.31)
+                    (Q5, 0.18)
+                    (Q6, 0.21)
+                    (Q7, 0.24)
+                    (Q8, 0.37)
+                    (Q9, 0.34)
+                };
+            \addplot [draw=none, fill=green!30] coordinates {
+                    (Q1, 0.30)
+                    (Q2, 0.63)
+                    (Q3, 0.38)
+                    (Q4, 0.30)
+                    (Q5, 0.22)
+                    (Q6, 0.29)
+                    (Q7, 0.17)
+                    (Q8, 0.33)
+                    (Q9, 0.28)
+                };
+            \legend{GPT-3.5-Turbo, GPT-4-Turbo, Perplexity AI, IR Agent}
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Semantic distances between the gold standard answer and the generated answer.
+        The semantic distance is calculated as the cosine distance of the sentence embeddings.}
+    \label{fig:benchmark_results}
+\end{figure}
+
+test test
 
 \section{Subjective Evaluation}
 

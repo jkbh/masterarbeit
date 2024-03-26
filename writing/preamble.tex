@@ -1,6 +1,7 @@
 \usepackage{subfiles}
-
-\usetikzlibrary{fit, positioning, external, backgrounds, bending}
+\usepackage{pgfplots}
+\usepackage[acronym]{glossaries}
+\usetikzlibrary{fit, positioning, external, backgrounds, bending, patterns}
 \tikzexternalize
 \tikzset{thesis outline shapes}
 \tikzset{ability/.style={block=emph blue}}
@@ -21,3 +22,16 @@
 }
 \graphicspath{include/images}
 \addbibresource{\subfix{bib/zotero}}
+
+\setacronymstyle{long-short}
+\newacronym{llm}{LLM}{large language model}
+\newacronym{rag}{RAG}{retrieval augmented generation}
+\newacronym{ir}{IR}{information retrieval}
+\newacronym{gpt}{GPT}{generative pre-trained transformer}
+\newacronym{bert}{BERT}{bidirectional encoder representations from transformers}
+\newacronym{ai}{AI}{artificial intelligence}
+\newacronym{nlp}{NLP}{natural language processing}
+\newglossaryentry{autogpt}{
+    name={AutoGPT},
+    description={An attempt at making \gls{gpt} fully autonomous}
+}

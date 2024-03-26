@@ -17,8 +17,8 @@ In comparison to classical computer algorithms,
 agents observe, plan and act autonomously in order to complete a task.
 I will explain the basic concept of an agent and list the most important types of agents.
 Section~\ref{sec:language_modeling} deals with \emph{language modeling}
-and the current developments of large language models (LLMs).
-Building upon the attention-based transformer architecture, modern large language models (LLMs)
+and the current developments of \glspl{llm} (LLMs).
+Building upon the attention-based transformer architecture, modern \glspl{llm} (LLMs)
 can handle complex tasks such as text generation.
 Moreover, the natural language interface of LLMs can be used for tasks in other domains.
 An example of such a domain is \emph{LLM-based agents}, explained in section~\ref{sec:llm_agents}.
@@ -383,7 +383,7 @@ Furthermore,
 after a certain level of scaling,
 abilities emerge that the model was not directly trained on.
 
-As large language models have reached parameter counts of over a billion,
+As \glspl{llm} have reached parameter counts of over a billion,
 only very few companies have the hardware to train or even run inference tasks.
 
 \subsection{Embedding Models}
@@ -414,7 +414,7 @@ most information on the internet is not formatted in a conversational style.
 Because of this, language models need to be prompted in a specific way to be effective.
 The prompt needs to be written such that its continuation yields the desired output.
 This is not optimal for human users, as one would rather write in a conversational style.
-The training objective of large language models is different from the objective
+The training objective of \glspl{llm} is different from the objective
 "follow the user's instructions helpfully and safely" \cite{Ouyang2022}.
 Researchers say that the language model is not \emph{aligned}.
 A popular attempt at aligning language models is reinforcement learning with human feedback (RLHF) \cite{Ouyang2022}.
@@ -436,13 +436,13 @@ This leads to some unwanted results such as toxic, harmful or fabricated answers
 
 \section{Large Language Model Agents}
 \label{sec:llm_agents}
-With the rise of large language models and their impressive capabilities in various language tasks,
+With the rise of \glspl{llm} and their impressive capabilities in various language tasks,
 efforts began to leverage them in agent systems.
 Experiments to give GPT access to tools \autocite{Shen2023, Schick2023},
-that large language models can use external functions
+that \glspl{llm} can use external functions
 if they are prompted with a description of how to access them.
 
-Four key reasons why large language models are suitable as agent brains are outlined in \cite{Xi2023}.
+Four key reasons why \glspl{llm} are suitable as agent brains are outlined in \cite{Xi2023}.
 Agents should act autonomously without direct interventions from humans.
 The generative capabilities and dynamically adjusted outputs based on the input fit that characteristic.
 
@@ -458,13 +458,13 @@ The prompt can contain descriptions of possible abilities, the task, guidelines,
 information about the environment and more.
 
 Experiments in \cite{Liu2023} showed
-that large language models focus more on the first and last lines of the prompt
+that \glspl{llm} focus more on the first and last lines of the prompt
 in their answer generation.
 This needs to be respected when constructing long prompts to use LLMs for agents.
 
 \subsection{LLM Agent Construction}
 
-Most large language model agents follow a certain pattern
+Most \gls{llm} agents follow a certain pattern
 when implementing an agent with LLMs.
 A construction framework for LLM agents consisting of four modules
 is proposed in \cite{Wang2023}.

@@ -57,9 +57,9 @@ It can be a task like digging out an old and hidden memory or finding a book tha
 Improving the efficiency of tasks like the latter has been extensively researched in the information retrieval area in the last decades.
 With the introduction of Internet search engines and data repositories, the barrier to accessing information has been drastically improved.
 
-This thesis presents an LLM-based agent that uses retrieval augmented generation to answer user prompts.
+This thesis presents an \gls{llm} agent that uses \gls{rag} to answer user prompts.
 
-The creation of benchmarks for LLM agents is a complex endeavor.
+The creation of benchmarks for \gls{llm} agents is a complex endeavor.
 
 Therefore, I will use a simple question-and-answer dataset to benchmark the agent performance with subjective evaluation.
 
@@ -75,21 +75,21 @@ Three main contributions of this Thesis are
 
 \section{Related Work}
 
-With the rise of large language models, they have been introduced into different domains.
-LLM-based agents are a promising way to fulfill user goals autonomously,
+With the rise of \glspl{llm}, they have been introduced into different domains.
+\gls{llm}-based agents are a promising way to fulfill user goals autonomously,
 hinting in the direction of real computer intelligence.
 Language models have also seen rising popularity in information retrieval applications.
 Many popular search engines have introduced language models to present the retrieved data to the user.
 In the following, notable work that is of interest for this work is listed.
 
-\subsection{LLM Agents}
+\subsection{\gls{llm} Agents}
 
-After the possibility of large language models like GPT-3 and then GPT-4 became public,
-researchers started to test different approaches to LLM-based agents.
+After the possibility of \glspl{llm} like GPT-3 and then GPT-4 became public,
+researchers started to test different approaches to \gls{llm}-based agents.
 In particular, the introduction of tools to extend the language model capabilities
 Toolformer \cite{Schick2023} trains a language model to use different APIs in a self-supervised way.
 For example, the model can use a calculator to externalize math problems,
-a task category that LLMs struggle with.
+a task category that \glspl{llm} struggle with.
 HuggingGPT \cite{Shen2023} uses GPT repeatedly in multiple rounds.
 For each step, a Huggingface model can be selected by the model to answer the prompt.
 In a virtual social setting, multiagent communication was demonstrated in \autocite{Park2023}.
@@ -97,7 +97,7 @@ Agents living together in a virtual village have different goals and communicate
 
 Building on top of these research experiments with tool usage and access to external knowledge,
 multiple applications of language model agents have been presented.
-AutoGPT \cite{SignificantGravitas2024} was the first attempt to make LLM autonomous,
+AutoGPT \cite{SignificantGravitas2024} was the first attempt to make \gls{llm} autonomous,
 but other projects have since been published.
 An introduction to AutoGPT is given in \autoref{ch:autogpt}.
 BabyAGI \cite{Nakajima2024} is a minimal task-driven autonomous agent.
@@ -106,7 +106,7 @@ users can build custom assistants
 that can use models, tools and knowledge to answer user queries.
 
 
-\subsection{LLM Information Retrieval}
+\subsection{\gls{llm} Information Retrieval}
 
 Because of their strong natural language capabilities,
 many developers work on tools that use these models for information retrieval
@@ -135,27 +135,27 @@ The steps of an \emph{information retrieval} system are explained, as well
 as different strategies to evaluate such systems.
 Furthermore, I will give an overview of the concept of an \emph{agent} and its main components.
 Additionally, the \emph{language modeling} section covers the base
-to understand the current large language models.
+to understand the current \glspl{llm}.
 I will go from the introduction of the transformer architecture to current chat models like ChatGPT.
-Finally, the combination of language models and agents to \emph{LLM agents} is introduced.
+Finally, the combination of language models and agents to \emph{\gls{llm} agents} is introduced.
 
 Chapter~\ref{ch:autogpt} contains an \emph{introduction to AutoGPT} and its core elements,
 as well as an analysis of its current information retrieval capabilities.
 First, an overview of the AutoGPT project and its components is given.
 I will then explain the default agent in more detail,
-looking at how the LLM agent ideas are implemented.
+looking at how the \gls{llm} agent ideas are implemented.
 After gaining an understanding of the AutoGPT project,
 we will then look at its default capabilities for information retrieval tasks.
 
 In \autoref{ch:agent},
 a custom AutoGPT agent that uses retrieval augmented generation for information retrieval is presented.
-In \autoref{ch:benchmarks}, will deal with how LLM agents can be benchmarking
+In \autoref{ch:benchmarks}, will deal with how \gls{llm} agents can be benchmarking
 and present a test dataset for the RAG agent from \autoref{ch:agent}.
 The benchmark uses handcrafted question-and-answer pairs from a scientific humanities journal.
 
 Finally, a conclusion is given in \autoref{ch:conclusion}.
 Here I will describe the problems and challenges
-that LLM agents currently have being a relatively new concept.
+that \gls{llm} agents currently have being a relatively new concept.
 Additionally, open questions for possible future work are discussed.
 
 \end{document}
