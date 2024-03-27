@@ -30,7 +30,7 @@
         (LLM) -- node[left] {answer} (answer);
     \end{tikzpicture}
     % TODO: revisit colors
-    \caption{The RAG agent manipulates the \textcolor{red}{workspace} folder with \textcolor{blue}{abilities}.
+    \caption{The \gls{rag} agent manipulates the \textcolor{red}{workspace} folder with \textcolor{blue}{abilities}.
         To ingest a PDF, the user has to place the file into the workspace.
         After chunking the PDF, the chunks are ingested into the vector database.
         With the retrieval ability,
@@ -41,7 +41,6 @@
     \label{fig:abilities_workspace}
 \end{figure}
 
-
 Encoding knowledge in natural language is an everyday process for humans,
 but has been a problem for machines for decades.
 
@@ -49,72 +48,74 @@ In recent years, there has been a large increase in language modeling capabiliti
 After the proposal of the transformer architecture \cite{Vaswani2017},
 which removed all sequential components from previous language modeling techniques,
 the architecture and its components were applied to all kinds of language modeling problems.
-Using massively scaled transformer networks, researchers were able to
+Using \glspl{llm}, researchers were able to
 see emerging behaviors, meaning that the model can solve tasks that it was not trained on.
 
 Humans need to retrieve information from somewhere constantly.
-It can be a task like digging out an old and hidden memory or finding a book that contains the desired information.
-Improving the efficiency of tasks like the latter has been extensively researched in the information retrieval area in the last decades.
-With the introduction of Internet search engines and data repositories, the barrier to accessing information has been drastically improved.
+It can be a task like digging out an old and hidden memory
+or finding a book that contains the desired information.
+Improving the efficiency of tasks like the latter
+has been extensively researched in the \gls{ir} area in the last decades.
+With the introduction of Internet search engines and data repositories,
+the barrier to accessing information has been drastically improved.
 
-This thesis presents an \gls{llm} agent that uses \gls{rag} to answer user prompts.
-
+This thesis presents a \gls{llm} agent that uses \gls{rag} to answer user prompts.
 The creation of benchmarks for \gls{llm} agents is a complex endeavor.
-
-Therefore, I will use a simple question-and-answer dataset to benchmark the agent performance with subjective evaluation.
+Therefore, I will use a simple question-and-answer dataset
+to benchmark the agent's performance with subjective evaluation.
 
 \section{Contributions of this Thesis}
 
 Three main contributions of this Thesis are
 
 \begin{enumerate}
-    \item An analysis of AutoGPT and its default agent for information retrieval tasks.
-    \item An agent for information retrieval that uses retrieval augmented generation.
-    \item A way to benchmark an information retrieval agent using the AutoGPT benchmarking system with a synthetic IR dataset
+    \item An analysis of \gls{autogpt} and its default agent for \gls{ir} tasks.
+    \item An \gls{ir} agent that uses \gls{rag}.
+    \item A way to benchmark an \gls{ir} agent using the \gls{autogpt} benchmarking system with a synthetic \gls{ir} dataset.
 \end{enumerate}
 
 \section{Related Work}
 
 With the rise of \glspl{llm}, they have been introduced into different domains.
-\gls{llm}-based agents are a promising way to fulfill user goals autonomously,
+\Gls{llm} agents are a promising way to fulfill user goals autonomously,
 hinting in the direction of real computer intelligence.
-Language models have also seen rising popularity in information retrieval applications.
+Language models have also seen rising popularity in \gls{ir} applications.
 Many popular search engines have introduced language models to present the retrieved data to the user.
 In the following, notable work that is of interest for this work is listed.
 
 \subsection{\gls{llm} Agents}
 
-After the possibility of \glspl{llm} like GPT-3 and then GPT-4 became public,
-researchers started to test different approaches to \gls{llm}-based agents.
+After \glspl{llm} like \gls{gpt3} and then \gls{gpt4} were made public,
+researchers started testing different approaches to integrate them into agents.
 In particular, the introduction of tools to extend the language model capabilities
 Toolformer \cite{Schick2023} trains a language model to use different APIs in a self-supervised way.
 For example, the model can use a calculator to externalize math problems,
 a task category that \glspl{llm} struggle with.
-HuggingGPT \cite{Shen2023} uses GPT repeatedly in multiple rounds.
+HuggingGPT \cite{Shen2023} uses \gls{gpt} repeatedly in multiple rounds.
 For each step, a Huggingface model can be selected by the model to answer the prompt.
 In a virtual social setting, multiagent communication was demonstrated in \autocite{Park2023}.
 Agents living together in a virtual village have different goals and communicate through natural language.
 
 Building on top of these research experiments with tool usage and access to external knowledge,
 multiple applications of language model agents have been presented.
-AutoGPT \cite{SignificantGravitas2024} was the first attempt to make \gls{llm} autonomous,
+\gls{autogpt} \cite{SignificantGravitas2024} is an attempt to make \gls{llm} autonomous,
 but other projects have since been published.
-An introduction to AutoGPT is given in \autoref{ch:autogpt}.
-BabyAGI \cite{Nakajima2024} is a minimal task-driven autonomous agent.
-With the OpenAI assistants \cite{zotero-195} API,
+An introduction to \gls{autogpt} is given in \autoref{ch:autogpt}.
+BabyAGI is a minimal task-driven autonomous agent \cite{Nakajima2024}.
+With the OpenAI assistants API,
 users can build custom assistants
-that can use models, tools and knowledge to answer user queries.
+that can use OpenAI models, tools and knowledge to answer user queries \cite{zotero-195}.
 
 
 \subsection{\gls{llm} Information Retrieval}
 
 Because of their strong natural language capabilities,
-many developers work on tools that use these models for information retrieval
+many developers work on tools that use these models for \gls{ir}
 
 In a variety of application contexts,
 the answers of an assistant have to be correct.
 This is especially true in research contexts.
-A model that hallucinates isn't feasible in this case.
+A model that hallucinates is not feasible in this case. %TODO: was ist hallucination
 But while hallucination can be reduced with fine-tuning,
 it can not be eliminated.
 
@@ -131,7 +132,7 @@ There is no possibility of fine-tuning.
 
 First, I will introduce the main \emph{backgrounds}
 that are relevant to this work in \autoref{ch:backgrounds}.
-The steps of an \emph{information retrieval} system are explained, as well
+The steps of an \gls{ir} system are explained, as well
 as different strategies to evaluate such systems.
 Furthermore, I will give an overview of the concept of an \emph{agent} and its main components.
 Additionally, the \emph{language modeling} section covers the base
@@ -139,18 +140,18 @@ to understand the current \glspl{llm}.
 I will go from the introduction of the transformer architecture to current chat models like ChatGPT.
 Finally, the combination of language models and agents to \emph{\gls{llm} agents} is introduced.
 
-Chapter~\ref{ch:autogpt} contains an \emph{introduction to AutoGPT} and its core elements,
-as well as an analysis of its current information retrieval capabilities.
-First, an overview of the AutoGPT project and its components is given.
+Chapter~\ref{ch:autogpt} contains an \emph{introduction to \gls{autogpt}} and its core elements,
+as well as an analysis of its current \gls{ir} capabilities.
+First, an overview of the \gls{autogpt} project and its components is given.
 I will then explain the default agent in more detail,
 looking at how the \gls{llm} agent ideas are implemented.
-After gaining an understanding of the AutoGPT project,
-we will then look at its default capabilities for information retrieval tasks.
+After gaining an understanding of the \gls{autogpt} project,
+we will then look at its default capabilities for \gls{ir} tasks.
 
 In \autoref{ch:agent},
-a custom AutoGPT agent that uses retrieval augmented generation for information retrieval is presented.
+a custom \gls{autogpt} agent that uses \gls{rag} for \gls{ir} is presented.
 In \autoref{ch:benchmarks}, will deal with how \gls{llm} agents can be benchmarking
-and present a test dataset for the RAG agent from \autoref{ch:agent}.
+and present a test dataset for the \gls{rag} agent from \autoref{ch:agent}.
 The benchmark uses handcrafted question-and-answer pairs from a scientific humanities journal.
 
 Finally, a conclusion is given in \autoref{ch:conclusion}.

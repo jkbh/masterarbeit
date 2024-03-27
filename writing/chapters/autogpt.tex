@@ -1,53 +1,79 @@
 \documentclass[../main.tex]{subfiles}
 
 \begin{document}
-\chapter{An Introduction to AutoGPT}
+\chapter{An Analysis of AutoGPT}
 \label{ch:autogpt}
 
 The general notion of an agent in computer science was introduced in \autoref{sec:agents}.
-AutoGPT is an open-source project that tries to 'make GPT fully autonomous'.
+\gls{autogpt} is an open-source project that tries to 'make \gls{gpt} fully autonomous'.
 The project quickly gained a lot of traction
 following its first release.
 The idea of an LLM that controls an agent sounded like the next step towards
 real intelligence of computer systems.
-Lots of programmers joined the AutoGPT Repository,
+Lots of programmers joined the \gls{autogpt} Repository,
 and it grew into a much bigger and now-funded project.
-Initially, it only contained the AutoGPT agent
+Initially, it only contained the \gls{autogpt} agent
 but over time has seen multiple additions.
 
-The documentation of AutoGPT is sparse,
+The documentation of \gls{autogpt} is sparse,
 and the project is developed quickly,
 therefore existing documentation
 can often be outdated.
-Therefore, I will give a brief introduction to AutoGPT and its core components
+Therefore, I will give a brief introduction to \gls{autogpt} and its core components
 in this chapter.
 
 What grabbed the attention of many people is not the whole project,
-but merely the default agent implementation of AutoGPT.
+but merely the default agent of \gls{autogpt}.
 The project further includes \emph{Forge},
 an agent framework that can be used to build a custom agent.
 It defines a minimal agent without logic
 that abstracts away all the boilerplate.
 In \autoref{sec:forge_agent} the Forge agent is introduced
 and in \autoref{ch:agent} I use the Forge agent
-to build a custom agent for information retrieval.
+to build a custom agent for \gls{ir}.
 While the first iteration of the default agent lived in the terminal,
 the project now ships with a web application
 that allows interaction with agents in the browser.
 Finally, a benchmarking system was introduced.
 The benchmarking can be used to build level-based test suites,
 to test the capabilities of an agent.
-The benchmarking system is introduced in \autoref{sec:benchmarking}
+The benchmarking system is introduced in \autoref{sec:benchmarking}.
 
-\section{The Default Agent}
+\section{Project Overview}
+
+Originally,
+the default only ran in the computer terminal
+and was controlled through the command line.
+Later, an option to start a server that implements the agent protocol was added.
+The user can interact with the agent through a web interface in the browser.
+
+The web interface lists all conversations an agent had and provides a chat interface for the selected one.
+When the user sends an input to the agent, a task or step request is made to the server running the agent.
+Furthermore, the web interface can be used to start benchmarks for an agent.
+A single test or a complete test suite consisting of stages can be started.
+The GUI has no support for uploading documents to an agent.
+Because of this, documents for \gls{ir} would need to be placed in specific folder locations
+such that the agent can access them before it is started.
+
+\gls{autogpt} agents use workspaces in which they can act.
+Each agent has its workspace and can not modify files outside it by default.
+In case the user wants the agent to have access to documents, he needs to place them into its workspace by hand.
+Often, the workspace is also used to save intermediate information to text files.
+Some abilities produce large outputs,
+and the limited context window of large language models can be exceeded quickly
+if all intermediate information is appended to the prompt.
+
+\section{Main Components}
 \label{sec:default_agent}
 
-The default agent made up the whole project when AutoGPT was first released.
+\subsection{Default Agent}
+
+The default agent made up the whole project when \gls{autogpt} was first released.
 The official documentation \autocite{zotero-189} describes the default agent as:
 \begin{quote}
-    A \emph{generalist} agent, meaning it is not designed with a specific task in mind.
+    ``A \emph{generalist} agent, meaning it is not designed with a specific task in mind.
     Instead, it is designed to be able to execute a wide range of tasks across many disciplines,
-    as long as it can be done on a computer.
+    as long as it can be done on a computer.''
 \end{quote}
 This generalist design can be seen in the list of available abilities.
 \begin{description}
@@ -80,9 +106,9 @@ one has to deal with when working with the default agent.
 
 \subsection{Agent Structure}
 
-The AutoGPT agent is modeled after the classic agent architecture.
+The \gls{autogpt} agent is modeled after the classic agent architecture.
 After the start,
-the user is asked to enter a task the AutoGPT agent should perform.
+the user is asked to enter a task the \gls{autogpt} agent should perform.
 Then the agent enters a loop of prompting the LLM,
 executing the proposed action
 handling the result of the action and updating the agent state.
@@ -98,9 +124,9 @@ As the answer needs to be parsed,
 the system prompt defines a fixed format the LLM should answer in.
 The answer consists of the thoughts and the proposed next action.
 
-AutoGPT is divided into four modules.
-The \textit{emph} is the main module that controls the agent.
-In AutoGPT this is realized by prompting the language model in a structured way.
+\gls{autogpt} is divided into four modules.
+The \emph{brain} is the main module that controls the agent.
+In \gls{autogpt} this is realized by prompting the language model in a structured way.
 Using the chat system prompt,
 the language model is prompted to answer in a structured format.
 Different techniques are implemented in this structure.
@@ -120,7 +146,7 @@ Long-term memory needs persistent storage such as a database.
 A popular option for language models is vector databases that work with embeddings.
 
 Currently,
-the AutoGPT agent is implemented for OpenAI GPT models.
+the \gls{autogpt} agent is implemented for OpenAI \gls{gpt} models.
 The prompts are tailored in ways
 that benefit the characteristics of GPT-3 and GPT-4.
 Switching to a different model is not difficult from a software perspective,
@@ -130,56 +156,29 @@ However, the same prompting techniques do not necessarily work for all language 
 The challenge is to switch between different prompting styles,
 as every model needs to be prompted differently.
 
-\section{The Forge Agent}
-\label{sec:forge_agent}
+\subsection{Forge Agent}
+\label{subsec:forge_agent}
 
-\section{The Benchmark System}
-\label{sec:benchmarking}
+\subsection{Benchmarking System}
+\label{subsec:benchmarking}
 
-To evaluate AutoGPT and other agent systems that implement the agent protocol,
-the AutoGPT project has implemented a benchmarking system.
+To evaluate \gls{autogpt} and other agent systems that implement the agent protocol,
+the \gls{autogpt} project has implemented a benchmarking system.
 The system consists of a set of tasks that the agent has to complete.
 The tasks are designed to test different aspects of the agent and are divided into different topics.
 Some tasks depend on the previous successful completion of other tasks.
 A task consists of an input prompt and an expected output.
 The output is defined by certain words that should be contained.
 
-- built for the hackathon
+% - built for the hackathon
+% - external agents can be tested
+% - weak documentation
+% - stale development
 
-- external agents can be tested
+\section{Analysis for Information Retrieval}
 
-- weak documentation
-
-- stale development
-
-\section{Project Overview}
-
-Originally,
-the default agent lived in the computer terminal
-and was controlled through the command line.
-Later, an option to start a server that serves the agent protocol was added.
-The user can interact with the agent through a GUI frontend running in the browser.
-
-The web interface lists all conversations an agent had and provides a chat interface for the selected one.
-When the user sends an input to the agent, a task or step request is made to the server running the agent.
-Furthermore, the web interface can be used to start benchmarks for an agent.
-A single test or a complete test suite consisting of stages can be started.
-The GUI has no support for uploading documents to an agent.
-Because of this, documents for information retrieval would need to be placed in specific folder locations
-such that the agent can access them before it is started.
-
-AutoGPT agents use workspaces in which they can act.
-Each agent has its workspace and can not modify files outside it by default.
-If the user wants the agent to have access to documents he needs to place them into its workspace by hand.
-Often, the workspace is also used to save intermediate information to text files.
-Some abilities produce large outputs,
-and the limited context window of large language models can be exceeded quickly
-if all intermediate information is appended to the prompt.
-
-\section{AutoGPT for Information Retrieval}
-
-The AutoGPT Agent has different abilities that can be utilized for information retrieval.
-It can search the web and operate on files, execute code and
+The \gls{autogpt} Agent has different abilities that can be utilized for \gls{ir}.
+It can search the web and operate on files, execute code and do other stuff. % TODO
 
 The web search is implemented by a two-step process.
 First, a search API like DuckDuckGo is called to get a list of relevant pages.
@@ -188,15 +187,16 @@ It is possible to read and write text files.
 Other document types are processed by basic text extraction tools to get the plain text.
 
 For longer files such as scientific journals the extracted text is too long for the language model.
-The AutoGPT agent cannot chunk the text into smaller chunks or store it in a database.
-This is a limitation that needs to be addressed for information retrieval tasks over a research database repository.
+The \gls{autogpt} agent cannot chunk the text into smaller chunks or store it in a database.
+This is a limitation that needs to be addressed for \gls{ir} tasks over a local database repository.
 
-Having a vector database would enable techniques such as retrieval augmented generation.
+Having a vector database would enable techniques such as \gls{rag}.
 The agent would get a prompt with a question over the RDR and choose an action to start a semantic search over the vector database.
 The result of the search is the chunks that are semantically closest to the question.
-These chunks can then be included as context for the LLM prompt to generate an answer.
+These chunks can then be included as context for the \gls{llm} prompt to generate an answer.
 
 The default agent tends to search the web for information. We want an agent that prioritizes information that is present in the research repository.
 This needs to be addressed in the prompting techniques of the agent.
+
 
 \end{document}

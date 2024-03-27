@@ -1,28 +1,8 @@
 \usepackage{subfiles}
 \usepackage{pgfplots}
 \usepackage[acronym]{glossaries}
-\usetikzlibrary{fit, positioning, external, backgrounds, bending, patterns}
-\tikzexternalize
-\tikzset{thesis outline shapes}
-\tikzset{ability/.style={block=emph blue}}
 
-\UzLStyle{alegrya modern design}
-\UzLThesisSetup{
-    Masterarbeit,
-    Verfasst = {am}{Institut für Informationssysteme},
-    Titel auf Deutsch = {Nutzung von AutoGPT für Informations-Recherche Agenten},
-    Titel auf Englisch = {Using AutoGPT for Information Retrieval Agents},
-    Autor = {Jakob Horbank},
-    Betreuerin = {Prof. Dr. Ralf Möller},
-    Studiengang = {Informatik},
-    Datum = {15. April 2024},
-    Abstract = {Abstract},
-    Zusammenfassung = {Abstract},
-    Numerische Bibliographie
-}
-\graphicspath{include/images}
-\addbibresource{\subfix{bib/zotero}}
-
+% Acronyms
 \setacronymstyle{long-short}
 \newacronym{llm}{LLM}{large language model}
 \newacronym{rag}{RAG}{retrieval augmented generation}
@@ -31,7 +11,76 @@
 \newacronym{bert}{BERT}{bidirectional encoder representations from transformers}
 \newacronym{ai}{AI}{artificial intelligence}
 \newacronym{nlp}{NLP}{natural language processing}
+\newacronym{rlhf}{RLHF}{reinforcment learning with human feedback}
+\newacronym{cot}{CoT}{chain-of-though}
+\newglossaryentry{gpt3}{
+    name={GPT-3},
+    description={The third version of GPT, released in 2022}
+}
+
+\newglossaryentry{gpt4}{
+    name={GPT-4},
+    description={The fourth version of GPT, released in 2023}
+}
 \newglossaryentry{autogpt}{
     name={AutoGPT},
     description={An attempt at making \gls{gpt} fully autonomous}
 }
+\newglossaryentry{llamaindex}{
+    name={LlamaIndex},
+    description={A framework to build LLM apps.}
+}
+
+\newglossaryentry{sentsplitter}{
+    name={SentenceSplitter},
+    description={
+            A text splitter that creates chunks roughly the same specified length,
+            while respected sentence boundaries.}
+}
+
+\robustify{\gls}
+\robustify{\Gls}
+
+% Template metadata
+\UzLStyle{alegrya modern design}
+\UzLThesisSetup{
+Masterarbeit,
+Verfasst = {am}{Institut für Informationssysteme},
+Titel auf Deutsch = {Nutzung von AutoGPT für Informations-Recherche Agenten},
+Titel auf Englisch = {Using AutoGPT for Information Retrieval Agents},
+Autor = {Jakob Horbank},
+Betreuerin = {Prof. Dr. Ralf Möller},
+Mit Unterstützung von = {Thomas Asselborn},
+Studiengang = {Informatik},
+Datum = {15. April 2024},
+Abstract = {
+        In recent years,
+        \glspl{llm} have showed impressive capablities
+        for text generation tasks.
+        Researchers have started to leverage \glspl{llm} to control agents.
+        \gls{autogpt} is such an attempt at creating an autounous goal-oriented system.
+        While there is work that experiment with \gls{autogpt} for web search,
+        local \gls{ir} has not been researched yet.
+        This thesis presents an analysis of \gls{autogpt}
+        and a chatbot \gls{autogpt} agent that uses \gls{rag} for \gls{ir} over PDFs.
+        For comparison to other services \gls{ir} agent, a benchmark is created.
+        Results come here.},
+Zusammenfassung = {Abstract},
+Numerische Bibliographie
+}
+\addbibresource{\subfix{bib/zotero}}
+
+% For includegraphics
+\graphicspath{include/images}
+
+
+% Tikz
+\usetikzlibrary{fit, positioning, external, backgrounds, bending, patterns, patterns.meta}
+\tikzexternalize[prefix=tikz/]
+\tikzset{thesis outline shapes}
+\tikzset{ability/.style={block=emph blue}}
+\pgfplotsset{compat=1.18}
+
+% Show overfull in PDF
+\overfullrule=1mm
+\glsresetall

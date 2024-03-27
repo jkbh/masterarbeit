@@ -5,6 +5,8 @@
     "latex-workshop.latex.outDir": "%DIR%/out",
     "latex-workshop.latex.autoBuild.run": "never",
     "latex-workshop.latex.build.rootfileInStatus": true,
+    "latex-workshop.latex.rootFile.useSubFile": false,
+    "latex-workshop.latex.rootFile.doNotPrompt": true,
     "latex-workshop.synctex.afterBuild.enabled": true,
     "latex-workshop.synctex.indicator.enabled": true,
     "latex-workshop.view.outline.sync.viewer": true,
@@ -17,37 +19,24 @@
     ],
     "latex-workshop.latex.recipes": [
         {
-            "name": "latexmk (lualatex)",
+            "name": "latexmk",
             "tools": [
-                "lualatexmk"
+                "latexmk"
             ]
         },
     ],
     "latex-workshop.latex.tools": [
         {
-            "name": "lualatexmk",
+            "name": "latexmk",
             "command": "latexmk",
             "args": [
-                "-synctex=1",
-                "-interaction=nonstopmode",
-                "-file-line-error",
-                "--shell-escape",
-                "-lualatex",
-                "-outdir=%OUTDIR%",
                 "%DOC%"
             ],
-            "env": {}
         },
     ],
-    "latex-workshop.message.latexlog.exclude": [
-        "Package fontspec: Font.*",
-        "Package fontspec: OpenType.*"
-    ],
-    "ltex.latex.environments": {
-        "lstlisting": "ignore",
-        "verbatim": "ignore",
-        "Code": "ignore",
-    },
+    "ltex.additionalRules.enablePickyRules": true,
+    "ltex.additionalRules.motherTongue": "de-DE",
+    "ltex.additionalRules.languageModel": "~/models/ngrams/",
     "ltex.latex.commands": {
         "\\label{}": "ignore",
         "\\documentclass[]{}": "ignore",
@@ -58,23 +47,13 @@
         "\\subfile{}": "dummy",
         "\\incfig{}": "dummy",
         "\\lstinputlisting[]{}": "ignore",
+        "\\newacronym{}{}{}": "ignore",
+        "\\gls{}": "dummy",
+        "\\glspl{}": "pluralDummy",
     },
-    "ltex.additionalRules.languageModel": "~/models/ngrams/",
-    "grammarly.selectors": [
-        {
-            "language": "latex",
-            "scheme": "file"
-        }
-    ],
-    "grammarly.config.documentDomain": "academic",
-    "grammarly.config.documentDialect": "american",
-    "grammarly.config.suggestionCategories.variety": "on",
-    "grammarly.config.suggestionCategories.vocabulary": "on",
-    "grammarly.config.suggestionCategories.readabilityFillerWords": "on",
-    "grammarly.config.suggestionCategories.readabilityTransforms": "on",
-    "grammarly.config.suggestionCategories.missingSpaces": "on",
-    "grammarly.config.suggestionCategories.fluency": "on",
-    "grammarly.config.suggestionCategories.conjugationAtStartOfSentence": "off",
-    "grammarly.config.suggestionCategories.stylisticFragments": "on",
-    "grammarly.config.suggestionCategories.unnecessaryEllipses": "on",
+    "ltex.latex.environments": {
+        "lstlisting": "ignore",
+        "verbatim": "ignore",
+        "Code": "ignore",
+    },
 }

@@ -1,72 +1,75 @@
 \documentclass[../main.tex]{subfiles}
 
 \begin{document}
-\chapter{Benchmarking for an IR Agent}
+\chapter{An IR Agent Benchmark}
 \label{ch:benchmarks}
 
-The evaluation of large language model agents is a difficult task,
-as evaluating LLMs themselves presents a challenge.
+The evaluation of \gls{llm} agents is a difficult task,
+as evaluating \glspl{llm} alone already presents a challenge.
 There are different approaches to evaluating systems built around language models.
 Subjective evaluation is based on human feedback.
-As LLM systems are generally made to serve humans this is an important part of evaluation.
+As \gls{llm} systems are generally built to serve humans, this is an important part of evaluation.
 On the other hand,
 quantitative metrics that can be computed are used for objective evaluation.
 Different metrics are used for different tasks. Another important method is benchmarks.
 Benchmarks are a set of tasks or an environment that the agent is to move in.
 
 When talking about agents, different properties can be evaluated.
-LLM Agents can be evaluated in an end-to-end fashion, where only the output is
+\gls{llm} agents can be evaluated end-to-end, where only the output is
 relevant for measuring performance.
 Other methods also use intermediate outputs to evaluate agent decisions on a step level.
 
 \section{Existing IR Agent Benchmarks}
 
 As the space of possible agent domains is large, lots of different benchmarks were proposed.
-Simulation environments like
+%Simulation environments like
 
-Although lots of benchmarks for LLM applications have been proposed,
-few benchmarks are designed to test the information retrieval capabilities of an agent.
-Some benchmarks are used to evaluate information retrieval in general and in diverse domains. %TODO: sources, examples
-In \autocite{Mialon2023} introduced a general benchmark for AI assistants.
+Although lots of benchmarks for \gls{llm} applications have been proposed,
+few benchmarks are designed to test the \gls{ir} capabilities of an agent.
+Some benchmarks are used to evaluate \gls{ir} in general and in diverse domains. %TODO: sources, examples
+In \autocite{Mialon2023} introduced a general benchmark for \gls{ai} assistants.
 
-\section{Custom Benchmarks for Local IR over Journals}
+% TODO: more more more
+
+\section{IR Benchmark with a Humanities Journal}
 
 Large language models have delivered good results for general knowledge questions,
 but can struggle with domain-specific tasks.
 They can confidently generate answers that are completely made up but seem correct to a non-expert user.
-For this reason, the IR agent uses retrieval augmented generation to gather context from a local vector database,
+For this reason, the IR agent uses \gls{rag} to gather context from a local vector database,
 before generating an answer.
 The retrieval does not have to be evaluated, as the agent uses an external library that is tested separately.
 What needs to be tested is the answer quality of the chatbot.
-As the built-in benchmarking system of AutoGPT was unfinished and not ready to be used for custom agents,
+As the built-in benchmarking system of \gls{autogpt} was unfinished and not ready to be used for custom agents,
 I had to test question-and-answer pairs by hand in order to evaluate the IR agent.
 I adapt the end-to-end evaluation based on cosine similarity proposed in \cite{Banerjee2023},
 to compare the IR agent to other chatbot services.
-\subsection{Humanities Journal for Expert Knowledge}
 
+\subsection{Data}
 
 We need documents that contain domain-specific expert knowledge
-to evaluate the answer quality of the information retrieval agent.
+to evaluate the answer quality of the \gls{ir} agent.
 To generate question-and-answer pairs,
 I used the humanities journal
 \emph{Manuscripts and Performances in Religions, Arts and Sciences} \cite{Brita2023}.
 The journal presents a collection of papers that offer perspectives on how
 manuscripts can be studied as objects and actors in various kinds of performances.
 From the journal, I handpicked $10$ question and answer pairs for evaluation.
-While this set of pairs can not be used to evaluate the general question and answer pairs,
-it can be used to compare the IR agent to other services.
+While this set of pairs can not be used to evaluate the general capabilities of the agent,
+it can be used to compare the \gls{ir} agent to other services.
 
 The questions in the dataset follow a certain pattern.
 In particular, they ask for specific facts from the journal articles.
 In order to give the correct answer, one has to know the journal.
 
-\subsection{Comparing with other LLM IR Options}
+\subsection{Benchmark of different IR Tools}
 
 To put the evaluation results into perspective,
-other services for information retrieval were tested on the Q\&A dataset.
+other services for \gls{ir} were tested on the Q\&A dataset.
 I tested GPT-3.5-Turbo, GPT-4-Turbo and Perplexity for comparison.
 For all tools, the answer quality was measured
 by calculating the cosine similarity between their embeddings.
 I used the OpenAI Embeddings API \cite{zotero-253} to generate the embeddings of all questions and model answers.
 All services are only receiving the question with any additional information.
+
 \end{document}

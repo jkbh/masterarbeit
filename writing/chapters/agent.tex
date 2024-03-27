@@ -1,28 +1,28 @@
 \documentclass[../main.tex]{subfiles}
 
 \begin{document}
-\chapter{Retrieval Augmented Generation Agent}
+\chapter{A Retrieval Augmented Generation AutoGPT Agent for IR}
 \label{ch:agent}
 
 Large language models are excellent at generating text in a variety of styles.
 But when prompted about specific topics the answer quality suffers.
 Different approaches try to tackle this problem.
-A promising method is retrieval augmented generation, which combines in-context learning prompting techniques with a vector database.
+A promising method is \gls{rag}, which combines in-context learning prompting techniques with a vector database.
 In this section, I present an agent that is designed to answer user prompts in a retrieval-augmented fashion.
 
-To create the information retrieval agent,
-I used the Forge SDK \autocite{zotero-117} that is included in AutoGPT.
+To create the \gls{ir} agent,
+I used the Forge SDK \autocite{zotero-117} that is included in \gls{autogpt}.
 The Forge agent SDK is a tool to create a custom agent without having to write the boilerplate code.
-In comparison with the AutoGPT agent, it comes with less predefined abilities and has no initial logic.
+In comparison with the \gls{autogpt} agent, it comes with less predefined abilities and has no initial logic.
 On the contrary, fewer parts can break, and it is not under an ongoing re-factoring process,
-compared to the AutoGPT agent.
-Additionally, the AutoGPT agent is not optimized for information retrieval over a set of documents
+compared to the \gls{autogpt} agent.
+Additionally, the \gls{autogpt} agent is not optimized for \gls{ir} over a set of documents
 but operates more as a general-purpose agent.
 
-I extended the Forge agent with abilities that are needed for retrieval augmented generation.
-To store the documents for retrieval, I used a \emph{Chroma} vector database.
+I extended the Forge agent with abilities that are needed for \gls{rag}.
+To store the documents for retrieval, I used a \emph{ChromaDB} vector database.
 The 'ingest' ability of the agent can be used to ingest a PDF file that is saved in the workspace.
-The PDF is converted into plain text and then chunked into smaller documents using the \emph{SentenceSplitter} from \emph{LLamaIndex} \cite{zotero-255},
+The PDF is converted into plain text and then chunked into smaller documents using the \gls{sentsplitter} from \gls{llamaindex} \cite{zotero-255},
 which produces chunks of roughly equal length while respecting sentence boundaries.
 
 \section{Methods To Improve LLM Generation}
@@ -39,11 +39,11 @@ Following up on the challenges of fine-tuning researchers have searched for ways
 These methods make use of a phenomenon called in-context learning.
 In-context learning describes the observation that giving a large language model more context surrounding the prompt can drastically improve the response quality.
 \cite{Wei2022} found that adding a sentence that suggests step-by-step thinking to solve a problem makes the model better at solving logical questions.
-For GPT models, \autocite{Xu2023} showed an improvement after giving the language model a hint that it is an expert in a certain topic.
+For \gls{gpt} models, \autocite{Xu2023} showed an improvement after giving the language model a hint that it is an expert in a certain topic.
 The findings in the area of prompting techniques and in-context learning are suggesting
 that prompt optimizations have a high potential of getting the most out of large language models.
 
-A more promising approach is retrieval augmented generation \cite{Lewis2020}.
+A more promising approach is \gls{rag} \cite{Lewis2020}.
 Before generating an answer to a prompt, a vector database is searched for relevant information.
 The prompt then includes the information of the returned documents as context.
 
@@ -68,7 +68,7 @@ The prompt then includes the information of the returned documents as context.
         \draw (rag) -- (a);
     \end{tikzpicture}
     \caption{Instead of directly answering the user prompt with an LLM,
-        a retrieval augmentation system leverages context to generate better answers.
+        a \gls{rag} system leverages context to generate better answers.
         After receiving the user prompt, it is used to retrieve relevant documents from a database.
         These documents are appended to the language model prompt as context.
         The model is instructed to answer only using the provided context.}
@@ -82,11 +82,11 @@ But when it comes to specific domain knowledge, the exactness of large language 
 
 When trying to prompt models about very specific topics common problems such as hallucinations start to show.
 Not only does the model generate wrong information, it does so with strong confidence.
-A promising method to make the model answer based on specific sources is called retrieval augmented generation (RAG).
+A promising method to make the model answer based on specific sources is called \gls{rag} (RAG).
 
-The RAG method combines an information store with in-context learning.
+The \gls{rag} method combines an information store with in-context learning.
 A corpus of documents is stored in a database.
-When the user prompts the system the database is queried with that prompt matching documents are returned.
+When the user prompts the system, the database is queried with that prompt matching documents are returned.
 These documents are then included in the prompt to the LLM as context.
 
 To store the information a vector database is used.
@@ -98,7 +98,7 @@ The top-k documents are then returned.
 \section{Agent}
 
 I will first explain the default Forge agent.
-Then will describe how I built the information retrieval agent.
+Then will describe how I built the \gls{ir} agent.
 
 \subsection{The Forge Agent}
 
@@ -119,7 +119,7 @@ The two important concepts of the agent protocol are tasks and steps:
 
 The Forge SDK handles the boilerplate code that implements the agent protocol.
 On running, the server with the corresponding endpoints gets started, and the agent can be used over the API endpoints.
-AutoGPT also comes with a chatbot web app that builds the appropriate HTTP requests to the agent endpoints.
+\gls{autogpt} also comes with a chatbot web app that builds the appropriate HTTP requests to the agent endpoints.
 The user of the Forge SDK has to create the actual agent logic, create custom prompt templates for the used model and add abilities to interact with external resources.
 Because the Forge SDK is still under development and by no means a polished product, some internals also need to be tweaked to achieve the desired agent behavior.
 
@@ -134,9 +134,9 @@ The information about an ability is formatted into a string before adding it to 
         Abilities to read, write and list files are present.
         All the abilities have a path parameter that the large language model has to populate when generating a step proposal with actions from this category.
     \item[Web] The web search functionality is split up into abilities to call a search engine and to read a webpage
-        The search engine ability requires a search string that is sent to the engine.
-        For the web page ability a URL is needed, and if specific information should be extracted the LLM also has to provide a question.
-    \item[Finish] The "finish" ability terminates the agent loop.
+        The web-search ability requires a search string that is sent to the engine.
+        For the webpage ability a URL is needed, and if specific information should be extracted the LLM also has to provide a question.
+    \item[Finish] The “finish” ability terminates the agent loop.
         The agent is asked to choose this ability if the initial user prompt can be answered and give a reason.
 \end{description}
 
@@ -201,7 +201,7 @@ For short-term memory,
 the message history format used by instruct language models can be used.
 The last $n$ messages of a conversation between the user and the agent
 are recorded and change the generation behavior of the LLM that controls the agent.
-For example, a researcher could
+%For example, a researcher could
 
 Long-term memory is generally represented as some external store
 where information can be stored and retrieved.
@@ -209,7 +209,7 @@ This memory can include past conversations between the agent and the user,
 as well as additional data that the agent should have access to.
 The information can be present from the beginning or added at runtime by a user prompt.
 
-For large language model applications vector databases are a popular choice,
+For \gls{llm} applications vector databases are a popular choice,
 because they integrate well into the embedding-based language modeling concept.
 Vector databases store data together with their high-dimensional embedding.
 Embedding models that are specifically trained to produce rich embeddings are used.
@@ -237,7 +237,7 @@ The agent uses a \emph{chromadb} vector database \autocite{zotero-176}.
         \draw[->, dotted] (output) -- (user);
 
     \end{tikzpicture}
-    \caption{The information retrieval agent receives the user prompt at the start of each cycle.
+    \caption{The \gls{ir} agent receives the user prompt at the start of each cycle.
         Next, the step prompt is constructed with the action history, list of abilities and extra information.
         After the LLM responds to the step prompt, the proposed action is executed
         and the step output is presented to the user.
@@ -322,16 +322,16 @@ The agent is now forced to retrieve information from local sources.
 
 \subsection{Document Ingestion}
 
-To enable retrieval augmented generation,
+To enable \gls{rag},
 the agent can ingest documents into its vector database.
-The \emph{ingest} ability can be called with a PDF filename as the argument.
+The “ingest” ability can be called with a PDF filename as the argument.
 For the ability to succeed, a PDF file with the exact filename has to be present
 in the agent workspace.
 The user has to manually place the file in the workspace before prompting the agent.
 If a PDF is found, it is converted into plain text.
 Then, the text is split up into smaller chunks that can be mapped to embeddings
 with an embedding model.
-The \emph{SentenceSplitter} utility from the \emph{LLamaIndex} package \cite{zotero-255} is used,
+The \gls{sentsplitter} utility from the \gls{llamaindex} framework \cite{zotero-255} is used,
 to create the chunks.
 The splitter splits up a text recursively and then joins words back together to
 generate chunks of similar length while respecting sentence borders.
