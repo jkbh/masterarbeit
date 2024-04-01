@@ -21,11 +21,12 @@ You have access to the following abilities you can call:
 - answer_with_context(prompt: str, context_file: str, output_file: str) -> None. Usage: Answer a prompt using content
 from a textfile as context,
 
+...
+
 - retrieve_context_from_memory(query: string, output_file: string) -> string. Usage: Retrieve the most relevant information for a query and save it to a .txt file,
 
 - finish(reason: string) -> None. Usage: Use this to shut down once you have accomplished all of your goals, or when there are insurmountable problems that make it impossible for you to finish your task.
 
-...
 
 - list_files(path: string) -> list[str]. Usage: List files in a directory. If the there is specific path request use '/' as the path.
 

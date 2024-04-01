@@ -326,7 +326,7 @@ structure/.uzl style inherits from = plain,
 %
 \setlength\lineskip{1\p@}
 \setlength\normallineskip{1\p@}
-\renewcommand\baselinestretch{}
+%\renewcommand\baselinestretch{}
 \setlength\parskip{0\p@ \@plus \p@}
 \@lowpenalty   51
 \@medpenalty  151
@@ -1584,7 +1584,7 @@ Lübeck, den \ignorespaces\uzl@date\par
       % Till Tantau's code for reproducing the Cell bibliography style
       % in biblatex:
       %
-      \DeclareNameAlias{sortname}{last-first}
+      \DeclareNameAlias{sortname}{family-given}
       \setlength{\bibhang}{0pt}
       \setlength{\bibitemsep}{1em}
       \renewcommand*{\bibinitdelim}{}
@@ -1630,7 +1630,7 @@ Lübeck, den \ignorespaces\uzl@date\par
     },
   Numerische Bibliographie/.code={
       \uzl@load@biblatex{style=numeric}
-      \DeclareNameAlias{sortname}{last-first}
+      \DeclareNameAlias{sortname}{family-given}
       \DeclareNameAlias{author}{sortname}
       \DeclareNameAlias{editor}{sortname}
       \DeclareNameAlias{translator}{sortname}
@@ -1664,7 +1664,7 @@ Lübeck, den \ignorespaces\uzl@date\par
   backend=bibtex,
   minbibnames=10,
   maxbibnames=10,
-  firstinits=true
+  giveninits=true
 }
 
 \newif\ifuzl@bibstyleset
@@ -2662,7 +2662,7 @@ thesis centered layout/.style={
 %
 % \UzLStyle{toc left layout}
 %
-% This creates a pretty “strict” left layout in which all chapters and
+% This creates a pretty �����strict” left layout in which all chapters and
 % sections are flushed left. Fits nicely with modern fonts.
 %
 %

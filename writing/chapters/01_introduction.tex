@@ -4,43 +4,7 @@
 \chapter{Introduction}
 \label{ch:introduction}
 
-\begin{figure}[t]
-    \centering
-    \begin{tikzpicture}[node distance=2cm]
-        \node[block=emph red] (workspace) {Workspace};
-        \node[above=of workspace] (user) {User};
-        \node[ability, below=of workspace] (retrieve) {Retrieve};
-        \node[ability, left=2.5cm of workspace] (ingest) {Ingest};
-        \node[ability, right=2.5cm of workspace] (answer) {Answer};
-        \node (DB) at (ingest |- retrieve) {DB};
-        \node[below=of answer] (LLM) {LLM};
-
-        \draw[->] (user) -- node[left] {place PDF} (workspace);
-        \draw[->] (workspace) -- node[above] {read PDF} (ingest);
-        \draw[->] (ingest) -- node[left] (chunks) {add chunks} (DB);
-        \draw[->] (DB) -- node[above] {top chunks} (retrieve);
-        \draw[->] (retrieve) -- node[left, align=center] {save\\context} (workspace);
-        \draw[->, transform canvas={yshift=1mm}]
-        (workspace) -- node[above, align=center] {get context} (answer);
-        \draw[->, transform canvas={yshift=-1mm}]
-        (answer) -- node[below, align=center] {save answer} (workspace);
-        \draw[->, transform canvas={xshift=1mm}]
-        (answer) -- node[right, align=center] {prompt\\with context} (LLM);
-        \draw[->, transform canvas={xshift=-1mm}]
-        (LLM) -- node[left] {answer} (answer);
-    \end{tikzpicture}
-    % TODO: revisit colors
-    \caption{The \gls{rag} agent manipulates the \textcolor{red}{workspace} folder with \textcolor{blue}{abilities}.
-        To ingest a PDF, the user has to place the file into the workspace.
-        After chunking the PDF, the chunks are ingested into the vector database.
-        With the retrieval ability,
-        the agent can retrieve the top five chunks for a query
-        and save them in a workspace file.
-        The retrieved documents are read from the workspace by the Answer ability.
-        The generated answer is then written back into a file in the workspace.}
-    \label{fig:abilities_workspace}
-\end{figure}
-
+% TODO Rewrite the introduction, include LLM + Agents + IR -> IR RAG Agent Motivation
 Encoding knowledge in natural language is an everyday process for humans,
 but has been a problem for machines for decades.
 
@@ -74,6 +38,8 @@ Three main contributions of this Thesis are
     \item A way to benchmark an \gls{ir} agent using the \gls{autogpt} benchmarking system with a synthetic \gls{ir} dataset.
 \end{enumerate}
 
+% TODO Name results for each contribution
+
 \section{Related Work}
 
 With the rise of \glspl{llm}, they have been introduced into different domains.
@@ -83,7 +49,8 @@ Language models have also seen rising popularity in \gls{ir} applications.
 Many popular search engines have introduced language models to present the retrieved data to the user.
 In the following, notable work that is of interest for this work is listed.
 
-\subsection{\gls{llm} Agents}
+\subsection{LLM Agents}
+% TODO More emphasis on AutoGPT, as I will use it later.
 
 After \glspl{llm} like \gls{gpt3} and then \gls{gpt4} were made public,
 researchers started testing different approaches to integrate them into agents.
@@ -98,16 +65,15 @@ Agents living together in a virtual village have different goals and communicate
 
 Building on top of these research experiments with tool usage and access to external knowledge,
 multiple applications of language model agents have been presented.
-\gls{autogpt} \cite{SignificantGravitas2024} is an attempt to make \gls{llm} autonomous,
+\gls{autogpt} \cite{SignificantGravitas2023} is an attempt to make \gls{llm} autonomous,
 but other projects have since been published.
 An introduction to \gls{autogpt} is given in \autoref{ch:autogpt}.
-BabyAGI is a minimal task-driven autonomous agent \cite{Nakajima2024}.
+BabyAGI is a minimal task-driven autonomous agent \cite{Nakajima2023}.
 With the OpenAI assistants API,
 users can build custom assistants
 that can use OpenAI models, tools and knowledge to answer user queries \cite{zotero-195}.
 
-
-\subsection{\gls{llm} Information Retrieval}
+\subsection{LLM Information Retrieval}
 
 Because of their strong natural language capabilities,
 many developers work on tools that use these models for \gls{ir}
@@ -115,10 +81,11 @@ many developers work on tools that use these models for \gls{ir}
 In a variety of application contexts,
 the answers of an assistant have to be correct.
 This is especially true in research contexts.
-A model that hallucinates is not feasible in this case. %TODO: was ist hallucination
+A model that hallucinates is not feasible in this case. %TODO: explain for LLM hallucination on first mention.
 But while hallucination can be reduced with fine-tuning,
 it can not be eliminated.
 
+% TODO Perplexity is also an agent? Differentiate between IR and Agent for PPAI
 Perplexity AI \cite{zotero-197} is an online service that leverages a language model
 to provide a search that generates an answer from different sources on the internet.
 The content of the answer is then linked to the found sources,
@@ -130,17 +97,17 @@ There is no possibility of fine-tuning.
 
 \section{Structure of this Thesis}
 
-First, I will introduce the main \emph{backgrounds}
+First, I will introduce the main backgrounds
 that are relevant to this work in \autoref{ch:backgrounds}.
 The steps of an \gls{ir} system are explained, as well
 as different strategies to evaluate such systems.
 Furthermore, I will give an overview of the concept of an \emph{agent} and its main components.
-Additionally, the \emph{language modeling} section covers the base
+Additionally, the language modeling section covers the base
 to understand the current \glspl{llm}.
 I will go from the introduction of the transformer architecture to current chat models like ChatGPT.
 Finally, the combination of language models and agents to \emph{\gls{llm} agents} is introduced.
 
-Chapter~\ref{ch:autogpt} contains an \emph{introduction to \gls{autogpt}} and its core elements,
+Chapter~\ref{ch:autogpt} contains an introduction to \gls{autogpt} and its core elements,
 as well as an analysis of its current \gls{ir} capabilities.
 First, an overview of the \gls{autogpt} project and its components is given.
 I will then explain the default agent in more detail,
@@ -150,6 +117,8 @@ we will then look at its default capabilities for \gls{ir} tasks.
 
 In \autoref{ch:agent},
 a custom \gls{autogpt} agent that uses \gls{rag} for \gls{ir} is presented.
+I will introduce the concept of \gls{rag} first, then give a detailed explanation
+of the \gls{ir} agent.
 In \autoref{ch:benchmarks}, will deal with how \gls{llm} agents can be benchmarking
 and present a test dataset for the \gls{rag} agent from \autoref{ch:agent}.
 The benchmark uses handcrafted question-and-answer pairs from a scientific humanities journal.

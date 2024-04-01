@@ -1,0 +1,66 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+\chapter{Conclusion}
+\label{ch:conclusion}
+\glsresetall
+The recent advances in language modeling with \glspl{llm} sparked research
+in building autonomous agents that use \glspl{llm} to make decisions.
+\Gls{llm} agent research focuses on modeling human interaction and gathering
+information from the web. % TODO: sources should have been named earlier for this, reuse here
+While there are \gls{ir} services like \gls{ppai} that use \glspl{llm}, there has not been
+extensive research on \gls{llm} agents for \gls{ir}.
+Most of these services use static pipelines which follow a fixed sequence of
+steps when producing an answer to a user prompt.
+In this thesis I investigated the usage of \gls{autogpt} for an \gls{ir} agent.
+Specifically, I studied the application on local \gls{ir} in contrast to most \gls{llm}
+agent research which deals with web scraping tasks.
+
+I started out with an introduction to the \gls{autogpt} project and analyzed
+the components in the context of information retrieval.
+The distinctive feature of \gls{autogpt} and similar projects is the
+In the analysis, I came to the conclusion that the best way to test \gls{autogpt}
+for local \gls{ir}, would be to create an agent built upon the \gls{autogpt}
+Forge agent.
+
+The \gls{ir} agent uses \gls{rag}, a method that improves prompt answering
+by using retrieved documents as context.
+
+To evaluate the \gls{ir} agent I had to create a benchmark.
+As the \gls{ir} agent is only accessible in the web interface and
+the computation speed is slow, I opted to use a small set of question and answer
+to perform a qualitative evaluation of the agent.
+
+Using language model agents for \gls{ir} tasks is an interesting approach,
+but needs to overcome some key challenges for usage in real-world applications.
+
+\section{Future Work}
+
+The \gls{ir} agent could be extended with web searching capabilities
+to include external information on demand.
+This would add an extra dimension as the agent has to decide when local information
+is enough and when to look for online resources.
+
+Work could be done to research how unstructured data formats can be split up,
+such that the semantic structure is kept together in chunks.
+For \gls{rag}, the ingestion of documents into the vector database is a crucial step.
+The popular chunking methods for unstructured data like PDFs simply split the text to get a certain chunk size.
+In listing~\ref{lst:two_page_chunk} we have seen a chunk where the article text is split in the middle
+by metadata about the section and publisher.
+Semantically split chunks could improve the embeddings used for retrieval.
+Such methods could improve the performance of \gls{rag} pipelines.
+
+To improve \gls{llm} agents, more work on improving \glspl{llm} in
+general has to be done.
+In section~\ref{sec:pof} I described the points of failure regarding the \gls{ir} agent.
+They are mostly related to the capabilities of the underlying \gls{llm}.
+At this point in research,
+the construction of \gls{llm} agents is merely a software engineering problem.
+The solutions are either prompt or fine-tuning related.
+Most parts of the \ref{ch:autogpt} project described in chapter~\ref{ch:autogpt} tries
+to handle the underlying \gls{llm}.
+The code for agent logic is relatively small, as most of the agent decision logic
+explained in section~\ref{sec:agents} is offloaded to the \gls{llm}.
+In short, the crucial factor for performance the base capability of the \gls{llm}.
+
+\end{document}

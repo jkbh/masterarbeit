@@ -11,11 +11,14 @@
     "latex-workshop.synctex.indicator.enabled": true,
     "latex-workshop.view.outline.sync.viewer": true,
     "latex-workshop.view.outline.commands": [],
+    "latex-workshop.view.outline.floats.enabled": false,
+    "latex-workshop.view.outline.numbers.enabled": false,
     "latex-workshop.view.autoFocus.enabled": true,
     "latex-workshop.view.outline.sections": [
         "part",
         "chapter",
         "section",
+        "subsection"
     ],
     "latex-workshop.latex.recipes": [
         {
@@ -56,4 +59,14 @@
         "verbatim": "ignore",
         "Code": "ignore",
     },
+    "todo-tree.regex.regex": "((//|#|<!--|;|/\\*|^|%|\\\\)\\s*($TAGS)\\{*|^\\s*- \\[ \\])",
+    "todo-tree.general.tags": [
+        "BUG",
+        "HACK",
+        "FIXME",
+        "TODO",
+        "XXX",
+        "[ ]",
+        "[x]",
+    ]
 }

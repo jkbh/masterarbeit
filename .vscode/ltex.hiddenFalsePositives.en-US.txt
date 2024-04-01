@@ -1,3 +1,6 @@
 {"rule":"EN_UPPER_CASE_NGRAM","sentence":"(?:Dummies)"}
 {"rule":"EN_A_VS_AN","sentence":"[a|A]n (?:Dummy|Ina|Jimmy-)[0-9]+"}
 {"rule":"EN_UPPER_CASE_NGRAM","sentence":"^\\QAnswer Format.\\E$"}
+{"rule":"SENTENCE_FRAGMENT","sentence":"^\\QWhen the vectors are orthogonal the measure is \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q meaning the vectors are not correlated.\\E$"}
+{"rule":"THREE_NN","sentence":"^\\QI used ChatGPT-3.5 with the prompt: Generate 20 question and answer pairs for an information retrieval chatbot test dataset.\\E$"}
+{"rule":"TOO_LONG_PARAGRAPH","sentence":"^\\QThis is only an example of the constant development and changing constraints one has to deal with when working with the default agent.\\E$"}

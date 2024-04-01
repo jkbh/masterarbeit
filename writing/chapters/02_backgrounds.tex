@@ -28,6 +28,9 @@ This section gives an introduction to proposed frameworks and ideas for LLM agen
 
 \section{Information Retrieval}
 \label{sec:information_retrieval}
+In this section an introduction to information retrieval is given.
+It is based on the book ``Introduction to Information Retrieval''
+\citeauthor{Manning2009} \cite{Manning2009}.
 Retrieval of information is essential for humans.
 Information can be anything, like things seen by the eye,
 thoughts or an article from a book.
@@ -121,46 +124,66 @@ The words are called \emph{stop words}.
 Furthermore, a \emph{stemmer} can be used to group words that have the same stem.
 All of these preprocessing steps help to capture the semantics of a text or sentence.
 
+\subsection{Cosine Similarity of Documents}
+
+Often times, one needs a useful measure of how similar two documents are.
+Think of the retrieval step where documents that are similar to the query
+are retrieved from the database.
+The \emph{cosine similarity} is a measure of similarity
+between two $n$-dimensional vectors.
+It is defined as
+\begin{equation}
+    S_C(A,B) := \cos(\theta) = \frac{A \cdot B}{\lVert A \rVert \lVert B \rVert}
+\end{equation}
+where $A$ and $B$ are the $n$-dimensional vectors and $\lVert \cdot \rVert$ is the
+euclidean norm. The resulting value ranges from $-1$ meaning opposite, to $1$ meaning
+same. When the vectors are orthogonal the measure is $0$ meaning the vectors are not
+correlated.
+
+For \gls{ir} the vectors $A$ and $B$ represent the two documents to be compared.
+
+
 
 \subsection{Evaluation}
 
 Information retrieval systems are generally evaluated by categorizing documents
 as \emph{relevant} or \emph{non-relevant} concerning an information need of the user \cite{Manning2009}.
-The \emph{gold standard} defines which documents are relevant and non-relevant.
-One has to consider that the relevance decision is made according to an \emph{information need} and not the query.
+The \emph{gold standard} or \emph{ground truth} defines which documents are relevant and non-relevant.
+One has to consider that the relevance
+decision is made according to an \emph{information need} and not the query.
 This distinction shows,
 that a clear information need has to be present in order to effectively evaluate an IR system.
 
-Although \gls{ir} can be seen as a two-label classification problem,
-it can not be evaluated with an accuracy measure
-that is the fraction of correct classifications.
-As almost all documents will be non-relevant for any given query,
-the system could achieve high accuracy by simply classifying all documents
-as non-relevant to the query.
-For that reason, two measures are used to evaluate IR systems.
-\begin{description}
-    \item[Precision] is the fraction of retrieved documents that are relevant:
-        \begin{equation}
-            \text{Precision} = \frac{\text{\#relevant retrieved}}{\text{\#retrieved}}
-        \end{equation}
-    \item[Recall] is the fraction of relevant documents that are retrieved:
-        \begin{equation}
-            \text{Recall} = \frac{\text{\#relevant retrieved}}{\text{\#relevant}}
-        \end{equation}
-\end{description}
-Having these two measures is helpful, as different tasks have different requirements.
-While high precision might be more important for the average web surfer,
-a professional researcher might be more interested in high recall.
-With the two measures trading off against each other, the \emph{F Measure} combines
-them into a single one.
-Often written as $F_1$, the balanced version equally weights precision and recall:
-\begin{equation}
-    F_1 = \frac{2PR}{P+R}
-\end{equation}
-where $P$ is the precision and $R$ is the recall.
-These measures are computed on unordered sets of documents.
-For documents ranked by relevance,
-the measures are calculated for sets containing the top $k$ documents for different $k$.
+% Although \gls{ir} can be seen as a two-label classification problem,
+% it can not be evaluated with an accuracy measure
+% that is the fraction of correct classifications.
+% As almost all documents will be non-relevant for any given query,
+% the system could achieve high accuracy by simply classifying all documents
+% as non-relevant to the query.
+% For that reason, two measures are used to evaluate IR systems.
+% \begin{description}
+%     \item[Precision] is the fraction of retrieved documents that are relevant:
+%           \begin{equation}
+%               \text{Precision} = \frac{\text{\#relevant retrieved}}{\text{\#retrieved}}
+%           \end{equation}
+%     \item[Recall] is the fraction of relevant documents that are retrieved:
+%           \begin{equation}
+%               \text{Recall} = \frac{\text{\#relevant retrieved}}{\text{\#relevant}}
+%           \end{equation}
+% \end{description}
+% Having these two measures is helpful, as different tasks have different requirements.
+% While high precision might be more important for the average web surfer,
+% a professional researcher might be more interested in high recall.
+% With the two measures trading off against each other, the \emph{F Measure} combines
+% them into a single one.
+% Often written as $F_1$, the balanced version equally weights precision and recall:
+% \begin{equation}
+%     F_1 = \frac{2PR}{P+R}
+% \end{equation}
+% where $P$ is the precision and $R$ is the recall.
+% These measures are computed on unordered sets of documents.
+% For documents ranked by relevance,
+% the measures are calculated for sets containing the top $k$ documents for different $k$.
 
 Other properties of IR systems can be measured.
 The indexing and search speeds are important to enable effective usage of an IR system.
@@ -228,23 +251,23 @@ What kind of agent is useful depends on the given task environment.
 
 \begin{description}
     \item[Simple reflex agents]
-        Simple reflex agents are the simplest kind of agent.
-        They choose actions based on the current perceptions looking at the perception history.
-        This means that even a bit of unobservability can break the agent.
+          Simple reflex agents are the simplest kind of agent.
+          They choose actions based on the current perceptions looking at the perception history.
+          This means that even a bit of unobservability can break the agent.
     \item[Model-based reflex agents]
-        Model-based reflex agents deal with partially observable environments
-        by keeping an internal state of the world.
-        This internal state depends on the perception history.
-        Modeling physical or mental states is a complex topic that is heavily researched.
+          Model-based reflex agents deal with partially observable environments
+          by keeping an internal state of the world.
+          This internal state depends on the perception history.
+          Modeling physical or mental states is a complex topic that is heavily researched.
     \item[Goal-based agents]
-        In many cases, the perception history is not enough to choose the best action.
-        To be able to do that a goal is required.
-        Goal-based agents search for action sequences that end in a goal state.
-        This process is called planning.
+          In many cases, the perception history is not enough to choose the best action.
+          To be able to do that a goal is required.
+          Goal-based agents search for action sequences that end in a goal state.
+          This process is called planning.
     \item[Utility-based agents]
-        Even with a goal in mind, there are cases where more than one action sequence leads to the goal state.
-        To decide which action to select, utility-based agents choose the action that maximizes the expected utility.
-        The utility function of the agent should ideally match the performance measure of the task environment.
+          Even with a goal in mind, there are cases where more than one action sequence leads to the goal state.
+          To decide which action to select, utility-based agents choose the action that maximizes the expected utility.
+          The utility function of the agent should ideally match the performance measure of the task environment.
 \end{description}
 
 To improve the performance of an agent it \emph{has to learn}.
@@ -458,6 +481,27 @@ that \glspl{llm} focus more on the first and last lines of the prompt
 in their answer generation.
 This needs to be respected when constructing long prompts to use \glspl{llm} for agents.
 
+% After just copied.
+Similar to the view of human memory,
+different implementations of memories for agents have been proposed.
+For short-term memory,
+the message history format used by instruct language models can be used.
+The last $n$ messages of a conversation between the user and the agent
+are recorded and change the generation behavior of the LLM that controls the agent.
+%For example, a researcher could
+
+Long-term memory is generally represented as some external store
+where information can be stored and retrieved.
+This memory can include past conversations between the agent and the user,
+as well as additional data that the agent should have access to.
+The information can be present from the beginning or added at runtime by a user prompt.
+
+For \gls{llm} applications vector databases are a popular choice,
+because they integrate well into the embedding-based language modeling concept.
+Vector databases store data together with their high-dimensional embedding.
+Embedding models that are specifically trained to produce rich embeddings are used.
+The agent uses a \emph{chromadb} vector database \autocite{zotero-176}.
+
 \subsection{Agent Construction}
 
 Most \gls{llm} agents follow a certain pattern
@@ -519,16 +563,5 @@ The planning, conversation and commonsense understanding capabilities
 are crucial to make a good decision.
 The outcomes of actions can change the environment, the internal state and
 also trigger new actions.
-
-For LLM agents we do not have all the components of a classical agent
-that were listed in the previous section about agent types.
-\autocite{SignificantGravitas2024}
-
-\subsection{Evaluation}
-
-% - subjective evaluation
-% - human annotation
-% - turing test
-% - objective evaluation
 
 \end{document}

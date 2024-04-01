@@ -13,3 +13,5 @@ HuggingGPT
 Huggingface
 Toolformer
 ChatGPT
+Maggiore
+qersu

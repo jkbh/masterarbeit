@@ -3,6 +3,9 @@
 \usepackage[acronym]{glossaries}
 
 % Acronyms
+\robustify{\gls}
+\robustify{\Gls}
+\glsdisablehyper
 \setacronymstyle{long-short}
 \newacronym{llm}{LLM}{large language model}
 \newacronym{rag}{RAG}{retrieval augmented generation}
@@ -13,6 +16,11 @@
 \newacronym{nlp}{NLP}{natural language processing}
 \newacronym{rlhf}{RLHF}{reinforcment learning with human feedback}
 \newacronym{cot}{CoT}{chain-of-though}
+\newacronym{qa}{QA}{question and answer}
+\newglossaryentry{ppai}{
+    name={Perplexity AI},
+    description={An online search engine that answers with sources from the web}
+}
 \newglossaryentry{gpt3}{
     name={GPT-3},
     description={The third version of GPT, released in 2022}
@@ -37,9 +45,7 @@
             A text splitter that creates chunks roughly the same specified length,
             while respected sentence boundaries.}
 }
-
-\robustify{\gls}
-\robustify{\Gls}
+\glsresetall
 
 % Template metadata
 \UzLStyle{alegrya modern design}
@@ -82,5 +88,6 @@ Numerische Bibliographie
 \pgfplotsset{compat=1.18}
 
 % Show overfull in PDF
+\renewcommand{\baselinestretch}{1.2}
+% TODO: remove remove marker for overfull hboxes
 \overfullrule=1mm
-\glsresetall

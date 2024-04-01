@@ -1,0 +1,167 @@
+\documentclass[../main.tex]{subfiles}
+
+\begin{document}
+\chapter{An IR Agent Benchmark}
+\label{ch:benchmarks}
+
+The evaluation of \gls{llm} agents is a difficult task,
+as evaluating \glspl{llm} alone already presents a challenge. % says who?
+There are different approaches to evaluating systems built around language models.
+Subjective evaluation is based on human feedback.
+As \gls{llm} systems are generally built to serve humans, this is an important part of evaluation.
+On the other hand,
+quantitative metrics that can be computed are used for objective evaluation.
+Different metrics are used for different tasks. Another important method is benchmarks.
+Benchmarks are a set of tasks or an environment that the agent is to move in.
+
+When talking about agents, different properties can be evaluated.
+\gls{llm} agents can be evaluated end-to-end, where only the output is
+relevant for measuring performance.
+Other methods also use intermediate outputs to evaluate agent decisions on a step level.
+
+\section{Benchmark Considerations}
+
+Before creating the test benchmark for the \gls{ir} agent some considerations
+have to be made, mainly about the price of API calls, and which parts of the agent
+to benchmark.
+
+The current \gls{autogpt} agents are tailored for GPT-4 as their decision-making
+\gls{llm}.
+As the agents call the \gls{llm} API in every step,
+runs can get expensive quickly.
+While this can be handled when running the agent manually step by step,
+benchmarking the agent on a large scale dataset can be dangerous.
+The agent runs can fail, which would mean that the money was wasted,
+or an agent can get stuck in loops that don't stop.
+Smaller local language models are not capable enough to replace GPT-4
+as the decision \gls{llm}.
+Therefore, a benchmark with a large dataset was not feasible in my case.
+
+Another question is which parts and characteristics of the agent we want to benchmark.
+One option is to evaluate the agent end to end, using a set \gls{qa} pairs.
+The end-to-end test ignores the inner works of the agent and only looks at
+input and output.
+To better understand the problems of the agent we might want to analyse every
+step of the agent.
+While a step by step analysis does not matter for the user of the agent,
+it can give useful insights for future research.
+
+After considering the different benchmarking options, I opted to create a small
+dataset contains \gls{qa} pairs based on a scientific journal.
+The agent is tested end-to-end first, and then examples from the dataset
+are used for quality evaluation on a step level.
+I will describe the creation of the dataset in the next section.
+
+
+\section{Benchmark Creation}
+
+In this section, I will describe the creation of the small \gls{ir} dataset
+containing \gls{qa} pairs from a scientific journal.
+For \gls{qa} pair generation, the journal
+\emph{Manuscripts and Performances in Religions, Arts and Sciences}
+from \citeauthor{Brita2023} \cite{Brita2023} was chosen.
+
+Large language models have delivered good results for general knowledge questions,
+but can struggle with domain-specific tasks.
+They can confidently generate answers that are completely made up but seem correct to a non-expert user.
+For this reason, the IR agent uses \gls{rag} to gather context from a local vector database,
+before generating an answer.
+The retrieval does not have to be evaluated, as the agent uses an external library that is tested separately.
+What needs to be tested is the answer quality of the chatbot.
+As the built-in benchmarking system of \gls{autogpt} was unfinished and not ready to be used for custom agents,
+I had to test question-and-answer pairs by hand in order to evaluate the IR agent.
+I adapt the end-to-end evaluation based on cosine similarity proposed in \cite{Banerjee2023},
+to compare the IR agent to other chatbot services.
+
+\subsection{Data}
+
+The first step in creating the benchmark was to find a suited information source.
+We need documents that contain domain-specific expert knowledge
+to evaluate the answer quality of the \gls{ir} agent.
+The humanities journal \emph{Manuscripts and Performances in Religions, Arts and Sciences}
+\citeauthor{Brita2023} \cite{Brita2023} was chosen as an information source.
+I used this journal as it was published recently,
+and therefore unlikely used in the pre-training stages of GPT-4.
+This makes it a good fit for testing, as the agent has to use its retrieval
+capabilities instead of relying on pre-training knowledge of GPT-4.
+The journal presents a collection of papers that offer perspectives on how
+manuscripts can be studied as objects and actors in various kinds of performances.
+From the journal, I handpicked $10$ question and answer pairs for evaluation.
+I am not even close to being an expert in the field, so I tried to pick questions
+that are specific topic, but can be verified by simply reading the article.
+While this set of pairs can not be used to evaluate the general capabilities of the agent,
+it can be used to compare the \gls{ir} agent to other services
+and make qualitative statements with examples.
+
+\subsection{Generation of Question and Answer Pairs}
+
+The \gls{qa} dataset consists of $10$ pairs that were chosen manually.
+To first find possible candidates, I pasted multiple articles in
+a ChatGPT chat.
+I used ChatGPT-3.5 with the prompt:
+\begin{Code}
+    Article:
+
+    "..."
+
+    Generate 20 question and answer pairs from the article
+    for an information retrieval chatbot test dataset.
+\end{Code}
+As \glspl{llm} can make up information while answering with high confidence,
+I first checked the information of the \gls{qa} pairs.
+In the end, I kept the proposed questions and changed the answer.
+To make sure that the answers do not contain made up content, I looked for
+the exact passage in the article that contains the answer to the question.
+The length of the passage was chosen rather arbitrary.
+I tried to extract the passages such that only the answer to the question
+is included.
+This was not possible every time, as the answer was split up over multiple
+sentences in some instances.
+
+The questions in the dataset follow a certain pattern.
+In particular, they ask for specific facts from the journal articles.
+In order to give the correct answer, one has to know the journal.
+
+
+\subsection{Benchmark Application}
+
+\begin{figure}[t]
+    \centering
+    \begin{tikzpicture}
+        \node (questions) {Questions};
+        \node[align=center, right=1cm of questions]
+        (generator) {Answer\\Generator};
+        \node[below=0.5cm of questions] (ga) {Answers};
+        \node[
+            draw,
+            align=center,
+            right=1 of generator.north east,
+            anchor=north west,
+            minimum height=2cm]
+        (emb) {OpenAI\\Embedding\\API};
+        \node (ag) [right=4 of generator] {$A_{G_i}$};
+        \node (a) [below=0.5cm of ag] {$A_i$};
+        \node (cs) [right=6 of generator] {$C_{S_i}(A_{G_i}, A_i)$};
+        \draw[->] (questions) -- (generator);
+        \draw[->] (generator) -- (generator -| emb.west);
+        \draw[->] (ga) -- (ga -| emb.west);
+        \draw[->] (emb.east |- ag) -- (ag)  -- (cs);
+        \draw[->] (emb.east |- a) -- (a)  -| (cs);
+    \end{tikzpicture}
+    \caption{The E2E benchmark uses cosine similarity to evaluate how
+        well the generated answer matches the true answer based on their ``meanings''.
+        Generated answer and true answers are passed through the OpenAI Embedding
+        endpoint. For question $i$, $A_{G_i}$ is the embedding of the generated answer,
+        while $A_i$ embeds the true answer.}
+    \label{fig:benchmark}
+\end{figure}
+
+To put the evaluation results into perspective,
+other services for \gls{ir} were tested on the \gls{qa} dataset.
+I tested GPT-3.5-Turbo, GPT-4-Turbo and Perplexity for comparison.
+For all tools, the answer quality was measured
+by calculating the cosine similarity between their embeddings.
+I used the OpenAI Embeddings API \cite{zotero-253} to generate the embeddings of all questions and model answers.
+All services are only receiving the question with any additional information.
+The full process is depicted in figure \ref{fig:benchmark}.
+\end{document}
