@@ -4,121 +4,83 @@
 \chapter{An Analysis of AutoGPT}
 \label{ch:autogpt}
 
-% FIXME: this introduction consists of snippets that were copy and pasted together
-% TODO: revise introduction
-The general notion of an agent in computer science was introduced in \autoref{sec:agents}.
-\gls{autogpt} is an open-source project that tries to 'make \gls{gpt} fully autonomous'.
-The project quickly gained a lot of traction
-following its first release.
-The idea of an LLM that controls an agent sounded like the next step towards
-real intelligence of computer systems.
-Lots of programmers joined the \gls{autogpt} Repository,
-and it grew into a much bigger and now-funded project.
-Initially, it only contained the \gls{autogpt} agent
-but over time has seen multiple additions.
+After its initial release,
+\gls{autogpt} quickly gained a lot of traction in the open-source community.
+The project tries to ``make \gls{gpt} fully autonomous'',
+by using GPT as an agent ``brain''.
+\gls{autogpt} has sparse documentation that is quickly outdated,
+as the project is unfinished and often changes.
+Therefore, I will give a brief introduction to the main components of
+\gls{autogpt} and analyze the project in the context of \gls{ir} to build
+the foundations for the agent creation chapter.
 
-The documentation of \gls{autogpt} is sparse,
-and the project is developed quickly,
-therefore existing documentation
-can often be outdated.
-Therefore, I will give a brief introduction to \gls{autogpt} and its core components
-in this chapter.
-
-What grabbed the attention of many people is not the whole project,
-but merely the default agent of \gls{autogpt}.
-The project further includes \emph{Forge},
-an agent framework that can be used to build a custom agent.
+Section~\ref{sec:components} introduces the main components of the \gls{autogpt} project.
+What initially grabbed the attention of many people is not the whole project,
+but the \emph{\gls{autogpt} agent} component of \gls{autogpt}.
+The project later introduced the \emph{Forge agent},
+an agent framework to build custom agents.
 It defines a minimal agent without logic
 that abstracts away all the boilerplate.
-In \autoref{subsec:forge_agent} the Forge agent is introduced
-and in \autoref{ch:agent} I use the Forge agent
-to build a custom agent for \gls{ir}.
-While the first iteration of the default agent lived in the terminal,
-the project now ships with a web application
-that allows interaction with agents in the browser.
-Finally, a benchmarking system was introduced.
-The benchmarking can be used to build level-based test suites,
+Additional, the \gls{autogpt} project contains a benchmarking system.
+The \emph{benchmarking system} can be used to build level-based test suites,
 to test the capabilities of an agent.
-The benchmarking system is introduced in \autoref{subsec:benchmarking}.
 
-In the final section~\ref{sec:analysis} the project and its components
+In section~\ref{sec:analysis}, the project and its components
 are analyzed in the context of information retrieval.
-
-Originally,
-the default only ran in the computer terminal
-and was controlled through the command line.
-Later, an option to start a server that implements the agent protocol was added.
-The user can interact with the agent through a web interface in the browser.
-
-The web interface lists all conversations an agent had and provides a chat interface for the selected one.
-When the user sends an input to the agent, a task or step request is made to the server running the agent.
-Furthermore, the web interface can be used to start benchmarks for an agent.
-A single test or a complete test suite consisting of stages can be started.
-The GUI has no support for uploading documents to an agent.
-Because of this, documents for \gls{ir} would need to be placed in specific folder locations
-such that the agent can access them before it is started.
-
-\gls{autogpt} agents use workspaces in which they can act.
-Each agent has its workspace and can not modify files outside it by default.
-In case the user wants the agent to have access to documents, he needs to place them into its workspace by hand.
-Often, the workspace is also used to save intermediate information to text files.
-Some abilities produce large outputs,
-and the limited context window of large language models can be exceeded quickly
-if all intermediate information is appended to the prompt.
+The \gls{autogpt} agent is built to be a ``generalist agent'' that can do
+a variety of tasks and therefore is complex.
+Because of the complexity,
+I opted to create a custom Forge agent to research the use of \gls{autogpt} for \gls{ir}.
+To work with local data, the agent has the ability to read text files
+and put the output into the prompt.
+This defines the key limitation of the agent, for longer texts the context
+window of the \gls{llm} is too short.
+Therefore, I chose to use a \gls{rag} approach in combination with \gls{autogpt}.
 
 \section{Main Components}
-\label{sec:default_agent}
+\label{sec:components}
 
-\subsection{Default Agent}
+In this section, the main components of the \gls{autogpt} project are introduced.
+The project provides two agents, the \gls{autogpt} agent and the Forge agent.
+While the \gls{autogpt} agent is built to be a ready-to-use ``generalist agent'',
+the Forge agent provides a minimal agent for developers that want to implement
+a custom agent.
+Furthermore, \gls{autogpt} comes with a benchmarking system to test agent abilities.
 
-The default agent made up the whole project when \gls{autogpt} was first released.
-The official documentation \autocite{zotero-189} describes the default agent as:
-\begin{quote}
-      ``A \emph{generalist} agent, meaning it is not designed with a specific task in mind.
-      Instead, it is designed to be able to execute a wide range of tasks across many disciplines,
-      as long as it can be done on a computer.''
-\end{quote}
+To make collaborating on agent projects easier,
+the open-source community created the \emph{Agent Protocol} \cite{zotero-111}.
+The Agent Protocol defines an API schema
+that handles the communication with an agent.
+On a high level,
+the protocol defines endpoints to create tasks and trigger the next step for a task.
+The two important concepts of the agent protocol are tasks and steps:
 
-The \gls{autogpt} agent is modeled after the classic agent architecture.
-After the start,
-the user is asked to enter a task the \gls{autogpt} agent should perform.
-Then the agent enters a loop of prompting the LLM,
-executing the proposed action
-handling the result of the action and updating the agent state.
+\begin{description}
+      \item[Task] A task describes a goal for the agent.
+            A task has an input prompt and contains a list of steps.
+      \item[Step] A step describes a single action of the agent.
+            Every step has to be linked to a parent task and has its own input.
+            Additionally, a variable signals if this is the last step.
+            If this variable is false,
+            the next step is requested automatically.
+\end{description}
+The \gls{autogpt} agent and Forge agent both implement the agent protocol.
 
-The LLM is prompted in a structured way.
-A base prompt template is defined
-and populated with current information before each prompting step.
-The information includes the task at hand,
-a list of possible actions,
-a history of previous actions and their results
-and some extra statements that are there to guide the language model.
-As the answer needs to be parsed,
-the system prompt defines a fixed format the LLM should answer in.
-The answer consists of the thoughts and the proposed next action.
+\subsection{AutoGPT Agent}
+\label{subsec:autogpt_agent}
 
-\gls{autogpt} is divided into four modules.
-The \emph{brain} is the main module that controls the agent.
-In \gls{autogpt} this is realized by prompting the language model in a structured way.
-Using the chat system prompt,
-the language model is prompted to answer in a structured format.
-Different techniques are implemented in this structure.
-The language model is forced not only to plan the next step
-but also to explain the choice for the chosen step and to add self-criticism.
-An extra output for the human user is also returned.
-The second part of the answer is the actual next action with the needed arguments.
-The action makes up the second module of the agent.
-In this module, the abilities of the agent are defined.
-These can be file operations,
-database queries or web search functionalities.
-
-The third module is the \emph{memory}.
-Memories are modeled after humans which have short and long-term memory.
-
+The \gls{autogpt} agent made up the whole project when \gls{autogpt} was first released.
+It is the default agent and comes with pre-defined logic.
 Currently,
-the \gls{autogpt} agent is implemented for OpenAI \gls{gpt} models.
+the \gls{autogpt} agent is optimized for OpenAI \gls{gpt} models.
 The prompts are tailored in ways
 that benefit the characteristics of GPT-3 and GPT-4.
+The official documentation describes the default agent as
+\begin{displayquote}[\citetitle{zotero-189} \cite{zotero-189}]
+      A \emph{generalist} agent, meaning it is not designed with a specific task in mind.
+      Instead, it is designed to be able to execute a wide range of tasks across many disciplines,
+      as long as it can be done on a computer.
+\end{displayquote}
 This generalist design can be seen in the list of available abilities.
 \begin{description}
       \item[Code Execution] The agent can execute arbitrary Python code given as a
@@ -137,44 +99,44 @@ This generalist design can be seen in the list of available abilities.
       \item[Other]
             Further abilities are present in the default agent.
             The user can be prompted to give more information about the task,
-            the system time can be retrieved, and a completion ability is implemented.
+            the system time can be accessed.
+            When the agent ends its run, a finishing ability is chosen.
 \end{description}
-Since the development of the default agent started,
+
+During the development of the default agent,
 different abilities have been present and were then removed again.
 For example, efforts were made to introduce long-term memory to the agent.
 There were abilities to save agent conversations into a database for later retrieval.
 The idea was to improve the agent's performance by using past conversations as context.
-However, experiments showed that using past conversations rather hindered its capabilities. % TODO: source
-This is only an example of the constant development and changing constraints
-one has to deal with when working with the default agent.
+However, experiments showed that using retrieved long-term memories of
+conversations did not improve performance substantially \cite{Pwuts}.
+
+The \gls{autogpt} agent is modeled after the classic agent architecture.
+After the start,
+the user is asked to enter a task the \gls{autogpt} agent should perform.
+Then the agent enters a loop of prompting the LLM,
+executing the proposed action
+handling the result of the action and updating the agent state.
 
 \subsection{Forge Agent}
 \label{subsec:forge_agent}
 
-To make collaboration with agents easier, the open-source community created the agent protocol.
-The Agent Protocol defines an API schema that handles the communication with an agent.
-On a high level, the protocol defines endpoints to create a task and to trigger the next step for the task.
-The two important concepts of the agent protocol are tasks and steps:
-
-\begin{description}
-      \item[Task] A task describes a goal for the agent.
-            A task has an input prompt and contains a list of steps.
-      \item[Step] A step describes a single action of the agent.
-            A step can have custom input or copy the task input.
-            Additionally, there is a variable that signals if this is the last step.
-            If this variable is false, then the next step is requested automatically after completing the current.
-            Every step has to be linked to a parent task.
-\end{description}
-
 The Forge SDK handles the boilerplate code that implements the agent protocol.
-On running, the server with the corresponding endpoints gets started, and the agent can be used over the API endpoints.
-\gls{autogpt} also comes with a chatbot web app that builds the appropriate HTTP requests to the agent endpoints.
-The user of the Forge SDK has to create the actual agent logic, create custom prompt templates for the used model and add abilities to interact with external resources.
-Because the Forge SDK is still under development and by no means a polished product, some internals also need to be tweaked to achieve the desired agent behavior.
+On running, the server with the corresponding endpoints gets started,
+and the agent can be used over the API endpoints.
+\Gls{autogpt} also comes with a chatbot web app
+that builds the appropriate HTTP requests to the agent endpoints.
+The user of the Forge agent has to create the actual agent logic,
+create custom prompt templates for the used model and add abilities to interact with external resources.
+Because the Forge agent is still under development and by no means a polished product,
+some internals also need to be tweaked to achieve the desired agent behavior.
 
-By default, the Forge agent comes with abilities to read and write text files and to search a search engine as well as scraping a webpage.
-Each ability is specific by a name that the LLM can use to call it.
-Additionally, a short description of what the ability does, input parameters and return types are described.
+By default,
+the Forge agent comes with abilities to read and write text files
+and to search a search engine as well as scraping a webpage.
+Each ability is specific by a name that the \gls{llm} can use to call it.
+Additionally, a short description of what the ability does,
+input parameters and return types are described.
 The information about an ability is formatted into a string before adding it to the step prompt.
 
 \begin{description}
@@ -188,6 +150,37 @@ The information about an ability is formatted into a string before adding it to 
       \item[Finish] The “finish” ability terminates the agent loop.
             The agent is asked to choose this ability if the initial user prompt can be answered and give a reason.
 \end{description}
+
+\begin{Code}[
+            caption={The system format of the Forge agent.
+                        The language model is asked to only answer in this format.
+                        The model generates thoughts before creating the output for the user (speak).
+                        Thoughts include reasoning, a plan and criticism.
+                        After the model generated the thoughts,
+                        it generates an ability proposal with the corresponding arguments.},
+            label={lst:system-format},
+            captionpos=b,
+            float=tp]
+Reply only in JSON with the following format:
+
+{
+      "thoughts": {
+            "text":  "thoughts",
+            "reasoning": "reasoning behind thoughts",
+            "plan": "- short bulleted
+                     - list that conveys
+                     - long-term plan",
+            "criticism": "constructive self-criticism",
+            "speak": "thoughts summary to say to user",
+      },
+      "ability": {
+            "name": "ability name",
+            "args": {
+                  "arg1": "value1", etc...
+            }
+      }
+}
+\end{Code}
 
 The Forge agent comes with a built-in template engine that is used
 to populate the prompts before sending them to the large language model.
@@ -207,37 +200,6 @@ Some templates are included by default:
             By default, the Forge agent has templates for few-shot, expert and chain-of-thought prompting. % TODO: explain in backgrounds
 \end{description}
 
-\begin{Code}[
-            caption={The system format of the Forge agent.
-                        The language model is asked to only answer in this format.
-                        The thoughts before creating the output for the user (speak),
-                        the LLM generates reasoning, a plan and criticism.
-                        After the model generated its thoughts,
-                        it generates an ability proposal with the corresponding arguments.},
-            label={lst:system-format},
-            captionpos=b,
-            float=tp]
-      Reply only in JSON with the following format:
-
-      {
-      \"thoughts\": {
-      \"text\":  \"thoughts\",
-      \"reasoning\": \"reasoning behind thoughts\",
-      \"plan\": \"- short bulleted\
-      - list that conveys\
-      - long-term plan\",
-      \"criticism\": \"constructive self-criticism\",
-      \"speak\": \"thoughts summary to say to user\",
-      },
-      \"ability\": {
-      \"name\": \"ability name\",
-      \"args\": {
-      \"arg1\": \"value1", etc...
-      }
-      }
-      }
-\end{Code}
-
 The core of an agent is its logic.
 The Forge agent comes without any logic,
 its default behavior is to write a boilerplate text into a file in the workspace.
@@ -256,31 +218,47 @@ The output is defined by certain words that should be contained.
 \section{Analysis for Information Retrieval}
 \label{sec:analysis}
 
-% FIXME revise analysis of autogpt, look at notes in thunderbird
+Before I describe the use of \gls{autogpt} as an \gls{ir} agent in the next chapter,
+I will reason about my choices in this section.
 
-AutoGPT was not built with information retrieval as a primary objective in mind.
+The \gls{autogpt} agent was not built with \gls{ir} as a primary objective in mind.
+As stated in section~\ref{sec:components}, it is designed to be a \blockquote{generalist agent}.
+The \gls{autogpt} agent has abilities to retrieve information from the web.
+With the web searching and website scraping abilities, the agent can
+look up and extract information about a given topic.
+For \gls{ir} from local data sources there are no specific abilities present.
+The agent can simply read text files and include the content in the next step prompt.
+This means that every other file type has to be converted into plain text.
+Another inherent problem with this approach is the limited context window size of the language model.
+If the relevant information is contained in a long text, including the full text
+in the prompt will not be possible.
+Furthermore, the \gls{autogpt} agent has a lot of other abilities that are irrelevant
+for \gls{ir}.
+While they can be disabled, they still increase the complexity and points where the agent
+can break.
+This leads to more difficulties when using the agent for a specific task
+like local \gls{ir}.
 
-The \gls{autogpt} Agent has different abilities that can be utilized for \gls{ir}.
-It can search the web and operate on files, execute code and do other stuff.
+The Forge agent has similar default abilities for retrieval of information from the web,
+as well as read and write abilities.
+Therefore, the same problems with context window length apply here.
+As the agent only contains boilerplate implementation for the agent protocol
+but no default logic,
+it is better suited as a starting point for a custom \gls{ir} agent.
 
-The web search is implemented by a two-step process.
-First, a search API like DuckDuckGo is called to get a list of relevant pages.
-Then the page contents are scraped with a headless browser.
-It is possible to read and write text files.
-Other document types are processed by basic text extraction tools to get the plain text.
+The benchmarking system can be used to test the abilities of agents.
+The level-based system is put in place to save money when testing,
+as later stage tests do not get executed if a required test in the earlier
+stage failed.
+To evaluate \gls{ir} systems, a larger dataset of \gls{qa} pairs is often used.
+For large dataset evaluations, the benchmarking system is not suited.
+It is built towards testing if an agent \emph{can} achieve a goal
+rather than \emph{how good} the produced answer is.
 
-For longer files such as scientific journals the extracted text is too long for the language model.
-The \gls{autogpt} agent cannot chunk the text into smaller chunks or store it in a database.
-This is a limitation that needs to be addressed for \gls{ir} tasks over a local database repository.
-
-Having a vector database would enable techniques such as \gls{rag}.
-The agent would get a prompt with a question over the RDR and choose an action to start a semantic search over the vector database.
-The result of the search is the chunks that are semantically closest to the question.
-These chunks can then be included as context for the \gls{llm} prompt to generate an answer.
-
-The default agent tends to search the web for information.
-We want an agent that prioritizes information that is present in the research repository.
-This needs to be addressed in the prompting techniques of the agent.
+These arguments lead to the conclusion that to examine the use of \gls{autogpt}
+for \gls{ir}, it is best to create a custom agent built on the Forge agent.
+To enable local \gls{ir} over large documents specific abilities will be introduced.
+The creation of the agent is described in the next chapter.
 
 
 \end{document}

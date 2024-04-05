@@ -74,7 +74,6 @@ For the \gls{gpt} models a used the API functions.
                               (Q6, 0.73)
                               (Q7, 0.76)
                               (Q8, 0.58)
-                              (Q9, 0.70)
                         };
                   \addplot [
                         draw,
@@ -89,7 +88,6 @@ For the \gls{gpt} models a used the API functions.
                               (Q6, 0.76)
                               (Q7, 0.75)
                               (Q8, 0.68)
-                              (Q9, 0.65)
                         };
                   \addplot [draw, fill=green!30,
                         % pattern={Lines[angle=-45, distance=4pt]}
@@ -102,7 +100,6 @@ For the \gls{gpt} models a used the API functions.
                               (Q6, 0.78)
                               (Q7, 0.75)
                               (Q8, 0.62)
-                              (Q9, 0.65)
                         };
                   \addplot [draw, fill=red!30,
                         % pattern=horizontal lines
@@ -115,7 +112,6 @@ For the \gls{gpt} models a used the API functions.
                               (Q6, 0.70)
                               (Q7, 0.82)
                               (Q8, 0.66)
-                              (Q9, 0.71)
                         };
                   \legend{GPT-3.5-Turbo, GPT-4-Turbo, Perplexity AI, IR Agent}
             \end{axis}
@@ -320,7 +316,6 @@ It is not certain that an \gls{llm} adheres to the system format.
 Larger models like GPT-4 are better than smaller ones like GPT-3, but also cost more.
 Other models improve at structured answers with fine-tuning
 but might lose capabilities in other areas as a result.
-% TODO: add source that compare structured answering for gpt3 and gpt4.
 A software based solution could be to catch common mistakes from \glspl{llm}
 such as missing brackets or missing commas in JSON.
 While some mistakes can be mitigated with this approach, it is not feasible
@@ -366,6 +361,6 @@ answers the step prompt.
 It is the task of the language model to convert the user prompt into a query
 to the vector database.
 Which query retrieves the best documents for the following answer generation is not clear.
-In the example question.
+
 
 \end{document}

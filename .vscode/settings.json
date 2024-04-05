@@ -53,6 +53,7 @@
         "\\newacronym{}{}{}": "ignore",
         "\\gls{}": "dummy",
         "\\glspl{}": "pluralDummy",
+        "\\pgfplotsset{}": "ignore",
     },
     "ltex.latex.environments": {
         "lstlisting": "ignore",

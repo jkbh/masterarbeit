@@ -4,41 +4,64 @@
 \chapter{Introduction}
 \label{ch:introduction}
 
-% TODO Rewrite the introduction, include LLM + Agents + IR -> IR RAG Agent Motivation
-Encoding knowledge in natural language is an everyday process for humans,
-but has been a problem for machines for decades.
-
+For a long time, \gls{ir} has been a heavily researched topic in computer science.
+Retrieving information from a large set of documents is an essential task in many domains.
+For example,
+a researcher might want to discover relevant parts of a new article for a given topic.
+Ideally he can chat with a retrieval system in natural language
+and receive correct information from the article.
 In recent years, there has been a large increase in language modeling capabilities.
-After the proposal of the transformer architecture \cite{Vaswani2017},
-which removed all sequential components from previous language modeling techniques,
-the architecture and its components were applied to all kinds of language modeling problems.
-Using \glspl{llm}, researchers were able to
-see emerging behaviors, meaning that the model can solve tasks that it was not trained on.
+\Glspl{llm} have been applied to a variety of applications such as general chatbots,
+writing helpers and coding assistants.
+There are different approaches to leverage \gls{ir} for \glspl{llm} systems such as \gls{rag}.
+A \Gls{rag} system retrieves documents from a database before using them as context
+for an \gls{llm} answer generation.
+This method enables on-demand inclusion of information into the answer generation.
+Recently, efforts were increased in using \glspl{llm} as agent controllers.
+In comparison to static systems, agent systems act autonomously and goal-directed.
+They constantly perceive the environment through sensors and perform actions
+through actuators.
+\Gls{autogpt} is an open-source project that uses \gls{gpt4} to provide agent
+actions.
+While there are experiments with \gls{autogpt} for navigating the web,
+using it for \gls{ir} has not been researched yet.
 
-Humans need to retrieve information from somewhere constantly.
-It can be a task like digging out an old and hidden memory
-or finding a book that contains the desired information.
-Improving the efficiency of tasks like the latter
-has been extensively researched in the \gls{ir} area in the last decades.
-With the introduction of Internet search engines and data repositories,
-the barrier to accessing information has been drastically improved.
-
-This thesis presents a \gls{llm} agent that uses \gls{rag} to answer user prompts.
-The creation of benchmarks for \gls{llm} agents is a complex endeavor.
-Therefore, I will use a simple question-and-answer dataset
-to benchmark the agent's performance with subjective evaluation.
+This thesis presents a \gls{llm} agent built with \gls{autogpt},
+that uses \gls{rag} to answer user prompts.
+The agent is benchmarked with a small set of \gls{qa} pairs from a humanities journal.
+A qualitative evaluation of the \gls{ir} agent benchmark is given in the results.
 
 \section{Contributions of this Thesis}
 
-Three main contributions of this Thesis are
-
+This thesis has three main contributions:
 \begin{enumerate}
-    \item An analysis of \gls{autogpt} and its default agent for \gls{ir} tasks.
-    \item An \gls{ir} agent that uses \gls{rag}.
-    \item A way to benchmark an \gls{ir} agent using the \gls{autogpt} benchmarking system with a synthetic \gls{ir} dataset.
+    \item An analysis of \gls{autogpt} in the context of \gls{ir}.
+    \item A custom \gls{ir} agent that uses \gls{rag} for \gls{ir}.
+    \item A small humanities journal \gls{qa} benchmark to test the \gls{ir} agent.
 \end{enumerate}
 
-% TODO Name results for each contribution
+In the analysis, I conclude that to research \gls{ir} applications for \gls{autogpt},
+an adaption of the default abilities for \gls{rag} is needed.
+Due to the complexity of the default agent,
+I further reason that it is best to build a custom agent with the baseline Forge agent.
+
+The custom \gls{ir} agent is built with the Forge agent baseline included in the
+\gls{autogpt} project.
+A custom agent logic is implemented to define the agent loop.
+The agent has abilities to ingest a PDF into its memory, retrieve documents for it
+and use them to answer a user query.
+Rather than following a fixed pipeline, the agent choose these actions to
+dynamically perform the \gls{rag} steps.
+
+The benchmarking dataset contains eight \gls{qa} pairs from a humanities journal.
+I used GPT-4 to generate candidate questions and then handpicked answers from
+the journal articles.
+The \gls{ir} is compared to GPT-3, GPT-4 and Perplexity AI
+using cosine similarity between the ground truth and generated answers.
+There is no service that clearly outperforms the other ones.
+A qualitative evaluation of the agent explains the common failure points.
+The main problems of the agent are irrelevant retrieval results,
+inconsistent \gls{llm} response formats and choosing wrong abilities.
 
 \section{Related Work}
 
@@ -50,7 +73,6 @@ Many popular search engines have introduced language models to present the retri
 In the following, notable work that is of interest for this work is listed.
 
 \subsection{LLM Agents}
-% TODO More emphasis on AutoGPT, as I will use it later.
 
 After \glspl{llm} like \gls{gpt3} and then \gls{gpt4} were made public,
 researchers started testing different approaches to integrate them into agents.
@@ -65,35 +87,29 @@ Agents living together in a virtual village have different goals and communicate
 
 Building on top of these research experiments with tool usage and access to external knowledge,
 multiple applications of language model agents have been presented.
-\gls{autogpt} \cite{SignificantGravitas2023} is an attempt to make \gls{llm} autonomous,
-but other projects have since been published.
+\Gls{autogpt} \cite{SignificantGravitas2023} is an attempt to make \gls{llm} autonomous.
+The \gls{autogpt} agent has a variety of abilities such as web search,
+image generation, code execution and file operations.
+It uses GPT-4 to generate an action proposal from a list of abilities.
 An introduction to \gls{autogpt} is given in \autoref{ch:autogpt}.
+I will use the included Forge agent to build a custom agent in this thesis.
+
+Besides \gls{autogpt}, other \gls{llm} agent projects have been published.
 BabyAGI is a minimal task-driven autonomous agent \cite{Nakajima2023}.
-With the OpenAI assistants API,
+With OpenAI Assistants~\cite{zotero-195},
 users can build custom assistants
-that can use OpenAI models, tools and knowledge to answer user queries \cite{zotero-195}.
+that can use OpenAI models, tools and knowledge to answer user queries.
 
 \subsection{LLM Information Retrieval}
 
 Because of their strong natural language capabilities,
 many developers work on tools that use these models for \gls{ir}
 
-In a variety of application contexts,
-the answers of an assistant have to be correct.
-This is especially true in research contexts.
-A model that hallucinates is not feasible in this case. %TODO: explain for LLM hallucination on first mention.
-But while hallucination can be reduced with fine-tuning,
-it can not be eliminated.
-
 % TODO Perplexity is also an agent? Differentiate between IR and Agent for PPAI
 Perplexity AI \cite{zotero-197} is an online service that leverages a language model
 to provide a search that generates an answer from different sources on the internet.
 The content of the answer is then linked to the found sources,
 so the user can see and verify the result.
-As this is a proprietary closed-source product accessible through a web interface,
-this is not useful to create our custom research assistant.
-The provided API simply hosts different language models and allows prompting them.
-There is no possibility of fine-tuning.
 
 \section{Structure of this Thesis}
 
@@ -106,7 +122,6 @@ Additionally, the language modeling section covers the base
 to understand the current \glspl{llm}.
 I will go from the introduction of the transformer architecture to current chat models like ChatGPT.
 Finally, the combination of language models and agents to \emph{\gls{llm} agents} is introduced.
-
 Chapter~\ref{ch:autogpt} contains an introduction to \gls{autogpt} and its core elements,
 as well as an analysis of its current \gls{ir} capabilities.
 First, an overview of the \gls{autogpt} project and its components is given.
@@ -114,7 +129,6 @@ I will then explain the default agent in more detail,
 looking at how the \gls{llm} agent ideas are implemented.
 After gaining an understanding of the \gls{autogpt} project,
 we will then look at its default capabilities for \gls{ir} tasks.
-
 In \autoref{ch:agent},
 a custom \gls{autogpt} agent that uses \gls{rag} for \gls{ir} is presented.
 I will introduce the concept of \gls{rag} first, then give a detailed explanation
@@ -122,10 +136,5 @@ of the \gls{ir} agent.
 In \autoref{ch:benchmarks}, will deal with how \gls{llm} agents can be benchmarking
 and present a test dataset for the \gls{rag} agent from \autoref{ch:agent}.
 The benchmark uses handcrafted question-and-answer pairs from a scientific humanities journal.
-
-Finally, a conclusion is given in \autoref{ch:conclusion}.
-Here I will describe the problems and challenges
-that \gls{llm} agents currently have being a relatively new concept.
-Additionally, open questions for possible future work are discussed.
 
 \end{document}

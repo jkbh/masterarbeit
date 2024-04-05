@@ -98,8 +98,7 @@ The top-$k$ documents are then returned.
 
 \section{Agent}
 
-In this section, I will describe in detail how the \gls{ir} agent is works.
-
+In this section, I will describe in detail how the \gls{ir} agent works.
 
 \subsection{Main Loop}
 
@@ -201,7 +200,7 @@ After retrieving the top documents from the vector database, the agent stores
 them in workspace text file.
 When the answering ability is chosen, the workspace file is read and used to populate
 the \gls{rag} template.
-After the \ref{llm} answers the \gls{rag} prompt, the answer is written back
+After the \gls{llm} answers the \gls{rag} prompt, the answer is written back
 into another workspace file.
 
 The vector database can be viewed as a storage for external information,
@@ -225,7 +224,7 @@ In summary, there are three places where information are stored
 
 \lstinputlisting[
     style=Code,
-    linerange={1-25, 36-41},
+    linerange={1-10, 15-24},
     float=tp,
     caption={The step prompt is the core of each agent step.
             It describes the current environment representation of the agent.
@@ -234,12 +233,25 @@ In summary, there are three places where information are stored
             Finally, some hints for best practices are denoted.
             In this example, there is no step history as this is the first step.},
     captionpos=b,
-    label={lst:step_prompt}]{include/code/example_step_prompt.txt}
+    label={lst:step_prompt}]{include/code/full_step_prompt.txt}
+
+\lstinputlisting[
+    style=Code,
+    linerange={36-60},
+    float=tp,
+    caption={
+            The second part of the step prompt contains the action history.
+            Here, all previous actions are listed with its name, arguments and output.
+            With the action history, the agent can perveices its progress at achieving
+            the goal.
+        },
+    captionpos=b,
+    label={lst:step_prompt_history}]{include/code/full_step_prompt.txt}
 
 The main step of the agent is to populate its step prompt template
 As denoted in \autoref{sec:agents}, an agent perceives its environment through sensors.
-Our agent describes the current environment in the step prompt.
-An example step prompt is shown in \autoref{lst:step_prompt}.
+The agent describes the current environment in the step prompt.
+An example step prompt is shown in listings~\ref{lst:step_prompt} and \ref{lst:step_prompt_history}.
 It includes the current step input and instructions on how to answer.
 The available resources are denoted, and the action history is appended.
 
@@ -255,10 +267,20 @@ For each ability, the name, parameters, return type and a short description is g
 
 \subsection{Step Prompt Answer}
 
-The \gls{llm} receives the step prompt and generates an answer containing
-thoughts about the current step and an ability proposal.
+The answer to the step prompt is from JSON into a usable format.
+An example answer to the step prompt from listings~\ref{lst:step_prompt} and \ref{lst:step_prompt_answer}
+is shown in listing~\ref{lst:step_prompt_answer}.
+Given the history of actions, the \gls{llm} decided to choose the finish
+ability.
+This is the correct choice as the retrieval and answering action have
+already happened.
 
-% TODO: add step prompt answer example
+\lstinputlisting[
+    style=Code,
+    float=p,
+    caption={The answer to the step prompt from listing~\ref{lst:step_prompt}.},
+    captionpos=b,
+    label={lst:step_prompt_answer}]{include/code/full_step_prompt_answer.txt}
 
 \subsection{Abilities}
 
@@ -300,20 +322,25 @@ to create the chunks.
 The splitter splits up a text recursively and then joins words back together to
 generate chunks of similar length while respecting sentence borders.
 
-As PDF is an unstructured format, the conversation to plain text is not trivial.
-In addition to the main content, the article contains extra information like page numbers,
-references or footnotes.
-These extra elements can split paragraphs that span two pages.
-After splitting up the text with the SentenceSplitter, these elements are still
-present in the chunks.
-An exemplary chunk is shown in listing~\ref{lst:two_page_chunk}.
-For the following embedding step,
-this can hinder the semantic accuracy of the embedding.
-After splitting the text into chunks, they are added to the \emph{ChromaDB}
-vector database \cite{zotero-176}.
-
 \subsection{Answering with Context}
 
-% TODO: describe LLM call to answer with context.
+\lstinputlisting[
+    style=Code,
+    float=tp,
+    caption={The prompt template to generate an answer with context.
+            The language model is prompted to indicate which document was used to create
+            the answer.}
+    captionpos=b,
+    label={lst:answer_temp}]{include/code/augmented-generation.j2}
+
+In a successful run, the agent generates an answer to the prompt with
+relevant context.
+For this ability to succeed, a text file containing the relevant documents
+has to be present in the agent workspace.
+The relevant documents are then used to populate a prompt template, which
+is shown in listing~\ref{lst:answer_temp}.
+Additionally, the model is prompted to append a token that indicates which context
+document was used to generate a sentence.
+
 
 \end{document}

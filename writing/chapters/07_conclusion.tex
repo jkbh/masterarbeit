@@ -7,7 +7,7 @@
 The recent advances in language modeling with \glspl{llm} sparked research
 in building autonomous agents that use \glspl{llm} to make decisions.
 \Gls{llm} agent research focuses on modeling human interaction and gathering
-information from the web. % TODO: sources should have been named earlier for this, reuse here
+information from the web.
 While there are \gls{ir} services like \gls{ppai} that use \glspl{llm}, there has not been
 extensive research on \gls{llm} agents for \gls{ir}.
 Most of these services use static pipelines which follow a fixed sequence of
@@ -19,7 +19,7 @@ agent research which deals with web scraping tasks.
 I started out with an introduction to the \gls{autogpt} project and analyzed
 the components in the context of information retrieval.
 The distinctive feature of \gls{autogpt} and similar projects is the
-In the analysis, I came to the conclusion that the best way to test \gls{autogpt}
+In the analysis, I concluded that the best way to test \gls{autogpt}
 for local \gls{ir}, would be to create an agent built upon the \gls{autogpt}
 Forge agent.
 
@@ -33,6 +33,23 @@ to perform a qualitative evaluation of the agent.
 
 Using language model agents for \gls{ir} tasks is an interesting approach,
 but needs to overcome some key challenges for usage in real-world applications.
+Most considerations about the agent structure are offloaded to the controlling \gls{llm}.
+Therefore, the reasoning capabilities of the \gls{llm} is the deciding factor
+for an \gls{llm} agent.
+This creates the need to use more expensive language model like GPT-4 rather than
+a cheaper one, as the controlling \gls{llm}.
+Combined with frequent API calls that use long prompt messages for every step,
+this leads to API costs adding up quickly.
+Especially in longer runs, where the action history gets longer with each past step.
+The agent implementation mostly deals with calling the \gls{llm} and parsing
+its answer into the next action.
+There is no way to really say what led to a specific action sequence besides
+trial and error experimentation with different prompt templates.
+For \gls{ir} systems in production, fixed \gls{rag} pipelines still seem to
+be a better fit.
+To create reliable systems with traceable answers, \glspl{llm} should be used for
+specific tasks not as controllers for the entire system.
+
 
 \section{Future Work}
 

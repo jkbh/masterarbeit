@@ -65,13 +65,37 @@ Abstract = {
         for text generation tasks.
         Researchers have started to leverage \glspl{llm} to control agents.
         \gls{autogpt} is such an attempt at creating an autounous goal-oriented system.
-        While there is work that experiment with \gls{autogpt} for web search,
+        While there is work that experiments with \gls{autogpt} for web search,
         local \gls{ir} has not been researched yet.
         This thesis presents an analysis of \gls{autogpt}
-        and a chatbot \gls{autogpt} agent that uses \gls{rag} for \gls{ir} over PDFs.
-        For comparison to other services \gls{ir} agent, a benchmark is created.
-        Results come here.},
-Zusammenfassung = {Abstract},
+        and a \gls{autogpt} agent
+        that uses \gls{rag} for \gls{ir} over local documents.
+        A \gls{qa} benchmark is generated from a humanities journal to test the agent,
+        and examine its failure points.
+        The thesis concludes,
+        that while using a \gls{rag} agent for \gls{ir} is an interesting
+        approach there is no inherent benefit to static \gls{ir}
+        systems that use \glspl{llm}.\glsresetall
+    },
+Zusammenfassung = {
+        % TODO: translate abstract
+        In recent years,
+        \glspl{llm} have showed impressive capablities
+        for text generation tasks.
+        Researchers have started to leverage \glspl{llm} to control agents.
+        \gls{autogpt} is such an attempt at creating an autounous goal-oriented system.
+        While there is work that experiments with \gls{autogpt} for web search,
+        local \gls{ir} has not been researched yet.
+        This thesis presents an analysis of \gls{autogpt}
+        and a \gls{autogpt} agent
+        that uses \gls{rag} for \gls{ir} over local documents.
+        A \gls{qa} benchmark is generated from a humanities journal to test the agent,
+        and examine its failure points.
+        The thesis concludes,
+        that while using a \gls{rag} agent for \gls{ir} is an interesting
+        approach there is no inherent benefit to static \gls{ir}
+        systems that use \glspl{llm}.\glsresetall
+    },
 Numerische Bibliographie
 }
 \addbibresource{\subfix{bib/zotero}}
@@ -87,7 +111,10 @@ Numerische Bibliographie
 \tikzset{ability/.style={block=emph blue}}
 \pgfplotsset{compat=1.18}
 
-% Show overfull in PDF
-\renewcommand{\baselinestretch}{1.2}
+\renewcommand{\mkbegdispquote}[2]{\openautoquote}
+\renewcommand{\mkenddispquote}[2]{\closeautoquote#1#2}
+
+%\renewcommand{\baselinestretch}{1.2}
 % TODO: remove remove marker for overfull hboxes
+% Show overfull in PDF
 \overfullrule=1mm

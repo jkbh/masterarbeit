@@ -10,37 +10,45 @@ are explained in more detail in this chapter.
 
 In \autoref{sec:information_retrieval},
 I will describe the process of \emph{\gls{ir} systems}.
+\Gls{ir} systems take a user query and return a set of relevant documents.
+Generally these systems follow a fixed series of steps.
+To enable retrieval in the first place, the information source need to be stored and
+indexed in a database.
+After a user query is received, it is rewritten to improve retrieval
+Then the most relevant documents get retrieved from the index.
+Before presenting the results to the user, the relevant documents are re-ranked.
 
 The notion of \emph{agents} is described in \autoref{sec:agents}.
 Agents try to act as rational and goal-oriented decision-makers.
 In comparison to classical computer algorithms,
 agents observe, plan and act autonomously in order to complete a task.
 I will explain the basic concept of an agent and list the most important types of agents.
+
 Section~\ref{sec:language_modeling} deals with \emph{language modeling}
 and the current developments of \glspl{llm}.
-Building upon the attention-based transformer architecture, modern \glspl{llm}
-can handle complex tasks such as text generation.
+Built upon the transformer architecture,
+modern \glspl{llm} can handle complex tasks such as text generation.
 Moreover, the natural language interface of \glspl{llm} can be used for tasks in other domains.
 An example of such a domain is \emph{LLM agents}, explained in section~\ref{sec:llm_agents}.
-The generation capabilities of the LLM is not of interest here,
-but rather using the internal knowledge of the model to generate a decision.
+Here,
+the internal knowledge of the model is used to generate a decision to act towards a goal.
 This section gives an introduction to proposed frameworks and ideas for LLM agents.
 
 \section{Information Retrieval}
 \label{sec:information_retrieval}
 In this section an introduction to information retrieval is given.
 It is based on the book ``Introduction to Information Retrieval''
-\citeauthor{Manning2009} \cite{Manning2009}.
+from \citeauthor{Manning2009} \cite{Manning2009}.
 Retrieval of information is essential for humans.
 Information can be anything, like things seen by the eye,
 thoughts or an article from a book.
-A broad definition of \gls{ir} from \cite{Manning2009} is:
-\begin{quote}
-    ``Information retrieval (IR) is finding material (usually documents)
+A broad definition of \gls{ir} is:
+\begin{displayquote}[\citeauthor{Manning2009} \cite{Manning2009}]
+    Information retrieval (IR) is finding material (usually documents)
     of an unstructured nature (usually text)
     that satisfies an information need
-    from within large collections (usually stored on computers).''
-\end{quote}
+    from within large collections (usually stored on computers).
+\end{displayquote}
 Modern \gls{ir} systems extend this definition with a step
 dealing with the presentation of the information to the user.
 
@@ -82,7 +90,9 @@ re-rank the relevant documents and finally present the information to the user.
         Before presenting an answer to the user, the retrieved documents are ranked by another relevance measure.}
     \label{fig:ir_steps}
 \end{figure}
-Information retrieval systems consist of multiple steps.
+\Gls{ir} systems consist of multiple steps.
+In particular for common steps make up such an \gls{ir} pipeline,
+rewrite, retrieve, rerank and present \cite{Zhu2024}.
 Typically, the user interacts with an \gls{ir} system
 by writing out a query that describes the information need.
 A problem with queries written by humans is that they are not optimized for the following steps of the retrieval system.
@@ -93,7 +103,7 @@ A core query rewriting technique is to expand the query with more words to impro
 To retrieve documents that correlate to the search query,
 different algorithms and models have been proposed.
 For a long time, functions like the BM25 \cite{Robertson2009}
-were often used to retrieve the best matching documents from a corpus.
+were used to retrieve the best matching documents from a corpus.
 Term-based bag-of-words functions like BM25 rank documents based on word occurrences in every document.
 With neural network approaches becoming more popular,
 the focus has shifted toward mapping documents to high-dimensional vectors called embeddings.
@@ -105,7 +115,7 @@ This time the algorithms used for ranking the documents are specialized towards 
 In addition, the re-ranking phase can include task-specific ranking strategies to meet user demands.
 
 In the last step, the information is presented to the user.
-Large language models have become a popular method to create user-friendly responses from retrieved documents.
+\Glspl{llm} have become a popular method to create user-friendly responses from retrieved documents \cite{zotero-197}.
 
 \subsection{Indexing}
 
@@ -138,10 +148,7 @@ It is defined as
 where $A$ and $B$ are the $n$-dimensional vectors and $\lVert \cdot \rVert$ is the
 euclidean norm. The resulting value ranges from $-1$ meaning opposite, to $1$ meaning
 same. When the vectors are orthogonal the measure is $0$ meaning the vectors are not
-correlated.
-
-For \gls{ir} the vectors $A$ and $B$ represent the two documents to be compared.
-
+correlated. For \gls{ir}, the vectors $A$ and $B$ represent the two documents to be compared.
 
 
 \subsection{Evaluation}
@@ -153,37 +160,6 @@ One has to consider that the relevance
 decision is made according to an \emph{information need} and not the query.
 This distinction shows,
 that a clear information need has to be present in order to effectively evaluate an IR system.
-
-% Although \gls{ir} can be seen as a two-label classification problem,
-% it can not be evaluated with an accuracy measure
-% that is the fraction of correct classifications.
-% As almost all documents will be non-relevant for any given query,
-% the system could achieve high accuracy by simply classifying all documents
-% as non-relevant to the query.
-% For that reason, two measures are used to evaluate IR systems.
-% \begin{description}
-%     \item[Precision] is the fraction of retrieved documents that are relevant:
-%           \begin{equation}
-%               \text{Precision} = \frac{\text{\#relevant retrieved}}{\text{\#retrieved}}
-%           \end{equation}
-%     \item[Recall] is the fraction of relevant documents that are retrieved:
-%           \begin{equation}
-%               \text{Recall} = \frac{\text{\#relevant retrieved}}{\text{\#relevant}}
-%           \end{equation}
-% \end{description}
-% Having these two measures is helpful, as different tasks have different requirements.
-% While high precision might be more important for the average web surfer,
-% a professional researcher might be more interested in high recall.
-% With the two measures trading off against each other, the \emph{F Measure} combines
-% them into a single one.
-% Often written as $F_1$, the balanced version equally weights precision and recall:
-% \begin{equation}
-%     F_1 = \frac{2PR}{P+R}
-% \end{equation}
-% where $P$ is the precision and $R$ is the recall.
-% These measures are computed on unordered sets of documents.
-% For documents ranked by relevance,
-% the measures are calculated for sets containing the top $k$ documents for different $k$.
 
 Other properties of IR systems can be measured.
 The indexing and search speeds are important to enable effective usage of an IR system.
@@ -341,7 +317,7 @@ Since the transformer architecture does not use any recurrent structures,
 the order of the tokens in the sequence must be manually injected.
 Positional encodings are added to the input embeddings to achieve this.
 
-Like most language modeling networks,
+Similar to previous seqence-to-sequence models,
 a transformer consists of an encoder and a decoder.
 The encoder has two sub-layers,
 a multi-head attention block
@@ -379,7 +355,7 @@ as explained in the \autoref{subsec:embedding} and \autoref{subsec:gpt}.
 \end{figure}
 
 
-Decoder-only transformers are the base of generative pre-trained transformers (GPT).
+Decoder-only transformers are the base of generative pre-trained transformers (GPT) \cite{Radford2018}.
 The decoder used for \gls{gpt} does not rely on the outputs of an encoder,
 because it is designed for generation tasks.
 In \autoref{fig:gpt_arch} we can see
@@ -413,16 +389,19 @@ only very few companies have the hardware to train or even run inference tasks.
 \subsection{Embedding Models}
 \label{subsec:embedding}
 
-The left-to-right nature of the transformer encoder suits text generation tasks that only depend on previous tokens.
+The left-to-right nature of the transformer decoder suits text generation tasks that only depend on previous tokens.
 However, there are dependencies between tokens in both directions,
 which means a decoder-only model can not capture all relations.
 
-The amount of knowledge learned in the pre-training phase is encoded in embeddings.
-Embeddings are high-dimensional vectors that represent a sequence of words or tokens.
+The input sequence is transformed continuously while being processed through the transformer.
+Each transformation of the vector leads to a different intermediate representation.
+Each representation encodes different features and relationships of tokens in the sentence.
+These representations are called embeddings.
 Semantically similar documents are represented with embedding vectors that have a small distance,
 while semantically different documents have a high distance.
 
-\gls{bert}  \cite{Devlin2019} uses the encoder part of a transformer network, to create rich embeddings of input sequences.
+\Gls{bert} \cite{Devlin2019} uses a transformer encoder,
+to create rich embeddings of input sequences.
 In pre-training, the bidirectional encoder is trained with two unsupervised tasks.
 For the first task,
 random tokens in the sequence are masked out to predict the masked tokens from the remaining tokens in the sequence.
@@ -434,12 +413,13 @@ leveraging the rich bidirectional embeddings learned in pre-training.
 
 Language models are trained to predict the next token of a sequence.
 While a lot of knowledge is captured in the weights of the model,
-most information on the internet is not formatted in conversational formats. % TODO: what does that mean?
+most information on the internet is not formatted as conversations
+between an assisting chatbot and a user.
 Because of this, language models need to be prompted in a specific way to be effective.
 The prompt needs to be written such that its continuation yields the desired output.
 This is not optimal for human users, as one would rather communicate in conversations.
 The training objective of \glspl{llm} is different from the objective
-``follow the user's instructions helpfully and safely'' \cite{Ouyang2022}.
+\blockquote{follow the user's instructions helpfully and safely} \cite{Ouyang2022}.
 Researchers say that the language model is not \emph{aligned}.
 A popular attempt at aligning language models is reinforcement learning with human feedback (RLHF) \cite{Ouyang2022}.
 
@@ -452,18 +432,17 @@ The resulting model is called \emph{InstructGPT} and performs better than the ba
 Large language models are trained to predict the next token of a sequence,
 not to follow the instructions of the user.
 This leads to some unwanted results such as toxic, harmful or fabricated answers that are not true.
+When an \gls{llm} wrongly answer with high confidence, the model is ``hallucinating''.
+Even the latest \gls{llm} like GPT-4 suffer from this problem \cite{OpenAI2024}.
 
 \section{Large Language Model Agents}
 \label{sec:llm_agents}
+
 With the rise of \glspl{llm} and their impressive capabilities in various language tasks,
 efforts began to leverage them in agent systems.
 Experiments to give \gls{gpt} access to tools \autocite{Shen2023, Schick2023},
 that \glspl{llm} can use external functions
 if they are prompted with a description of how to access them.
-
-Four key reasons why \glspl{llm} are suitable as agent brains are outlined in \cite{Xi2023}.
-Agents should act autonomously without direct interventions from humans.
-The generative capabilities and dynamically adjusted outputs based on the input fit that characteristic.
 
 For practical applications, \autocite{Zhu2024} proposes a distinction between static and dynamic agents.
 A static agent is characterized as a fixed pipeline that mimics the user behavior.
@@ -481,34 +460,31 @@ that \glspl{llm} focus more on the first and last lines of the prompt
 in their answer generation.
 This needs to be respected when constructing long prompts to use \glspl{llm} for agents.
 
-% After just copied.
 Similar to the view of human memory,
 different implementations of memories for agents have been proposed.
 For short-term memory,
-the message history format used by instruct language models can be used.
-The last $n$ messages of a conversation between the user and the agent
+the message history format used by instruct language models can be used \cite{Hatalis2023}.
+The messages of a conversation between the user and the agent
 are recorded and change the generation behavior of the LLM that controls the agent.
-%For example, a researcher could
 
 Long-term memory is generally represented as some external store
-where information can be stored and retrieved.
+where information can be stored and retrieved \cite{Hatalis2023}.
 This memory can include past conversations between the agent and the user,
 as well as additional data that the agent should have access to.
 The information can be present from the beginning or added at runtime by a user prompt.
 
 For \gls{llm} applications vector databases are a popular choice,
-because they integrate well into the embedding-based language modeling concept.
+because they integrate well into the embedding-based language modeling concept \cite{Han2023}.
 Vector databases store data together with their high-dimensional embedding.
-Embedding models that are specifically trained to produce rich embeddings are used.
-The agent uses a \emph{chromadb} vector database \autocite{zotero-176}.
+To create the embedding, models like \gls{bert} are used.
+The embeddings allow for fast similarity search with a query sentence.
 
 \subsection{Agent Construction}
 
-Most \gls{llm} agents follow a certain pattern
-when implementing an agent with \glspl{llm}.
+Most \gls{llm} agents share the same construction pattern.
 A construction framework for LLM agents consisting of four modules
 is proposed in \cite{Wang2023}.
-Their agent framework is composed of a profiling module, a memory module,
+Their framework is composed of a profiling module, a memory module,
 a planning module and an action module.
 
 Before the actual execution of steps, an agent is given a profile that describes
@@ -546,7 +522,7 @@ To act out the agents' decisions in the environment, the agent needs an
 action module.
 There are two main strategies for acting out actions.
 For the first strategy,
-the agent uses the task and the memory as prompts
+the agent uses the task and its memory as prompts
 to choose the next action in a continuous loop.
 As the agent proceeds, the memory builds up with the action history.
 This allows for dynamic action choices while the agent is running.
