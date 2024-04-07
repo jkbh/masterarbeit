@@ -7,6 +7,7 @@
     "latex-workshop.latex.build.rootfileInStatus": true,
     "latex-workshop.latex.rootFile.useSubFile": false,
     "latex-workshop.latex.rootFile.doNotPrompt": true,
+    "latex-workshop.latex.option.maxPrintLine.enabled": false,
     "latex-workshop.synctex.afterBuild.enabled": true,
     "latex-workshop.synctex.indicator.enabled": true,
     "latex-workshop.view.outline.sync.viewer": true,

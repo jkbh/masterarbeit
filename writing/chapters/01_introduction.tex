@@ -8,25 +8,29 @@ For a long time, \gls{ir} has been a heavily researched topic in computer scienc
 Retrieving information from a large set of documents is an essential task in many domains.
 For example,
 a researcher might want to discover relevant parts of a new article for a given topic.
-Ideally he can chat with a retrieval system in natural language
+Ideally, he can chat with an \gls{ir} system in natural language
 and receive correct information from the article.
 In recent years, there has been a large increase in language modeling capabilities.
-\Glspl{llm} have been applied to a variety of applications such as general chatbots,
+\Glspl{llm} have been used for a variety of applications such as chatbots,
 writing helpers and coding assistants.
-There are different approaches to leverage \gls{ir} for \glspl{llm} systems such as \gls{rag}.
+There are different approaches to leverage \gls{ir} for \gls{llm} systems such as \gls{rag}.
 A \Gls{rag} system retrieves documents from a database before using them as context
-for an \gls{llm} answer generation.
+for the \gls{llm} generation.
 This method enables on-demand inclusion of information into the answer generation.
 Recently, efforts were increased in using \glspl{llm} as agent controllers.
-In comparison to static systems, agent systems act autonomously and goal-directed.
+In comparison to static systems, agents act autonomously towards achieving a goal.
 They constantly perceive the environment through sensors and perform actions
 through actuators.
+For the researcher,
+this could be the goal of gathering all relevant text passages about a topic from
+multiple articles.
+An agent could then autonomously proceed to gather the information.
 \Gls{autogpt} is an open-source project that uses \gls{gpt4} to provide agent
 actions.
-While there are experiments with \gls{autogpt} for navigating the web,
-using it for \gls{ir} has not been researched yet.
+While there are experiments with \gls{autogpt} for navigating the web \cite{Yang2023},
+using it for \gls{ir} over local documents has not been researched yet.
 
-This thesis presents a \gls{llm} agent built with \gls{autogpt},
+This thesis presents an \gls{llm} agent built with \gls{autogpt},
 that uses \gls{rag} to answer user prompts.
 The agent is benchmarked with a small set of \gls{qa} pairs from a humanities journal.
 A qualitative evaluation of the \gls{ir} agent benchmark is given in the results.
@@ -69,10 +73,10 @@ With the rise of \glspl{llm}, they have been introduced into different domains.
 \Gls{llm} agents are a promising way to fulfill user goals autonomously,
 hinting in the direction of real computer intelligence.
 Language models have also seen rising popularity in \gls{ir} applications.
-Many popular search engines have introduced language models to present the retrieved data to the user.
-In the following, notable work that is of interest for this work is listed.
-
-\subsection{LLM Agents}
+New search engines like Perplexity AI leverage language models
+to present the retrieved data to the user.
+In the following,
+notable work that is of interest for this work is listed.
 
 After \glspl{llm} like \gls{gpt3} and then \gls{gpt4} were made public,
 researchers started testing different approaches to integrate them into agents.
@@ -83,11 +87,12 @@ a task category that \glspl{llm} struggle with.
 HuggingGPT \cite{Shen2023} uses \gls{gpt} repeatedly in multiple rounds.
 For each step, a Huggingface model can be selected by the model to answer the prompt.
 In a virtual social setting, multiagent communication was demonstrated in \autocite{Park2023}.
-Agents living together in a virtual village have different goals and communicate through natural language.
+They created, agents that live together in a virtual village
+and have different goals and communicate through natural language.
 
-Building on top of these research experiments with tool usage and access to external knowledge,
-multiple applications of language model agents have been presented.
-\Gls{autogpt} \cite{SignificantGravitas2023} is an attempt to make \gls{llm} autonomous.
+Built on top of research experiments with tool usage and access to external knowledge,
+multiple applications of \gls{llm} agents have been presented.
+\Gls{autogpt} \cite{SignificantGravitas2023} is an attempt making GPT autonomous.
 The \gls{autogpt} agent has a variety of abilities such as web search,
 image generation, code execution and file operations.
 It uses GPT-4 to generate an action proposal from a list of abilities.
@@ -99,17 +104,13 @@ BabyAGI is a minimal task-driven autonomous agent \cite{Nakajima2023}.
 With OpenAI Assistants~\cite{zotero-195},
 users can build custom assistants
 that can use OpenAI models, tools and knowledge to answer user queries.
-
-\subsection{LLM Information Retrieval}
-
-Because of their strong natural language capabilities,
-many developers work on tools that use these models for \gls{ir}
-
-% TODO Perplexity is also an agent? Differentiate between IR and Agent for PPAI
-Perplexity AI \cite{zotero-197} is an online service that leverages a language model
-to provide a search that generates an answer from different sources on the internet.
-The content of the answer is then linked to the found sources,
-so the user can see and verify the result.
+Perplexity AI \cite{zotero-197} is an online service that uses sources from
+the web to generate answer to user queries.
+The generated question contains links to the documents that were used as a source.
+The service could be viewed as an agent, as it takes the user input and autonomously
+gathers relevant information.
+Furthermore, the user update its task description with follow-up prompts
+to Perplexity AI.
 
 \section{Structure of this Thesis}
 
