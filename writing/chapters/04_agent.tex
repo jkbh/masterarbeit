@@ -122,7 +122,7 @@ In this section, I will describe in detail how the \gls{ir} agent works.
 
     \end{tikzpicture}
     \caption{The \gls{ir} agent receives the user prompt at the start of each cycle.
-        Next, the step prompt is constructed with the action history, list of abilities and extra information.
+        Next, the step prompt is constructed with the action history, list of abilities, and extra information.
         After the LLM responds to the step prompt, the proposed action is executed
         and the step output is presented to the user.
         The loop ends if the LLM proposes the 'finish' ability.}
@@ -188,16 +188,16 @@ If a valid ability is proposed, it is executed.
 \end{figure}
 
 
-There are three places that the agent stores memories, the workspace,
+There are three places where the agent stores memories, the workspace,
 the vector database and the prompt context.
 
 The workspace is used to store larger amounts of information between agent steps.
-It can be viewed as a paper where a person writes notes on while working.
+It can be viewed as a paper on which a person writes notes while working.
 Abilities can modify anything that is inside the workspace.
 For each task started by a user, the agent creates a new workspace.
 Access from abilities to the workspace is shown in \ref{fig:abilities_workspace}.
 After retrieving the top documents from the vector database, the agent stores
-them in workspace text file.
+them in a workspace text file.
 When the answering ability is chosen, the workspace file is read and used to populate
 the \gls{rag} template.
 After the \gls{llm} answers the \gls{rag} prompt, the answer is written back
@@ -205,7 +205,7 @@ into another workspace file.
 
 The vector database can be viewed as a storage for external information,
 similar to a library.
-It is used to store large amount of information that is indexed upon addition
+It is used to store large amounts of information that is indexed upon addition
 to the database.
 A user can prompt the agent to ingest a PDF into the vector database with an ability.
 This starts the indexing process described in section~\ref{sec:rag}
@@ -218,7 +218,7 @@ Each history includes the \gls{llm} output with the thoughts and proposed abilit
 Furthermore, all ability outputs are saved.
 This information is used to build the step history that is appended to the step prompt.
 
-In summary, there are three places where information are stored
+In summary, there are three places where information is stored
 
 \subsection{Step Prompt}
 
@@ -241,8 +241,8 @@ In summary, there are three places where information are stored
     float=tp,
     caption={
             The second part of the step prompt contains the action history.
-            Here, all previous actions are listed with its name, arguments and output.
-            With the action history, the agent can perveices its progress at achieving
+            Here, all previous actions are listed with their name, arguments, and output.
+            With the action history, the agent can perceive its progress in achieving
             the goal.
         },
     captionpos=b,
@@ -263,16 +263,16 @@ In the best practices section, the agent is prompted to react to errors and to n
 
 In addition to the action history, the available abilities are added to the prompt.
 The abilities enable the agent to act out its decisions in the environment.
-For each ability, the name, parameters, return type and a short description is given.
+For each ability, the name, parameters, return type, and a short description is given.
 
 \subsection{Step Prompt Answer}
 
 The answer to the step prompt is from JSON into a usable format.
-An example answer to the step prompt from listings~\ref{lst:step_prompt} and \ref{lst:step_prompt_answer}
+An example answer to the step prompt from listings~\ref{lst:step_prompt} and \ref{lst:step_prompt_history}
 is shown in listing~\ref{lst:step_prompt_answer}.
 Given the history of actions, the \gls{llm} decided to choose the finish
 ability.
-This is the correct choice as the retrieval and answering action have
+This is the correct choice as the retrieval and answering actions have
 already happened.
 
 \lstinputlisting[
@@ -293,7 +293,7 @@ These abilities will be described in the following.
     \item[Ingest] The \emph{Ingest} ability should be used
           when a document should be a source of information for the agent.
           A file with the specified filename has to exist in the agent workspace before calling this function.
-          This ability converts the PDF into plain text, creates text chunks of the same length
+          This ability converts the PDF into plain text, creates text chunks of the same length,
           and calls the functions to embed them into the vector database.
     \item[Retrieve] The \emph{Retrieve} ability accepts to query string and an output file path.
           With the query string, the agent queries its memory and gets the most relevant documents for it.

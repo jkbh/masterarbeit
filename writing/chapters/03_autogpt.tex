@@ -21,7 +21,7 @@ The project later introduced the \emph{Forge agent},
 an agent framework to build custom agents.
 It defines a minimal agent without logic
 that abstracts away all the boilerplate.
-Additional, the \gls{autogpt} project contains a benchmarking system.
+Additionally, the \gls{autogpt} project contains a benchmarking system.
 The \emph{benchmarking system} can be used to build level-based test suites,
 to test the capabilities of an agent.
 
@@ -31,7 +31,7 @@ The \gls{autogpt} agent is built to be a ``generalist agent'' that can do
 a variety of tasks and therefore is complex.
 Because of the complexity,
 I opted to create a custom Forge agent to research the use of \gls{autogpt} for \gls{ir}.
-To work with local data, the agent has the ability to read text files
+To work with local data, the agent has abilities to read text files
 and put the output into the prompt.
 This defines the key limitation of the agent, for longer texts the context
 window of the \gls{llm} is too short.
@@ -59,7 +59,7 @@ The two important concepts of the agent protocol are tasks and steps:
       \item[Task] A task describes a goal for the agent.
             A task has an input prompt and contains a list of steps.
       \item[Step] A step describes a single action of the agent.
-            Every step has to be linked to a parent task and has its own input.
+            Every step has to be linked to a parent task and has an input.
             Additionally, a variable signals if this is the last step.
             If this variable is false,
             the next step is requested automatically.
@@ -88,7 +88,7 @@ This generalist design can be seen in the list of available abilities.
             The execution is contained in a docker container
             that can access the agent workspace.
       \item[File Operations] To access files in the agent workspace,
-            it has abilities to list, read and write files.
+            it has abilities to list, read, and write files.
       \item[Image Generation]
             The agent can make calls to different image-generation services
             that transform a prompt into an image.
@@ -99,12 +99,12 @@ This generalist design can be seen in the list of available abilities.
       \item[Other]
             Further abilities are present in the default agent.
             The user can be prompted to give more information about the task,
-            the system time can be accessed.
+            and the system time can be accessed.
             When the agent ends its run, a finishing ability is chosen.
 \end{description}
 
 During the development of the default agent,
-different abilities have been present and were then removed again.
+different abilities were present and were then removed again.
 For example, efforts were made to introduce long-term memory to the agent.
 There were abilities to save agent conversations into a database for later retrieval.
 The idea was to improve the agent's performance by using past conversations as context.
@@ -116,7 +116,7 @@ After the start,
 the user is asked to enter a task the \gls{autogpt} agent should perform.
 Then the agent enters a loop of prompting the LLM,
 executing the proposed action
-handling the result of the action and updating the agent state.
+handling the result of the action, and updating the agent state.
 
 \subsection{Forge Agent}
 \label{subsec:forge_agent}
@@ -127,7 +127,8 @@ and the agent can be used over the API endpoints.
 \Gls{autogpt} also comes with a chatbot web app
 that builds the appropriate HTTP requests to the agent endpoints.
 The user of the Forge agent has to create the actual agent logic,
-create custom prompt templates for the used model and add abilities to interact with external resources.
+create custom prompt templates for the used model,
+and add abilities to interact with external resources.
 Because the Forge agent is still under development and by no means a polished product,
 some internals also need to be tweaked to achieve the desired agent behavior.
 
@@ -136,7 +137,7 @@ the Forge agent comes with abilities to read and write text files
 and to search a search engine as well as scraping a webpage.
 Each ability is specific by a name that the \gls{llm} can use to call it.
 Additionally, a short description of what the ability does,
-input parameters and return types are described.
+input parameters, and return types are described.
 The information about an ability is formatted into a string before adding it to the step prompt.
 
 \begin{description}
@@ -145,7 +146,7 @@ The information about an ability is formatted into a string before adding it to 
             Abilities to read, write and list files are present.
             All the abilities have a path parameter that the large language model has to populate when generating a step proposal with actions from this category.
       \item[Web] The web search functionality is split up into abilities to call a search engine and to read a webpage
-            The web-search ability requires a search string that is sent to the engine.
+            The web search ability requires a search string that is sent to the engine.
             For the webpage ability a URL is needed, and if specific information should be extracted the LLM also has to provide a question.
       \item[Finish] The “finish” ability terminates the agent loop.
             The agent is asked to choose this ability if the initial user prompt can be answered and give a reason.
@@ -155,8 +156,8 @@ The information about an ability is formatted into a string before adding it to 
             caption={The system format of the Forge agent.
                         The language model is asked to only answer in this format.
                         The model generates thoughts before creating the output for the user (speak).
-                        Thoughts include reasoning, a plan and criticism.
-                        After the model generated the thoughts,
+                        Thoughts include reasoning, a plan, and criticism.
+                        After the model generates the thoughts,
                         it generates an ability proposal with the corresponding arguments.},
             label={lst:system-format},
             captionpos=b,
@@ -194,10 +195,10 @@ Some templates are included by default:
       \item[System-Format] The system format defines how the model should respond to prompts.
             The Forge system format is depicted in \autoref{lst:system-format}.
             The responses of the model need to be parsed according to this definition.
-            Language models have different capabilities in answering in a structured manner, % TODO: source for structured generation
+            Language models have different capabilities in answering in a structured manner,
             so the format has to be tuned for every model.
       \item[Techniques] Techniques is a collection of prompting techniques that have been shown to improve generation quality.
-            By default, the Forge agent has templates for few-shot, expert and chain-of-thought prompting. % TODO: explain in backgrounds
+            By default, the Forge agent has templates for few-shot, expert, and chain-of-thought prompting.
 \end{description}
 
 The core of an agent is its logic.
@@ -224,9 +225,9 @@ I will reason about my choices in this section.
 The \gls{autogpt} agent was not built with \gls{ir} as a primary objective in mind.
 As stated in section~\ref{sec:components}, it is designed to be a \blockquote{generalist agent}.
 The \gls{autogpt} agent has abilities to retrieve information from the web.
-With the web searching and website scraping abilities, the agent can
+With web searching and website scraping abilities, the agent can
 look up and extract information about a given topic.
-For \gls{ir} from local data sources there are no specific abilities present.
+For \gls{ir} from local data sources, there are no specific abilities present.
 The agent can simply read text files and include the content in the next step prompt.
 This means that every other file type has to be converted into plain text.
 Another inherent problem with this approach is the limited context window size of the language model.
@@ -240,7 +241,7 @@ This leads to more difficulties when using the agent for a specific task
 like local \gls{ir}.
 
 The Forge agent has similar default abilities for retrieval of information from the web,
-as well as read and write abilities.
+as well as reading and writing abilities.
 Therefore, the same problems with context window length apply here.
 As the agent only contains boilerplate implementation for the agent protocol
 but no default logic,
@@ -248,8 +249,8 @@ it is better suited as a starting point for a custom \gls{ir} agent.
 
 The benchmarking system can be used to test the abilities of agents.
 The level-based system is put in place to save money when testing,
-as later stage tests do not get executed if a required test in the earlier
-stage failed.
+as later-stage tests, do not get executed if a required test in the earlier
+stage fails.
 To evaluate \gls{ir} systems, a larger dataset of \gls{qa} pairs is often used.
 For large dataset evaluations, the benchmarking system is not suited.
 It is built towards testing if an agent \emph{can} achieve a goal

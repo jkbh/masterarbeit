@@ -12,11 +12,11 @@ While there are \gls{ir} services like \gls{ppai} that use \glspl{llm}, there ha
 extensive research on \gls{llm} agents for \gls{ir}.
 Most of these services use static pipelines which follow a fixed sequence of
 steps when producing an answer to a user prompt.
-In this thesis I investigated the usage of \gls{autogpt} for an \gls{ir} agent.
+In this thesis, I investigated the usage of \gls{autogpt} for an \gls{ir} agent.
 Specifically, I studied the application on local \gls{ir} in contrast to most \gls{llm}
 agent research which deals with web scraping tasks.
 
-I started out with an introduction to the \gls{autogpt} project and analyzed
+I started with an introduction to the \gls{autogpt} project and analyzed
 the components in the context of information retrieval.
 The distinctive feature of \gls{autogpt} and similar projects is the
 In the analysis, I concluded that the best way to test \gls{autogpt}
@@ -28,7 +28,7 @@ by using retrieved documents as context.
 
 To evaluate the \gls{ir} agent I had to create a benchmark.
 As the \gls{ir} agent is only accessible in the web interface and
-the computation speed is slow, I opted to use a small set of question and answer
+the computation speed is slow, I opted to use a small set of \gls{qa}
 to perform a qualitative evaluation of the agent.
 
 Using language model agents for \gls{ir} tasks is an interesting approach,
@@ -36,14 +36,14 @@ but needs to overcome some key challenges for usage in real-world applications.
 Most considerations about the agent structure are offloaded to the controlling \gls{llm}.
 Therefore, the reasoning capabilities of the \gls{llm} is the deciding factor
 for an \gls{llm} agent.
-This creates the need to use more expensive language model like GPT-4 rather than
+This creates the need to use a more expensive language model like GPT-4 rather than
 a cheaper one, as the controlling \gls{llm}.
 Combined with frequent API calls that use long prompt messages for every step,
 this leads to API costs adding up quickly.
 Especially in longer runs, where the action history gets longer with each past step.
 The agent implementation mostly deals with calling the \gls{llm} and parsing
 its answer into the next action.
-There is no way to really say what led to a specific action sequence besides
+There is no way to say what led to a specific action sequence besides
 trial and error experimentation with different prompt templates.
 For \gls{ir} systems in production, fixed \gls{rag} pipelines still seem to
 be a better fit.
@@ -78,6 +78,6 @@ Most parts of the \ref{ch:autogpt} project described in chapter~\ref{ch:autogpt}
 to handle the underlying \gls{llm}.
 The code for agent logic is relatively small, as most of the agent decision logic
 explained in section~\ref{sec:agents} is offloaded to the \gls{llm}.
-In short, the crucial factor for performance the base capability of the \gls{llm}.
+In short, the crucial factor for performance is the base capability of the \gls{llm}.
 
 \end{document}

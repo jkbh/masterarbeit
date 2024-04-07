@@ -5,3 +5,5 @@
 {"rule":"THREE_NN","sentence":"^\\QI used ChatGPT-3.5 with the prompt: Generate 20 question and answer pairs for an information retrieval chatbot test dataset.\\E$"}
 {"rule":"TOO_LONG_PARAGRAPH","sentence":"^\\QThis is only an example of the constant development and changing constraints one has to deal with when working with the default agent.\\E$"}
 {"rule":"THREE_NN","sentence":"^\\QThe custom \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q agent is built with the Forge agent baseline included in the \\E(?:Dummy|Ina|Jimmy-)[0-9]+\\Q project.\\E$"}
+{"rule":"ARTICLE_ADJECTIVE_OF","sentence":"^\\QTherefore the next section will provide a qualitative of the agent answers.\\E$"}
+{"rule":"ARTICLE_ADJECTIVE_OF","sentence":"^\\QTherefore, the next section will provide a qualitative of the agent answers.\\E$"}

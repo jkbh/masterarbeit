@@ -70,5 +70,13 @@
         "XXX",
         "[ ]",
         "[x]",
-    ]
+    ],
+    "grammarly.selectors": [
+        {
+            "language": "latex",
+            "scheme": "file"
+        }
+    ],
+    "grammarly.config.suggestionCategories.oxfordComma": "on",
+    "grammarly.config.documentDialect": "american",
 }

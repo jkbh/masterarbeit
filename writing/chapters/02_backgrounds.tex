@@ -11,8 +11,8 @@ are explained in more detail in this chapter.
 In \autoref{sec:information_retrieval},
 I will describe the process of \emph{\gls{ir} systems}.
 \Gls{ir} systems take a user query and return a set of relevant documents.
-Generally these systems follow a fixed series of steps.
-To enable retrieval in the first place, the information source need to be stored and
+Generally, these systems follow a fixed series of steps.
+To enable retrieval in the first place, the information source needs to be stored and
 indexed in a database.
 After a user query is received, it is rewritten to improve retrieval
 Then the most relevant documents get retrieved from the index.
@@ -21,7 +21,7 @@ Before presenting the results to the user, the relevant documents are re-ranked.
 The notion of \emph{agents} is described in \autoref{sec:agents}.
 Agents try to act as rational and goal-oriented decision-makers.
 In comparison to classical computer algorithms,
-agents observe, plan and act autonomously in order to complete a task.
+agents observe, plan, and act autonomously to complete a task.
 I will explain the basic concept of an agent and list the most important types of agents.
 
 Section~\ref{sec:language_modeling} deals with \emph{language modeling}
@@ -36,12 +36,12 @@ This section gives an introduction to proposed frameworks and ideas for LLM agen
 
 \section{Information Retrieval}
 \label{sec:information_retrieval}
-In this section an introduction to information retrieval is given.
+In this section, an introduction to information retrieval is given.
 It is based on the book ``Introduction to Information Retrieval''
 from \citeauthor{Manning2009} \cite{Manning2009}.
 Retrieval of information is essential for humans.
 Information can be anything, like things seen by the eye,
-thoughts or an article from a book.
+thoughts, or an article from a book.
 A broad definition of \gls{ir} is:
 \begin{displayquote}[\citeauthor{Manning2009} \cite{Manning2009}]
     Information retrieval (IR) is finding material (usually documents)
@@ -91,8 +91,8 @@ re-rank the relevant documents and finally present the information to the user.
     \label{fig:ir_steps}
 \end{figure}
 \Gls{ir} systems consist of multiple steps.
-In particular for common steps make up such an \gls{ir} pipeline,
-rewrite, retrieve, rerank and present \cite{Zhu2024}.
+In particular, four common steps make up such an \gls{ir} pipeline,
+rewrite, retrieve, re-rank, and present \cite{Zhu2024}.
 Typically, the user interacts with an \gls{ir} system
 by writing out a query that describes the information need.
 A problem with queries written by humans is that they are not optimized for the following steps of the retrieval system.
@@ -123,12 +123,12 @@ Before documents can be retrieved from a database,
 they have to be stored.
 How documents are stored is a crucial part of creating an \gls{ir} system.
 While some data sources are delivered in structured formats like JSON or XML,
-academic texts are published in journals, articles or conference proceedings.
+academic texts are published in journals, articles, or conference proceedings.
 All of these mediums are distributed as PDFs which is an unstructured data format.
 The PDF format does not save the content
 A preprocessing step is required before storing the documents to extract information from unstructured formats.
 There are different techniques to preprocess text before storing it.
-With \emph{tokenization}, sentences are split up into words, phrases or symbols.
+With \emph{tokenization}, sentences are split up into words, phrases, or symbols.
 Words with little information such as articles and prepositions are removed from the word list.
 The words are called \emph{stop words}.
 Furthermore, a \emph{stemmer} can be used to group words that have the same stem.
@@ -136,7 +136,7 @@ All of these preprocessing steps help to capture the semantics of a text or sent
 
 \subsection{Cosine Similarity of Documents}
 
-Often times, one needs a useful measure of how similar two documents are.
+Often, one needs a useful measure of how similar two documents are.
 Think of the retrieval step where documents that are similar to the query
 are retrieved from the database.
 The \emph{cosine similarity} is a measure of similarity
@@ -146,8 +146,8 @@ It is defined as
     S_C(A,B) := \cos(\theta) = \frac{A \cdot B}{\lVert A \rVert \lVert B \rVert}
 \end{equation}
 where $A$ and $B$ are the $n$-dimensional vectors and $\lVert \cdot \rVert$ is the
-euclidean norm. The resulting value ranges from $-1$ meaning opposite, to $1$ meaning
-same. When the vectors are orthogonal the measure is $0$ meaning the vectors are not
+euclidean norm. The resulting value ranges from $-1$ meaning the opposite, to $1$ meaning
+the same. When the vectors are orthogonal the measure is $0$ meaning the vectors are not
 correlated. For \gls{ir}, the vectors $A$ and $B$ represent the two documents to be compared.
 
 
@@ -159,7 +159,7 @@ The \emph{gold standard} or \emph{ground truth} defines which documents are rele
 One has to consider that the relevance
 decision is made according to an \emph{information need} and not the query.
 This distinction shows,
-that a clear information need has to be present in order to effectively evaluate an IR system.
+that a clear information need has to be present to effectively evaluate an IR system.
 
 Other properties of IR systems can be measured.
 The indexing and search speeds are important to enable effective usage of an IR system.
@@ -185,7 +185,7 @@ a software can perceive and act through software interfaces.
 Both examples can be called agents.
 
 A key step when constructing an agent is to define the \emph{task environment}.
-The task environment consists of a performance measure, the environment, the actuators and the sensors \cite{Russel2022}.
+The task environment consists of a performance measure, the environment, the actuators, and the sensors \cite{Russel2022}.
 Environments can be physical but also purely virtual, we are then using a software agent.
 
 \subsection{Agent Types}
@@ -317,7 +317,7 @@ Since the transformer architecture does not use any recurrent structures,
 the order of the tokens in the sequence must be manually injected.
 Positional encodings are added to the input embeddings to achieve this.
 
-Similar to previous seqence-to-sequence models,
+Similar to previous sequence-to-sequence models,
 a transformer consists of an encoder and a decoder.
 The encoder has two sub-layers,
 a multi-head attention block
@@ -431,7 +431,7 @@ The resulting model is called \emph{InstructGPT} and performs better than the ba
 
 Large language models are trained to predict the next token of a sequence,
 not to follow the instructions of the user.
-This leads to some unwanted results such as toxic, harmful or fabricated answers that are not true.
+This leads to some unwanted results such as toxic, harmful, or fabricated answers that are not true.
 When an \gls{llm} wrongly answer with high confidence, the model is ``hallucinating''.
 Even the latest \gls{llm} like GPT-4 suffer from this problem \cite{OpenAI2024}.
 
@@ -473,11 +473,11 @@ This memory can include past conversations between the agent and the user,
 as well as additional data that the agent should have access to.
 The information can be present from the beginning or added at runtime by a user prompt.
 
-For \gls{llm} applications vector databases are a popular choice,
+For \gls{llm} applications vector databases are a popular choice
 because they integrate well into the embedding-based language modeling concept \cite{Han2023}.
 Vector databases store data together with their high-dimensional embedding.
 To create the embedding, models like \gls{bert} are used.
-The embeddings allow for fast similarity search with a query sentence.
+The embeddings allow for a fast similarity search with a query sentence.
 
 \subsection{Agent Construction}
 
@@ -515,7 +515,7 @@ For multi-path reasoning CoT can be used again, now generating multiple plans
 in a tree-like structure \cite{Yao2023}.
 For complex tasks, the agent should be able to incorporate feedback into
 the planning process.
-The feedback can come from the environment, humans or from a feedback model.
+The feedback can come from the environment, humans, or from a feedback model.
 All of these changes have to be represented in the language model prompt.
 
 To act out the agents' decisions in the environment, the agent needs an
@@ -531,12 +531,12 @@ that is then executed strictly.
 Here, the agent can not adapt dynamically.
 The agent space defines the set of possible actions that can be performed.
 Agents can leverage external tools and internal knowledge.
-Types of external tools can include APIs, databases or other models
+Types of external tools can include APIs, databases, or other models
 that specialize in a specific task.
 The internal knowledge of a language model is also important for the action module.
 When deciding which action should be used in a step,
-The planning, conversation and commonsense understanding capabilities
-are crucial to make a good decision.
+The planning, conversation, and commonsense understanding capabilities
+are crucial to making a good decision.
 The outcomes of actions can change the environment, the internal state and
 also trigger new actions.
 

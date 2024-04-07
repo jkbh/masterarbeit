@@ -12,7 +12,7 @@ Ideally, he can chat with an \gls{ir} system in natural language
 and receive correct information from the article.
 In recent years, there has been a large increase in language modeling capabilities.
 \Glspl{llm} have been used for a variety of applications such as chatbots,
-writing helpers and coding assistants.
+writing helpers, and coding assistants.
 There are different approaches to leverage \gls{ir} for \gls{llm} systems such as \gls{rag}.
 A \Gls{rag} system retrieves documents from a database before using them as context
 for the \gls{llm} generation.
@@ -25,7 +25,7 @@ For the researcher,
 this could be the goal of gathering all relevant text passages about a topic from
 multiple articles.
 An agent could then autonomously proceed to gather the information.
-\Gls{autogpt} is an open-source project that uses \gls{gpt4} to provide agent
+\Gls{autogpt} is an open-source project that uses an \gls{llm} to provide agent
 actions.
 While there are experiments with \gls{autogpt} for navigating the web \cite{Yang2023},
 using it for \gls{ir} over local documents has not been researched yet.
@@ -54,7 +54,7 @@ The custom \gls{ir} agent is built with the Forge agent baseline included in the
 A custom agent logic is implemented to define the agent loop.
 The agent has abilities to ingest a PDF into its memory, retrieve documents for it
 and use them to answer a user query.
-Rather than following a fixed pipeline, the agent choose these actions to
+Rather than following a fixed pipeline, the agent chooses these actions to
 dynamically perform the \gls{rag} steps.
 
 The benchmarking dataset contains eight \gls{qa} pairs from a humanities journal.
@@ -62,16 +62,16 @@ I used GPT-4 to generate candidate questions and then handpicked answers from
 the journal articles.
 The \gls{ir} is compared to GPT-3, GPT-4 and Perplexity AI
 using cosine similarity between the ground truth and generated answers.
-There is no service that clearly outperforms the other ones.
+No service outperforms the other ones.
 A qualitative evaluation of the agent explains the common failure points.
 The main problems of the agent are irrelevant retrieval results,
-inconsistent \gls{llm} response formats and choosing wrong abilities.
+inconsistent \gls{llm} response formats and choosing the wrong abilities.
 
 \section{Related Work}
 
 With the rise of \glspl{llm}, they have been introduced into different domains.
 \Gls{llm} agents are a promising way to fulfill user goals autonomously,
-hinting in the direction of real computer intelligence.
+hinting in the direction of more helpful computer assistants.
 Language models have also seen rising popularity in \gls{ir} applications.
 New search engines like Perplexity AI leverage language models
 to present the retrieved data to the user.
@@ -80,21 +80,21 @@ notable work that is of interest for this work is listed.
 
 After \glspl{llm} like \gls{gpt3} and then \gls{gpt4} were made public,
 researchers started testing different approaches to integrate them into agents.
-In particular, the introduction of tools to extend the language model capabilities
+In particular, the introduction of tools to extend the language model capabilities.
 Toolformer \cite{Schick2023} trains a language model to use different APIs in a self-supervised way.
 For example, the model can use a calculator to externalize math problems,
 a task category that \glspl{llm} struggle with.
 HuggingGPT \cite{Shen2023} uses \gls{gpt} repeatedly in multiple rounds.
 For each step, a Huggingface model can be selected by the model to answer the prompt.
 In a virtual social setting, multiagent communication was demonstrated in \autocite{Park2023}.
-They created, agents that live together in a virtual village
+They created agents that live together in a virtual village,
 and have different goals and communicate through natural language.
 
-Built on top of research experiments with tool usage and access to external knowledge,
+Built on top of research experiments with tool usage,
 multiple applications of \gls{llm} agents have been presented.
 \Gls{autogpt} \cite{SignificantGravitas2023} is an attempt making GPT autonomous.
 The \gls{autogpt} agent has a variety of abilities such as web search,
-image generation, code execution and file operations.
+image generation, code execution, and file operations.
 It uses GPT-4 to generate an action proposal from a list of abilities.
 An introduction to \gls{autogpt} is given in \autoref{ch:autogpt}.
 I will use the included Forge agent to build a custom agent in this thesis.
@@ -103,13 +103,13 @@ Besides \gls{autogpt}, other \gls{llm} agent projects have been published.
 BabyAGI is a minimal task-driven autonomous agent \cite{Nakajima2023}.
 With OpenAI Assistants~\cite{zotero-195},
 users can build custom assistants
-that can use OpenAI models, tools and knowledge to answer user queries.
+that can use OpenAI models, tools, and knowledge to answer user queries.
 Perplexity AI \cite{zotero-197} is an online service that uses sources from
-the web to generate answer to user queries.
+the web to generate answers to user queries.
 The generated question contains links to the documents that were used as a source.
 The service could be viewed as an agent, as it takes the user input and autonomously
 gathers relevant information.
-Furthermore, the user update its task description with follow-up prompts
+Furthermore, the user can update the task description with follow-up prompts
 to Perplexity AI.
 
 \section{Structure of this Thesis}
