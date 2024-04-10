@@ -16,9 +16,9 @@ writing helpers, and coding assistants.
 There are different approaches to leverage \gls{ir} for \gls{llm} systems such as \gls{rag}.
 A \Gls{rag} system retrieves documents from a database before using them as context
 for the \gls{llm} generation.
-This method enables on-demand inclusion of information into the answer generation.
+This method enables the on-demand inclusion of information into the answer generation.
 Recently, efforts were increased in using \glspl{llm} as agent controllers.
-In comparison to static systems, agents act autonomously towards achieving a goal.
+In comparison to static systems, agents act autonomously toward achieving a goal.
 They constantly perceive the environment through sensors and perform actions
 through actuators.
 For the researcher,
@@ -52,7 +52,7 @@ I further reason that it is best to build a custom agent with the baseline Forge
 The custom \gls{ir} agent is built with the Forge agent baseline included in the
 \gls{autogpt} project.
 A custom agent logic is implemented to define the agent loop.
-The agent has abilities to ingest a PDF into its memory, retrieve documents for it
+The agent has abilities to ingest a PDF into its memory, retrieve documents for it,
 and use them to answer a user query.
 Rather than following a fixed pipeline, the agent chooses these actions to
 dynamically perform the \gls{rag} steps.
@@ -60,12 +60,12 @@ dynamically perform the \gls{rag} steps.
 The benchmarking dataset contains eight \gls{qa} pairs from a humanities journal.
 I used GPT-4 to generate candidate questions and then handpicked answers from
 the journal articles.
-The \gls{ir} is compared to GPT-3, GPT-4 and Perplexity AI
+The \gls{ir} is compared to GPT-3, GPT-4, and Perplexity AI
 using cosine similarity between the ground truth and generated answers.
 No service outperforms the other ones.
 A qualitative evaluation of the agent explains the common failure points.
 The main problems of the agent are irrelevant retrieval results,
-inconsistent \gls{llm} response formats and choosing the wrong abilities.
+inconsistent \gls{llm} response formats, and choosing the wrong abilities.
 
 \section{Related Work}
 

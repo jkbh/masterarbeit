@@ -136,7 +136,7 @@ All of these preprocessing steps help to capture the semantics of a text or sent
 
 \subsection{Cosine Similarity of Documents}
 
-Often, one needs a useful measure of how similar two documents are.
+Often, one needs a measure of how similar two documents are.
 Think of the retrieval step where documents that are similar to the query
 are retrieved from the database.
 The \emph{cosine similarity} is a measure of similarity
@@ -164,7 +164,7 @@ that a clear information need has to be present to effectively evaluate an IR sy
 Other properties of IR systems can be measured.
 The indexing and search speeds are important to enable effective usage of an IR system.
 Another property is the degree of complexity allowed by the query language.
-Nonetheless, the ultimate measure is the user utility.
+Nonetheless, the ultimate measure is user utility.
 Here, all dimensions of evaluation culminate into a single idea,
 which makes this very hard to measure objectively.
 Each user has different tastes and needs for an IR system.
@@ -172,7 +172,7 @@ Each user has different tastes and needs for an IR system.
 \section{Agents}
 \label{sec:agents}
 
-The introduction to agents in this section is based on the book
+The introduction to agents in this section is based on chapter two of the book
 ``Artificial Intelligence: A Modern Approach'' from \citeauthor{Russel2022} \cite{Russel2022}.
 Rationality is viewed as a core component of intelligence.
 In computer science, computational entities that act rationally are called agents.
@@ -309,9 +309,18 @@ they use multi-headed self-attention layers.
 Attention mechanisms learn dependencies between tokens in sentences
 without regard to their distance.
 Their non-sequential characteristics allow for better parallelization.
-Self-attention is an attention mechanism
-that computes relations between different positions of the same sequence
-to find a representation of the sequence.
+The self-attention mechanism used in the transformer updates the token embeddings
+with the context of previous tokens.
+For that, it learns weight matrices that generate query, key,
+and value vectors for each token.
+Queries can be viewed as questions about a token, while keys can be seen as answers
+to the questions.
+The dot product of queries and keys produces an attention weight.
+The attention weight describes how strongly a key matches a query.
+To update the token embedding,
+the attention weight is used to create an embedding
+update vector which gets added to the old token embedding.
+
 
 Since the transformer architecture does not use any recurrent structures,
 the order of the tokens in the sequence must be manually injected.
@@ -320,15 +329,16 @@ Positional encodings are added to the input embeddings to achieve this.
 Similar to previous sequence-to-sequence models,
 a transformer consists of an encoder and a decoder.
 The encoder has two sub-layers,
-a multi-head attention block
-and a fully connected feed-forward block.
+a multi-head attention block, and a fully connected feed-forward block.
+It takes the input sequence of tokens and outputs an intermediate embedding.
+In the intermediate embedding,
+the token vectors contain the context of their surrounding tokens.
 The decoder is similar to the encoder
 but has an additional multi-head attention layer
 that attends to the outputs of the encoder.
-The first attention layer is masked,
+The first attention layer masks out later tokens,
 and the decoder input sequence is shifted to the right,
-so only previous positions can be
-attended by the decoder.
+so only previous positions are attended by the decoder.
 
 The full architecture has the capabilities of a classic sequence-to-sequence model
 used for tasks like language translation.
@@ -363,7 +373,7 @@ that only the masked multi-head attention layer is kept in comparison to
 the full transformer network.
 The simple architecture enables faster pre-training and fine-tuning.
 
-GPT is trained in two phases.
+\gls{gpt} is trained in two phases.
 In the unsupervised pre-training phase,
 the model is trained with big datasets of unlabeled text data.
 The training objective here is
