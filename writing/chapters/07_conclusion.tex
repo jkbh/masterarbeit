@@ -18,14 +18,14 @@ agent research which deals with web scraping tasks.
 
 I started with an introduction to the \gls{autogpt} project and analyzed
 the components in the context of information retrieval.
-The distinctive feature of \gls{autogpt} and similar projects is the
+The distinctive feature of \gls{autogpt} and similar projects
+is the use of \glspl{llm} as agent controllers.
 In the analysis, I concluded that the best way to test \gls{autogpt}
 for local \gls{ir}, would be to create an agent built upon the \gls{autogpt}
 Forge agent.
 
 The \gls{ir} agent uses \gls{rag}, a method that improves prompt answering
 by using retrieved documents as context.
-
 To evaluate the \gls{ir} agent I had to create a benchmark.
 As the \gls{ir} agent is only accessible in the web interface and
 the computation speed is slow, I opted to use a small set of \gls{qa}
@@ -37,7 +37,7 @@ Most considerations about the agent structure are offloaded to the controlling \
 Therefore, the reasoning capabilities of the \gls{llm} is the deciding factor
 for an \gls{llm} agent.
 This creates the need to use a more expensive language model like GPT-4 rather than
-a cheaper one, as the controlling \gls{llm}.
+a cheaper one as the controlling \gls{llm}.
 Combined with frequent API calls that use long prompt messages for every step,
 this leads to API costs adding up quickly.
 Especially in longer runs, where the action history gets longer with each past step.
@@ -53,7 +53,7 @@ specific tasks not as controllers for the entire system.
 
 \section{Future Work}
 
-The \gls{ir} agent could be extended with web searching capabilities
+The \gls{ir} agent presented in this thesis could be extended with web searching capabilities
 to include external information on demand.
 This would add an extra dimension as the agent has to decide when local information
 is enough and when to look for online resources.
@@ -71,10 +71,11 @@ To improve \gls{llm} agents, more work on improving \glspl{llm} in
 general has to be done.
 In section~\ref{sec:pof} I described the points of failure regarding the \gls{ir} agent.
 They are mostly related to the capabilities of the underlying \gls{llm}.
-At this point in research,
-the construction of \gls{llm} agents is merely a software engineering problem.
-The solutions are either prompt or fine-tuning related.
-Most parts of the \ref{ch:autogpt} project described in chapter~\ref{ch:autogpt} tries
+In the case of this thesis,
+the construction of \gls{llm} agents is an engineering problem.
+Solutions to the failure points are mostly prompt
+engineering related or dealing with the \gls{llm} output format.
+Most parts of the \gls{autogpt} project described in chapter~\ref{ch:autogpt} try
 to handle the underlying \gls{llm}.
 The code for agent logic is relatively small, as most of the agent decision logic
 explained in section~\ref{sec:agents} is offloaded to the \gls{llm}.
