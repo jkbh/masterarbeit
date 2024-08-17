@@ -1,3 +1,3 @@
-# Information Retrieval Agents using AutoGPT
+# Masterarbeit
 
-ChatHA is a humanities aligned chatbot
+Question answering agent using Retrieval Augmented Generation from scientifc journals.
