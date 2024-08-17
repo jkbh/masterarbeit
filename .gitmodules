@@ -1,0 +1,3 @@
+[submodule "AutoGPT"]
+	path = AutoGPT
+	url = git@github.com:jkbh/AutoGPT.git
